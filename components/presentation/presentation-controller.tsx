@@ -76,13 +76,13 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
     }
   }, [nextSlide, prevSlide])
 
-  // PowerPoint-style "Morph" variants with explicit types
+  // PowerPoint-style "Morph" variants with explicit types - Optimized for Performance
+  // Removed dynamic blur (filter) as it causes significant repaints during animation
   const variants: Variants = {
     enter: {
       x: "100%",
       opacity: 0,
-      scale: 1.05,
-      filter: "blur(20px)",
+      scale: 1.02, // Reduced scale for less texture thrashing
       clipPath: "inset(0% 0% 0% 100%)",
       pointerEvents: "none"
     },
@@ -91,31 +91,28 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
       x: 0,
       opacity: 1,
       scale: 1,
-      filter: "blur(0px)",
       clipPath: "inset(0% 0% 0% 0%)",
       pointerEvents: "auto",
       transition: {
-        x: { type: "spring", stiffness: 80, damping: 20, mass: 1 },
-        opacity: { duration: 0.8 },
-        scale: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
-        filter: { duration: 0.8 },
-        clipPath: { duration: 1, ease: [0.16, 1, 0.3, 1] }
+        // Tighter spring for snappier feel without "floaty" lag
+        x: { type: "spring", stiffness: 90, damping: 20, mass: 1 },
+        opacity: { duration: 0.6, ease: "linear" }, // Faster opacity
+        scale: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+        clipPath: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
       } as Transition
     },
     exit: {
       zIndex: 0,
-      x: "-20%",
+      x: "-20%", // Reduced parallax distance
       opacity: 0,
-      scale: 0.95,
-      filter: "blur(20px)",
+      scale: 0.98,
       clipPath: "inset(0% 100% 0% 0%)",
       pointerEvents: "none",
       transition: {
-        x: { duration: 1, ease: [0.16, 1, 0.3, 1] },
-        opacity: { duration: 0.8 },
-        scale: { duration: 1, ease: [0.16, 1, 0.3, 1] },
-        filter: { duration: 0.8 },
-        clipPath: { duration: 1, ease: [0.16, 1, 0.3, 1] }
+        x: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+        opacity: { duration: 0.6, ease: "linear" },
+        scale: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+        clipPath: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
       } as Transition
     }
   }
@@ -137,7 +134,10 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
               variants={variants}
               className="absolute inset-0 h-full w-full"
               style={{
-                visibility: (isCurrent || isPast || index === currentSlide + 1) ? "visible" : "hidden"
+                visibility: (isCurrent || isPast || index === currentSlide + 1) ? "visible" : "hidden",
+                willChange: "transform, opacity, clip-path", // Hardware acceleration hint
+                backfaceVisibility: "hidden",
+                perspective: 1000
               }}
             >
               {React.isValidElement(child)
