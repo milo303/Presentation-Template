@@ -140,26 +140,26 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
                 transition={{ duration: 1.2 }}
             />
 
-            {/* Cinematic Lens Bloom (Global) - ULTRA INTENSITY */}
+            {/* Cinematic Lens Bloom (Global) - BALANCED GLOW */}
             <motion.div
                 className="absolute inset-0 z-30 pointer-events-none mix-blend-screen"
                 animate={{ opacity: state === 2 ? 1 : 0 }}
                 transition={{ duration: 1.5 }}
             >
-                {/* 1. Base Haze (Warm) */}
-                <div className="absolute bottom-[-10%] left-1/2 -translate-x-1/2 w-[90%] h-[60%] bg-amber-600/30 blur-[120px] rounded-full" />
+                {/* 1. Base Haze (Warm) - Smaller & more transparent */}
+                <div className="absolute bottom-[-10%] left-1/2 -translate-x-1/2 w-[70%] h-[40%] bg-amber-600/15 blur-[120px] rounded-full" />
 
-                {/* 2. Core Glow (Hot) */}
-                <div className="absolute bottom-[-5%] left-1/2 -translate-x-1/2 w-[60%] h-[40%] bg-orange-400/30 blur-[80px] rounded-full" />
+                {/* 2. Core Glow (Hot) - Toned down */}
+                <div className="absolute bottom-[-5%] left-1/2 -translate-x-1/2 w-[40%] h-[25%] bg-orange-400/20 blur-[80px] rounded-full" />
 
-                {/* 3. Anamorphic Horizontal Streak (Cinematic) */}
-                <div className="absolute bottom-[25%] left-1/2 -translate-x-1/2 w-[120%] h-[5%] bg-blue-300/5 blur-[40px] rounded-full" />
+                {/* 3. Anamorphic Horizontal Streak (Cinematic) - More subtle */}
+                <div className="absolute bottom-[25%] left-1/2 -translate-x-1/2 w-[100%] h-[5%] bg-blue-300/5 blur-[40px] rounded-full" />
 
-                {/* 4. Moon Haze (Cold) */}
-                <div className="absolute top-[5%] right-[25%] w-[500px] h-[500px] bg-blue-300/20 blur-[100px] rounded-full opacity-80" />
+                {/* 4. Moon Haze (Cold) - Subtle */}
+                <div className="absolute top-[5%] right-[25%] w-[400px] h-[400px] bg-blue-300/10 blur-[100px] rounded-full opacity-80" />
 
                 {/* 5. Moon Core (Bright) */}
-                <div className="absolute top-[10%] right-[29%] w-[200px] h-[200px] bg-white/10 blur-[50px] rounded-full" />
+                <div className="absolute top-[10%] right-[29%] w-[150px] h-[150px] bg-white/10 blur-[50px] rounded-full" />
             </motion.div>
 
             {/* --- HUT (THE BOX) --- */}
@@ -193,19 +193,19 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
                         className="absolute inset-0 z-0"
                         animate={{ opacity: visuals.lightOpacity }}
                     >
-                        {/* Core Light - White hot center for realism */}
-                        <div className="absolute bottom-[30%] left-1/2 -translate-x-1/2 w-[30%] h-[30%] bg-white/60 blur-[60px] rounded-full mix-blend-hard-light" />
+                        {/* Core Light - Less intense core */}
+                        <div className="absolute bottom-[30%] left-1/2 -translate-x-1/2 w-[30%] h-[30%] bg-white/30 blur-[60px] rounded-full mix-blend-hard-light" />
 
                         {/* Middle warmth - Amber/Gold */}
-                        <div className="absolute bottom-[25%] left-1/2 -translate-x-1/2 w-[70%] h-[70%] bg-amber-500/50 blur-[100px] rounded-full mix-blend-screen" />
+                        <div className="absolute bottom-[25%] left-1/2 -translate-x-1/2 w-[60%] h-[60%] bg-amber-500/30 blur-[100px] rounded-full mix-blend-screen" />
 
                         {/* Outer atmosphere - Wide Orange spill */}
-                        <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[140%] h-[110%] bg-orange-600/20 blur-[140px] rounded-full mix-blend-screen" />
+                        <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[110%] h-[90%] bg-orange-600/10 blur-[140px] rounded-full mix-blend-screen" />
 
                         {/* Pulse Effect - Subtle ambient pulse */}
                         {state === 2 && (
                             <motion.div
-                                className="absolute bottom-[30%] left-1/2 -translate-x-1/2 w-[80%] h-[80%] bg-amber-300/10 blur-[90px] rounded-full mix-blend-overlay"
+                                className="absolute bottom-[30%] left-1/2 -translate-x-1/2 w-[60%] h-[60%] bg-amber-300/10 blur-[90px] rounded-full mix-blend-overlay"
                                 animate={{ opacity: [0.3, 0.5, 0.3], scale: [1, 1.05, 1] }}
                                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                             />
