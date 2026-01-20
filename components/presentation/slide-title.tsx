@@ -96,7 +96,7 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
                 src="/images/logo-degeto.png"
                 alt="ARD Degeto Logo"
                 fill
-                className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+                className="object-contain"
               />
             </div>
             <div className="relative h-10 w-16 transition-transform hover:scale-105 duration-300">
@@ -104,7 +104,7 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
                 src="/images/logo-ufa.png"
                 alt="UFA Logo"
                 fill
-                className="object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+                className="object-contain"
               />
             </div>
           </div>
