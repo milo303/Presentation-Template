@@ -83,21 +83,26 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
     <div className="relative h-screen w-full overflow-hidden bg-background">
       {/* Slides Container */}
       <div className="relative h-full w-full">
-        {children.map((child, index) => (
+        {React.Children.map(children, (child, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-all duration-700 ease-out ${
-              index === currentSlide
+            className={`absolute inset-0 transition-all duration-700 ease-out ${index === currentSlide
                 ? "opacity-100 translate-x-0 scale-100 z-10"
                 : index < currentSlide
                   ? "opacity-0 -translate-x-full scale-95 z-0"
                   : "opacity-0 translate-x-full scale-95 z-0"
-            }`}
+              }`}
             style={{
               transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
             }}
           >
-            {child}
+            {React.isValidElement(child)
+              ? React.cloneElement(child as React.ReactElement<any>, {
+                isActive: index === currentSlide,
+                onNext: nextSlide,
+                onPrev: prevSlide
+              })
+              : child}
           </div>
         ))}
       </div>
@@ -121,11 +126,10 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
               key={index}
               onClick={() => goToSlide(index, index > currentSlide ? "next" : "prev")}
               disabled={isAnimating}
-              className={`relative h-2 rounded-full transition-all duration-500 ${
-                index === currentSlide 
-                  ? "w-8 bg-gold" 
+              className={`relative h-2 rounded-full transition-all duration-500 ${index === currentSlide
+                  ? "w-8 bg-gold"
                   : "w-2 bg-foreground/30 hover:bg-foreground/50"
-              }`}
+                }`}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
@@ -151,7 +155,7 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
 
       {/* Progress bar */}
       <div className="absolute top-0 left-0 z-50 h-1 w-full bg-foreground/5">
-        <div 
+        <div
           className="h-full bg-gold transition-all duration-700 ease-out"
           style={{ width: `${((currentSlide + 1) / totalSlides) * 100}%` }}
         />
