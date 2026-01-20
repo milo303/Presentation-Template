@@ -136,6 +136,61 @@
 }
 
 @layer utilities {
+  /* Force landscape on mobile - presentation style */
+  .landscape-lock {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) and (orientation: portrait) {
+    .landscape-lock {
+      display: flex;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .landscape-lock::before {
+      content: '';
+      width: 80px;
+      height: 50px;
+      border: 3px solid rgba(255, 255, 255, 0.4);
+      border-radius: 8px;
+      position: relative;
+      animation: rotate-phone 2s ease-in-out infinite;
+    }
+
+    .landscape-lock::after {
+      content: 'Für die beste Präsentation bitte Gerät drehen';
+      font-family: var(--font-sans), system-ui, sans-serif;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 280px;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+    }
+
+    @keyframes rotate-phone {
+      0%, 100% {
+        transform: rotate(0deg);
+      }
+      25%, 75% {
+        transform: rotate(90deg);
+      }
+    }
+
+    /* Hide main content in portrait on mobile */
+    .presentation-container {
+      display: none !important;
+    }
+  }
+
   .grain-overlay {
     position: fixed;
     top: -50%;

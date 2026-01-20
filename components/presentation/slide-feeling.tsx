@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 
 interface SlideFeelingProps {
@@ -27,79 +28,90 @@ export function SlideFeeling({ isActive = true }: SlideFeelingProps) {
   ]
 
   return (
-    <section className="relative h-screen w-full bg-background overflow-hidden">
-      <div className="mx-auto flex h-full max-w-7xl flex-col-reverse lg:flex-row">
-        {/* Visual Content */}
-        <div className="relative flex-1 min-h-[40vh] lg:min-h-full">
-          <div
-            className={`absolute inset-0 transition-all duration-1000 ease-out ${mounted ? "scale-100 opacity-100" : "scale-110 opacity-0"
-              }`}
-            style={{ transitionDelay: "300ms" }}
-          >
-            <Image
-              src="/images/wildholz-feeling-new.png"
-              alt="Intimate moment in autumn nature with soft golden light"
-              fill
-              className="object-cover"
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-l from-background via-background/40 to-transparent lg:block hidden" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-transparent lg:hidden" />
-        </div>
+    <section className="relative h-screen w-full overflow-hidden">
+      {/* Full-bleed Background Image */}
+      <motion.div
+        className="absolute inset-0 z-0"
+        initial={{ scale: 1.1, opacity: 0 }}
+        animate={mounted ? { scale: 1, opacity: 1 } : { scale: 1.1, opacity: 0 }}
+        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <Image
+          src="/images/wildholz-feeling-new.png"
+          alt="Intimate autumn forest moment"
+          fill
+          className="object-cover"
+          priority
+        />
+        {/* Warm color grade */}
+        <div className="absolute inset-0 bg-gradient-to-tl from-orange-900/20 via-transparent to-forest/10 mix-blend-overlay" />
+      </motion.div>
 
-        {/* Text Content */}
-        <div className="flex flex-1 flex-col justify-center px-8 py-12 md:px-16 lg:px-20 lg:py-24">
-          <div className="max-w-xl">
+      {/* Dark gradient for text legibility - from right side */}
+      <div className="absolute inset-0 z-5 bg-gradient-to-l from-black/80 via-black/50 to-transparent" />
+      <div className="absolute inset-0 z-5 bg-gradient-to-t from-black/40 via-transparent to-black/20" />
+
+      {/* Content Container - Right aligned */}
+      <div className="relative z-20 h-full flex items-center justify-end">
+        <div className="w-full max-w-7xl mx-auto px-8 md:px-16 lg:px-24 flex justify-end">
+          <div className="max-w-2xl text-right">
+
             {/* Label */}
-            <p
-              className={`mb-4 text-sm font-sans uppercase tracking-[0.25em] text-muted-foreground transition-all duration-700 ease-out ${mounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
-                }`}
-              style={{ transitionDelay: "200ms" }}
+            <motion.p
+              className="mb-6 text-xs md:text-sm font-sans uppercase tracking-[0.3em] text-white/60"
+              initial={{ opacity: 0, y: 20 }}
+              animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             >
               Ton & Gefühl
-            </p>
+            </motion.p>
 
             {/* Heading */}
-            <h2
-              className={`mb-10 font-serif text-4xl font-medium tracking-tight text-foreground md:text-5xl lg:text-6xl text-balance transition-all duration-1000 ease-out ${mounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
-                }`}
-              style={{ transitionDelay: "400ms" }}
+            <motion.h2
+              className="mb-12 font-serif text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-white leading-[0.95]"
+              initial={{ opacity: 0, y: 40 }}
+              animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+              transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              Warm. Sinnlich. Emotional.
-            </h2>
+              <span className="text-gold italic">Warm.</span> <br className="hidden md:block" />
+              Sinnlich. <br className="hidden md:block" />
+              Emotional.
+            </motion.h2>
 
-            {/* Bullet Points with staggered animation */}
-            <ul className="space-y-5">
+            {/* Bullet Points */}
+            <ul className="space-y-4 md:space-y-5">
               {bulletPoints.map((point, index) => (
-                <li
+                <motion.li
                   key={index}
-                  className={`flex items-start gap-4 transition-all duration-700 ease-out ${mounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
-                    }`}
-                  style={{ transitionDelay: `${700 + index * 150}ms` }}
+                  className="flex items-start justify-end gap-4"
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={mounted ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
+                  transition={{ duration: 0.7, delay: 0.8 + index * 0.15, ease: "easeOut" }}
                 >
-                  <span className={`mt-2.5 h-2 w-2 flex-shrink-0 rounded-full bg-gold transition-transform duration-500 ${mounted ? "scale-100" : "scale-0"
-                    }`}
-                    style={{ transitionDelay: `${800 + index * 150}ms` }}
-                  />
-                  <span className="text-lg text-foreground/75 md:text-xl leading-relaxed">
+                  <span className="text-base md:text-lg lg:text-xl text-white/80 font-light leading-relaxed">
                     {point}
                   </span>
-                </li>
+                  <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-gold" />
+                </motion.li>
               ))}
             </ul>
 
             {/* End decoration */}
-            <div
-              className={`mt-12 flex items-center gap-3 transition-all duration-700 ease-out ${mounted ? "opacity-100" : "opacity-0"
-                }`}
-              style={{ transitionDelay: "1500ms" }}
+            <motion.div
+              className="mt-14 flex items-center justify-end gap-4"
+              initial={{ opacity: 0 }}
+              animate={mounted ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.8, delay: 1.6, ease: "easeOut" }}
             >
-              <div className="h-px w-20 bg-forest/30" />
-              <span className="text-sm text-muted-foreground/60 font-serif italic">Fin</span>
-            </div>
+              <span className="text-sm text-white/40 font-serif italic tracking-wide">Fin</span>
+              <div className="h-[1px] w-16 bg-gold/50" />
+            </motion.div>
           </div>
         </div>
       </div>
+
+      {/* Subtle vignette */}
+      <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-radial from-transparent to-black/30" />
     </section>
   )
 }

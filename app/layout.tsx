@@ -38,9 +38,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`font-sans antialiased`} suppressHydrationWarning>
+        {/* Landscape orientation prompt for mobile */}
+        <div className="landscape-lock" aria-hidden="true" />
         <div className="grain-overlay" />
         <div className="vignette" />
-        {children}
+        <div className="presentation-container">
+          {children}
+        </div>
         <Analytics />
       </body>
     </html>
