@@ -44,7 +44,7 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
           }`}
         style={{ transitionDelay: "600ms" }}
       >
-        <div className="relative h-[80vh] md:h-[90vh] lg:h-[100vh] aspect-[2/3] md:aspect-[3/4]">
+        <div className="relative h-[85vh] md:h-[95vh] lg:h-[105vh] w-[40vw] md:w-[45vw] lg:w-[50vw]">
           <Image
             src="/images/wildholz-couple-new.png"
             alt="Romantic couple embracing"
