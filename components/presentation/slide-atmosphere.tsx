@@ -66,13 +66,13 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
     }, [isActive])
 
     const visuals = {
-        cityOpacity: state === 0 ? 0.3 : state === 1 ? 0.95 : 0.7,
-        cityBlur: state === 0 ? 20 : state === 1 ? 10 : 15,
-        cityY: state === 0 ? "0%" : state === 1 ? "4%" : "8%",
-        cityScale: state === 0 ? 1.05 : state === 1 ? 1.1 : 1.2,
-        warmthOpacity: state === 0 ? 0 : state === 1 ? 0.7 : 0.3,
-        nightOpacity: state === 0 ? 0 : state === 1 ? 0 : 0.95,
-        hutScale: state === 0 ? 0.8 : state === 1 ? 0.9 : 1.0,
+        cityOpacity: state === 0 ? 0.3 : state === 1 ? 0.95 : 0.4, // Dim city more at night for focus
+        cityBlur: state === 0 ? 20 : state === 1 ? 10 : 4,         // Sharper city at night for depth
+        cityY: state === 0 ? "0%" : state === 1 ? "4%" : "15%",
+        cityScale: state === 0 ? 1.05 : state === 1 ? 1.1 : 1.25,
+        warmthOpacity: state === 0 ? 0 : state === 1 ? 0.7 : 0,
+        nightOpacity: state === 0 ? 0 : state === 1 ? 0 : 1,       // Full night overlay
+        hutScale: state === 0 ? 0.8 : state === 1 ? 0.9 : 1.05,
         lightOpacity: state === 0 ? 0 : state === 1 ? 0.2 : 1.0,
     }
 
@@ -86,10 +86,38 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
             <motion.div
                 className="absolute inset-0 z-0"
                 animate={{
-                    backgroundColor: state === 0 ? "#e7e5e4" : state === 1 ? "#faebd7" : "#020617"
+                    backgroundColor: state === 0 ? "#e7e5e4" : state === 1 ? "#faebd7" : "#0f172a"
                 }}
                 transition={{ duration: 1.2, ease: "easeInOut" }}
             />
+
+            {/* MOON & STARS (State 2) */}
+            <motion.div
+                className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: state === 2 ? 1 : 0 }}
+                transition={{ duration: 1.5 }}
+            >
+                {/* Stars */}
+                <div className="absolute inset-0" style={{
+                    backgroundImage: 'radial-gradient(1px 1px at 10% 10%, white 100%, transparent), radial-gradient(1px 1px at 20% 40%, white 100%, transparent), radial-gradient(1.5px 1.5px at 50% 50%, white 100%, transparent), radial-gradient(1px 1px at 80% 20%, white 100%, transparent), radial-gradient(2px 2px at 90% 80%, white 100%, transparent)',
+                    backgroundSize: '400px 400px',
+                    opacity: 0.6
+                }} />
+                <div className="absolute inset-0 rotate-45 scale-150" style={{
+                    backgroundImage: 'radial-gradient(1.5px 1.5px at 15% 15%, white 100%, transparent), radial-gradient(1px 1px at 60% 30%, white 100%, transparent)',
+                    backgroundSize: '600px 600px',
+                    opacity: 0.4
+                }} />
+
+                {/* Moon */}
+                <div className="absolute top-[5%] right-[25%] w-24 h-24 md:w-48 md:h-48 rounded-full bg-slate-100 shadow-[0_0_80px_rgba(255,255,255,0.4)] opacity-90">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-slate-300 to-transparent opacity-40" />
+                    {/* Craters */}
+                    <div className="absolute top-[30%] left-[20%] w-[15%] h-[15%] rounded-full bg-slate-400/20" />
+                    <div className="absolute bottom-[25%] right-[30%] w-[25%] h-[25%] rounded-full bg-slate-400/10" />
+                </div>
+            </motion.div>
 
             {/* City Backdrop */}
             <motion.div
@@ -117,8 +145,9 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
                 animate={{ opacity: visuals.warmthOpacity }}
                 transition={{ duration: 1.2 }}
             />
+            {/* Night Gradient Overlay */}
             <motion.div
-                className="absolute inset-0 z-10 bg-slate-950 pointer-events-none"
+                className="absolute inset-0 z-10 bg-gradient-to-b from-slate-950/80 via-slate-950/60 to-slate-900/90 pointer-events-none"
                 animate={{ opacity: visuals.nightOpacity }}
                 transition={{ duration: 1.2 }}
             />
@@ -134,19 +163,49 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
                     }}
                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                 >
+                    {/* Volumetric Floor Glow (Only visible at night) */}
+                    <motion.div
+                        className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[80%] h-[20%] bg-amber-500/30 blur-[60px] rounded-[100%] mix-blend-color-dodge z-0"
+                        animate={{ opacity: state === 2 ? 0.6 : 0, scale: state === 2 ? 1.2 : 0.8 }}
+                    />
+
+                    {/* Volumetric Beams (Behind) */}
+                    <motion.div
+                        className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[120%] h-[150%] z-0"
+                        animate={{ opacity: state === 2 ? 1 : 0 }}
+                    >
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[20%] h-full bg-gradient-to-t from-amber-500/20 to-transparent blur-[40px] rotate-[-15deg] origin-bottom" />
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[20%] h-full bg-gradient-to-t from-amber-500/20 to-transparent blur-[40px] rotate-[15deg] origin-bottom" />
+                    </motion.div>
+
                     <Image
                         src="/images/wildholz-hut.png"
                         alt="Hut"
                         fill
-                        className="object-contain drop-shadow-2xl"
+                        className="object-contain drop-shadow-2xl relative z-10"
                         style={{ objectPosition: "bottom center" }}
                         priority
                     />
+
+                    {/* Interior 3D Glow Source */}
                     <motion.div
-                        className="absolute inset-0 z-30"
+                        className="absolute inset-0 z-20"
                         animate={{ opacity: visuals.lightOpacity }}
                     >
-                        <div className="absolute bottom-[30%] left-1/2 -translate-x-1/2 w-[60%] h-[60%] bg-orange-500/40 blur-[120px] rounded-full mix-blend-screen" />
+                        {/* Core Light */}
+                        <div className="absolute bottom-[30%] left-1/2 -translate-x-1/2 w-[40%] h-[40%] bg-amber-400 blur-[80px] rounded-full mix-blend-hard-light opacity-80" />
+
+                        {/* Bloom / Atmosphere */}
+                        <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[90%] h-[70%] bg-orange-500/20 blur-[100px] rounded-full mix-blend-screen" />
+
+                        {/* Pulse Effect */}
+                        {state === 2 && (
+                            <motion.div
+                                className="absolute bottom-[35%] left-1/2 -translate-x-1/2 w-[30%] h-[30%] bg-amber-200 blur-[50px] rounded-full mix-blend-overlay"
+                                animate={{ opacity: [0.4, 0.7, 0.4] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                        )}
                     </motion.div>
                 </motion.div>
             </div>
