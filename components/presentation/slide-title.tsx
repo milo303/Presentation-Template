@@ -91,21 +91,24 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
               }`}
             style={{ transitionDelay: "1000ms" }}
           >
-            <div className="relative h-10 w-32 grayscale brightness-200 contrast-125 opacity-80 hover:opacity-100 transition-opacity">
-              <Image
-                src="/images/logo-degeto.png"
-                alt="ARD Degeto Logo"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <div className="relative h-10 w-16 grayscale brightness-200 contrast-125 opacity-80 hover:opacity-100 transition-opacity">
-              <Image
-                src="/images/logo-ufa.png"
-                alt="UFA Logo"
-                fill
-                className="object-contain"
-              />
+            {/* White rounded background to make multiply logos pop on dark forest */}
+            <div className="flex items-center gap-10 bg-white/90 px-8 py-3 rounded-xl backdrop-blur-sm">
+              <div className="relative h-10 w-32 transition-opacity">
+                <Image
+                  src="/images/logo-degeto.png"
+                  alt="ARD Degeto Logo"
+                  fill
+                  className="object-contain mix-blend-multiply"
+                />
+              </div>
+              <div className="relative h-10 w-16 transition-opacity">
+                <Image
+                  src="/images/logo-ufa.png"
+                  alt="UFA Logo"
+                  fill
+                  className="object-contain mix-blend-multiply"
+                />
+              </div>
             </div>
           </div>
 
