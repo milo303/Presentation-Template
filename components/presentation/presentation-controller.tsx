@@ -87,10 +87,10 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
           <div
             key={index}
             className={`absolute inset-0 transition-all duration-700 ease-out ${index === currentSlide
-                ? "opacity-100 translate-x-0 scale-100 z-10"
-                : index < currentSlide
-                  ? "opacity-0 -translate-x-full scale-95 z-0"
-                  : "opacity-0 translate-x-full scale-95 z-0"
+              ? "opacity-100 translate-x-0 scale-100 z-10"
+              : index < currentSlide
+                ? "opacity-0 -translate-x-full scale-95 z-0"
+                : "opacity-0 translate-x-full scale-95 z-0"
               }`}
             style={{
               transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
@@ -107,50 +107,11 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
         ))}
       </div>
 
-      {/* Navigation Controls */}
-      <div className="absolute bottom-8 left-1/2 z-50 flex -translate-x-1/2 items-center gap-6">
-        {/* Previous Button */}
-        <button
-          onClick={prevSlide}
-          disabled={currentSlide === 0 || isAnimating}
-          className="group flex h-12 w-12 items-center justify-center rounded-full border border-foreground/20 bg-background/80 backdrop-blur-sm transition-all duration-300 hover:bg-foreground hover:border-foreground disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-background/80 disabled:hover:border-foreground/20"
-          aria-label="Previous slide"
-        >
-          <ChevronLeft className="h-5 w-5 text-foreground transition-colors group-hover:text-background group-disabled:group-hover:text-foreground" />
-        </button>
-
-        {/* Slide Indicators */}
-        <div className="flex items-center gap-3">
-          {Array.from({ length: totalSlides }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index, index > currentSlide ? "next" : "prev")}
-              disabled={isAnimating}
-              className={`relative h-2 rounded-full transition-all duration-500 ${index === currentSlide
-                  ? "w-8 bg-gold"
-                  : "w-2 bg-foreground/30 hover:bg-foreground/50"
-                }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Next Button */}
-        <button
-          onClick={nextSlide}
-          disabled={currentSlide === totalSlides - 1 || isAnimating}
-          className="group flex h-12 w-12 items-center justify-center rounded-full border border-foreground/20 bg-background/80 backdrop-blur-sm transition-all duration-300 hover:bg-foreground hover:border-foreground disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-background/80 disabled:hover:border-foreground/20"
-          aria-label="Next slide"
-        >
-          <ChevronRight className="h-5 w-5 text-foreground transition-colors group-hover:text-background group-disabled:group-hover:text-foreground" />
-        </button>
-      </div>
-
       {/* Keyboard hint */}
-      <div className="absolute bottom-8 right-8 z-50 hidden items-center gap-2 text-xs text-muted-foreground/60 md:flex">
-        <kbd className="rounded border border-foreground/10 bg-muted px-1.5 py-0.5 font-mono text-xs">←</kbd>
-        <kbd className="rounded border border-foreground/10 bg-muted px-1.5 py-0.5 font-mono text-xs">→</kbd>
-        <span className="ml-1">to navigate</span>
+      <div className="absolute bottom-8 right-8 z-50 hidden items-center gap-2 text-xs text-muted-foreground/40 md:flex">
+        <kbd className="rounded border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-xs text-white/50">←</kbd>
+        <kbd className="rounded border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-xs text-white/50">→</kbd>
+        <span className="ml-1 text-white/30 uppercase tracking-widest">navigate</span>
       </div>
 
       {/* Progress bar */}
