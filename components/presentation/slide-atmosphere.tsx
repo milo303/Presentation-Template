@@ -140,17 +140,26 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
                 transition={{ duration: 1.2 }}
             />
 
-            {/* Cinematic Lens Bloom (Global) */}
+            {/* Cinematic Lens Bloom (Global) - ULTRA INTENSITY */}
             <motion.div
                 className="absolute inset-0 z-30 pointer-events-none mix-blend-screen"
-                animate={{ opacity: state === 2 ? 0.8 : 0 }}
+                animate={{ opacity: state === 2 ? 1 : 0 }}
                 transition={{ duration: 1.5 }}
             >
-                {/* Central Warm Bloom from Hut */}
-                <div className="absolute bottom-[-10%] left-1/2 -translate-x-1/2 w-[80%] h-[50%] bg-amber-500/20 blur-[100px] rounded-full" />
+                {/* 1. Base Haze (Warm) */}
+                <div className="absolute bottom-[-10%] left-1/2 -translate-x-1/2 w-[90%] h-[60%] bg-amber-600/30 blur-[120px] rounded-full" />
 
-                {/* Cold Bloom from Moon */}
-                <div className="absolute top-[5%] right-[25%] w-[400px] h-[400px] bg-blue-300/10 blur-[80px] rounded-full" />
+                {/* 2. Core Glow (Hot) */}
+                <div className="absolute bottom-[-5%] left-1/2 -translate-x-1/2 w-[60%] h-[40%] bg-orange-400/30 blur-[80px] rounded-full" />
+
+                {/* 3. Anamorphic Horizontal Streak (Cinematic) */}
+                <div className="absolute bottom-[25%] left-1/2 -translate-x-1/2 w-[120%] h-[5%] bg-blue-300/5 blur-[40px] rounded-full" />
+
+                {/* 4. Moon Haze (Cold) */}
+                <div className="absolute top-[5%] right-[25%] w-[500px] h-[500px] bg-blue-300/20 blur-[100px] rounded-full opacity-80" />
+
+                {/* 5. Moon Core (Bright) */}
+                <div className="absolute top-[10%] right-[29%] w-[200px] h-[200px] bg-white/10 blur-[50px] rounded-full" />
             </motion.div>
 
             {/* --- HUT (THE BOX) --- */}
