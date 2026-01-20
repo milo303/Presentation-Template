@@ -44,11 +44,15 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
           }`}
         style={{ transitionDelay: "600ms" }}
       >
-        <img
-          src="/images/wildholz-couple-new.png"
-          alt="Romantic couple embracing"
-          className="h-[80vh] md:h-[90vh] lg:h-[100vh] w-auto object-contain object-bottom drop-shadow-2xl mix-blend-multiply"
-        />
+        <div className="relative h-[80vh] md:h-[90vh] lg:h-[100vh] aspect-[2/3] md:aspect-[3/4]">
+          <Image
+            src="/images/wildholz-couple-new.png"
+            alt="Romantic couple embracing"
+            fill
+            className="object-contain object-bottom drop-shadow-2xl mix-blend-multiply"
+            priority
+          />
+        </div>
       </div>
 
       {/* Content - Left aligned */}

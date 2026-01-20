@@ -140,6 +140,7 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
                         fill
                         className="object-contain drop-shadow-2xl"
                         style={{ objectPosition: "bottom center" }}
+                        priority
                     />
                     <motion.div
                         className="absolute inset-0 z-30"
