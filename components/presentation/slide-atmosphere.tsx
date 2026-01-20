@@ -166,6 +166,27 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
                         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[15%] h-full bg-gradient-to-t from-amber-200/10 to-transparent blur-[50px] rotate-[12deg] origin-bottom" />
                     </motion.div>
 
+                    {/* Interior 3D Glow Source - NOW BEHIND (Backlighting/Volume) */}
+                    <motion.div
+                        className="absolute inset-0 z-0"
+                        animate={{ opacity: visuals.lightOpacity }}
+                    >
+                        {/* Core Light - Large soft backlight */}
+                        <div className="absolute bottom-[25%] left-1/2 -translate-x-1/2 w-[60%] h-[60%] bg-amber-400/40 blur-[100px] rounded-full mix-blend-screen" />
+
+                        {/* Bloom / Atmosphere - Wide spill */}
+                        <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[120%] h-[90%] bg-orange-500/15 blur-[120px] rounded-full mix-blend-screen" />
+
+                        {/* Pulse Effect - Subtle ambient pulse */}
+                        {state === 2 && (
+                            <motion.div
+                                className="absolute bottom-[30%] left-1/2 -translate-x-1/2 w-[50%] h-[50%] bg-amber-200/20 blur-[80px] rounded-full mix-blend-overlay"
+                                animate={{ opacity: [0.3, 0.6, 0.3] }}
+                                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                        )}
+                    </motion.div>
+
                     <Image
                         src="/images/wildholz-hut.png"
                         alt="Hut"
@@ -174,27 +195,6 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
                         style={{ objectPosition: "bottom center" }}
                         priority
                     />
-
-                    {/* Interior 3D Glow Source - Toned down significantly */}
-                    <motion.div
-                        className="absolute inset-0 z-20"
-                        animate={{ opacity: visuals.lightOpacity }}
-                    >
-                        {/* Core Light - Less harsh, more warm */}
-                        <div className="absolute bottom-[30%] left-1/2 -translate-x-1/2 w-[35%] h-[35%] bg-amber-300/60 blur-[60px] rounded-full mix-blend-overlay" />
-
-                        {/* Bloom / Atmosphere - Softer */}
-                        <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[80%] h-[60%] bg-orange-300/10 blur-[90px] rounded-full mix-blend-screen" />
-
-                        {/* Pulse Effect - Subtle */}
-                        {state === 2 && (
-                            <motion.div
-                                className="absolute bottom-[35%] left-1/2 -translate-x-1/2 w-[25%] h-[25%] bg-amber-100/30 blur-[40px] rounded-full mix-blend-overlay"
-                                animate={{ opacity: [0.2, 0.5, 0.2] }}
-                                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                            />
-                        )}
-                    </motion.div>
                 </motion.div>
             </div>
 
