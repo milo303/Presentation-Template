@@ -1,9 +1,7 @@
 "use client"
 
-import React from "react"
-
-import { useCallback, useEffect, useState } from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import React, { useCallback, useEffect, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 
 interface PresentationControllerProps {
   children: React.ReactNode[]
@@ -13,27 +11,28 @@ interface PresentationControllerProps {
 
 export function PresentationController({ children, totalSlides, onSlideChange }: PresentationControllerProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [direction, setDirection] = useState<"next" | "prev">("next")
+  const [direction, setDirection] = useState<number>(0) // 1 for next, -1 for prev
   const [isAnimating, setIsAnimating] = useState(false)
 
-  const goToSlide = useCallback((index: number, dir: "next" | "prev") => {
+  const goToSlide = useCallback((index: number, dir: number) => {
     if (isAnimating || index < 0 || index >= totalSlides) return
     setIsAnimating(true)
     setDirection(dir)
     setCurrentSlide(index)
     onSlideChange?.(index)
-    setTimeout(() => setIsAnimating(false), 800)
+    // Synchronize animation lock with motion duration
+    setTimeout(() => setIsAnimating(false), 1000)
   }, [isAnimating, totalSlides, onSlideChange])
 
   const nextSlide = useCallback(() => {
     if (currentSlide < totalSlides - 1) {
-      goToSlide(currentSlide + 1, "next")
+      goToSlide(currentSlide + 1, 1)
     }
   }, [currentSlide, totalSlides, goToSlide])
 
   const prevSlide = useCallback(() => {
     if (currentSlide > 0) {
-      goToSlide(currentSlide - 1, "prev")
+      goToSlide(currentSlide - 1, -1)
     }
   }, [currentSlide, goToSlide])
 
@@ -79,32 +78,74 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
     }
   }, [nextSlide, prevSlide])
 
+  // PowerPoint-style "Morph" variants
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? "30vw" : "-30vw",
+      opacity: 0,
+      scale: 1.05,
+      filter: "blur(20px)",
+      clipPath: direction > 0
+        ? "inset(0% 0% 0% 100%)"
+        : "inset(0% 100% 0% 0%)"
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      filter: "blur(0px)",
+      clipPath: "inset(0% 0% 0% 0%)",
+      transition: {
+        x: { type: "spring", stiffness: 80, damping: 20, mass: 1 },
+        opacity: { duration: 0.8 },
+        scale: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
+        filter: { duration: 0.8 },
+        clipPath: { duration: 1, ease: [0.16, 1, 0.3, 1] }
+      }
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      x: direction < 0 ? "20vw" : "-20vw",
+      opacity: 0,
+      scale: 0.95,
+      filter: "blur(20px)",
+      clipPath: direction < 0
+        ? "inset(0% 0% 0% 100%)"
+        : "inset(0% 100% 0% 0%)",
+      transition: {
+        x: { duration: 1, ease: [0.16, 1, 0.3, 1] },
+        opacity: { duration: 0.8 },
+        scale: { duration: 1, ease: [0.16, 1, 0.3, 1] },
+        filter: { duration: 0.8 },
+        clipPath: { duration: 1, ease: [0.16, 1, 0.3, 1] }
+      }
+    })
+  }
+
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-background">
+    <div className="relative h-screen w-full overflow-hidden bg-black">
       {/* Slides Container */}
       <div className="relative h-full w-full">
-        {React.Children.map(children, (child, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-all duration-700 ease-out ${index === currentSlide
-              ? "opacity-100 translate-x-0 scale-100 z-10"
-              : index < currentSlide
-                ? "opacity-0 -translate-x-full scale-95 z-0"
-                : "opacity-0 translate-x-full scale-95 z-0"
-              }`}
-            style={{
-              transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-            }}
+        <AnimatePresence initial={false} custom={direction} mode="popLayout">
+          <motion.div
+            key={currentSlide}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="absolute inset-0 h-full w-full"
           >
-            {React.isValidElement(child)
-              ? React.cloneElement(child as React.ReactElement<any>, {
-                isActive: index === currentSlide,
+            {React.isValidElement(children[currentSlide])
+              ? React.cloneElement(children[currentSlide] as React.ReactElement<any>, {
+                isActive: true,
                 onNext: nextSlide,
                 onPrev: prevSlide
               })
-              : child}
-          </div>
-        ))}
+              : children[currentSlide]}
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* Keyboard hint */}
@@ -115,10 +156,12 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
       </div>
 
       {/* Progress bar */}
-      <div className="absolute top-0 left-0 z-50 h-1 w-full bg-foreground/5">
-        <div
-          className="h-full bg-gold transition-all duration-700 ease-out"
-          style={{ width: `${((currentSlide + 1) / totalSlides) * 100}%` }}
+      <div className="absolute top-0 left-0 z-50 h-1 w-full bg-white/5">
+        <motion.div
+          className="h-full bg-gold"
+          initial={false}
+          animate={{ width: `${((currentSlide + 1) / totalSlides) * 100}%` }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         />
       </div>
     </div>
