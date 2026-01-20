@@ -44,12 +44,12 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
           }`}
         style={{ transitionDelay: "600ms" }}
       >
-        <div className="relative h-[105vh] md:h-[115vh] lg:h-[125vh] w-[60vw] md:w-[65vw] lg:w-[70vw]">
+        <div className="relative h-[115vh] md:h-[125vh] lg:h-[135vh] w-[70vw] md:w-[75vw] lg:w-[85vw]">
           <Image
             src="/images/wildholz-couple-new.png"
             alt="Romantic couple embracing"
             fill
-            className="object-contain object-bottom drop-shadow-[0_35px_35px_rgba(0,0,0,0.5)] mix-blend-multiply"
+            className="object-contain object-bottom drop-shadow-[0_45px_45px_rgba(0,0,0,0.6)] mix-blend-multiply"
             priority
           />
         </div>
@@ -57,7 +57,7 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
 
       {/* Content - Left aligned */}
       <div className="relative z-20 flex flex-1 flex-col justify-center px-8 md:px-16 lg:px-24">
-        <div className="max-w-2xl">
+        <div className="max-w-3xl">
           {/* Subtitle */}
           <p
             className={`mb-4 text-sm font-sans uppercase tracking-[0.25em] text-white/70 md:text-base transition-all duration-700 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -69,7 +69,7 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
 
           {/* Main Title */}
           <h1
-            className={`mb-6 font-serif text-6xl font-medium tracking-tight text-white md:text-7xl lg:text-8xl xl:text-9xl transition-all duration-1000 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            className={`mb-6 font-serif text-6xl font-medium tracking-tight text-white md:text-7xl lg:text-9xl xl:text-[10rem] transition-all duration-1000 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
               }`}
             style={{ transitionDelay: "400ms" }}
           >
@@ -85,11 +85,35 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
             „Während du schliefst" trifft auf „Virgin River"
           </p>
 
+          {/* Integration of Logos */}
+          <div
+            className={`mt-16 flex items-center gap-10 transition-all duration-1000 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+            style={{ transitionDelay: "1000ms" }}
+          >
+            <div className="relative h-10 w-32 grayscale brightness-200 contrast-125 opacity-80 hover:opacity-100 transition-opacity">
+              <Image
+                src="/images/logo-degeto.png"
+                alt="ARD Degeto Logo"
+                fill
+                className="object-contain"
+              />
+            </div>
+            <div className="relative h-10 w-16 grayscale brightness-200 contrast-125 opacity-80 hover:opacity-100 transition-opacity">
+              <Image
+                src="/images/logo-ufa.png"
+                alt="UFA Logo"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
+
           {/* Subtle CTA hint */}
           <div
-            className={`mt-12 flex items-center gap-3 transition-all duration-700 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            className={`mt-16 flex items-center gap-3 transition-all duration-700 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
-            style={{ transitionDelay: "1200ms" }}
+            style={{ transitionDelay: "1400ms" }}
           >
             <div className="h-px w-12 bg-white/40" />
             <span className="text-sm font-sans text-white/50 tracking-wide">Weiter mit Pfeiltasten</span>
