@@ -184,30 +184,42 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
                         className="absolute inset-0 z-0"
                         animate={{ opacity: visuals.lightOpacity }}
                     >
-                        {/* Core Light - Large soft backlight */}
-                        <div className="absolute bottom-[25%] left-1/2 -translate-x-1/2 w-[60%] h-[60%] bg-amber-400/40 blur-[100px] rounded-full mix-blend-screen" />
+                        {/* Core Light - White hot center for realism */}
+                        <div className="absolute bottom-[30%] left-1/2 -translate-x-1/2 w-[30%] h-[30%] bg-white/60 blur-[60px] rounded-full mix-blend-hard-light" />
 
-                        {/* Bloom / Atmosphere - Wide spill */}
-                        <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[120%] h-[90%] bg-orange-500/15 blur-[120px] rounded-full mix-blend-screen" />
+                        {/* Middle warmth - Amber/Gold */}
+                        <div className="absolute bottom-[25%] left-1/2 -translate-x-1/2 w-[70%] h-[70%] bg-amber-500/50 blur-[100px] rounded-full mix-blend-screen" />
+
+                        {/* Outer atmosphere - Wide Orange spill */}
+                        <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[140%] h-[110%] bg-orange-600/20 blur-[140px] rounded-full mix-blend-screen" />
 
                         {/* Pulse Effect - Subtle ambient pulse */}
                         {state === 2 && (
                             <motion.div
-                                className="absolute bottom-[30%] left-1/2 -translate-x-1/2 w-[50%] h-[50%] bg-amber-200/20 blur-[80px] rounded-full mix-blend-overlay"
-                                animate={{ opacity: [0.3, 0.6, 0.3] }}
-                                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                                className="absolute bottom-[30%] left-1/2 -translate-x-1/2 w-[80%] h-[80%] bg-amber-300/10 blur-[90px] rounded-full mix-blend-overlay"
+                                animate={{ opacity: [0.3, 0.5, 0.3], scale: [1, 1.05, 1] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                             />
                         )}
                     </motion.div>
 
-                    <Image
-                        src="/images/wildholz-hut.png"
-                        alt="Hut"
-                        fill
-                        className="object-contain drop-shadow-2xl relative z-10"
-                        style={{ objectPosition: "bottom center" }}
-                        priority
-                    />
+                    {/* Animated Hut Image */}
+                    <motion.div
+                        className="relative w-full h-full z-10"
+                        animate={{
+                            filter: state === 2 ? "brightness(0.7) contrast(1.15) sepia(0.2)" : "brightness(1) contrast(1) sepia(0)"
+                        }}
+                        transition={{ duration: 1.2 }}
+                    >
+                        <Image
+                            src="/images/wildholz-hut.png"
+                            alt="Hut"
+                            fill
+                            className="object-contain drop-shadow-2xl"
+                            style={{ objectPosition: "bottom center" }}
+                            priority
+                        />
+                    </motion.div>
                 </motion.div>
             </div>
 
