@@ -102,7 +102,7 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
                     src="/images/night-sky.png"
                     alt="Night Sky with Moon and Stars"
                     fill
-                    className="object-cover object-top opacity-90"
+                    className="object-cover object-top"
                     priority
                 />
             </motion.div>
@@ -135,7 +135,7 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
             />
             {/* Night Gradient Overlay - adjusted for new sky image */}
             <motion.div
-                className="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-slate-950/40 to-slate-900/95 pointer-events-none"
+                className="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-slate-950/40 to-slate-900 pointer-events-none"
                 animate={{ opacity: visuals.nightOpacity }}
                 transition={{ duration: 1.2 }}
             />
