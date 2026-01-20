@@ -23,9 +23,8 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
     <section className="relative h-screen w-full flex flex-col overflow-hidden">
       {/* Background Image with Ken Burns effect */}
       <div className="absolute inset-0">
-        <div className={`absolute inset-0 transition-transform duration-[12000ms] ease-out ${
-          mounted ? "scale-110" : "scale-100"
-        }`}>
+        <div className={`absolute inset-0 transition-transform duration-[12000ms] ease-out ${mounted ? "scale-110" : "scale-100"
+          }`}>
           <Image
             src="/images/wildholz-background-new.png"
             alt="Autumn mountain landscape with golden foliage"
@@ -40,16 +39,15 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
       </div>
 
       {/* Couple Image - positioned on right side with transparent background (simulated via multiply) */}
-      <div 
-        className={`absolute bottom-0 right-0 md:right-4 lg:right-8 z-10 transition-all duration-1000 ease-out ${
-          mounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-24"
-        }`}
+      <div
+        className={`absolute bottom-0 right-0 md:right-4 lg:right-8 z-10 transition-all duration-1000 ease-out ${mounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-24"
+          }`}
         style={{ transitionDelay: "600ms" }}
       >
         <img
           src="/images/wildholz-couple-new.png"
           alt="Romantic couple embracing"
-          className="h-[90vh] md:h-[100vh] lg:h-[110vh] w-auto object-contain object-bottom drop-shadow-2xl mix-blend-multiply"
+          className="h-[80vh] md:h-[90vh] lg:h-[100vh] w-auto object-contain object-bottom drop-shadow-2xl mix-blend-multiply"
         />
       </div>
 
@@ -57,40 +55,36 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
       <div className="relative z-20 flex flex-1 flex-col justify-center px-8 md:px-16 lg:px-24">
         <div className="max-w-2xl">
           {/* Subtitle */}
-          <p 
-            className={`mb-4 text-sm font-sans uppercase tracking-[0.25em] text-white/70 md:text-base transition-all duration-700 ease-out ${
-              mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+          <p
+            className={`mb-4 text-sm font-sans uppercase tracking-[0.25em] text-white/70 md:text-base transition-all duration-700 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
             style={{ transitionDelay: "200ms" }}
           >
             Konzept fur eine Mediathek-Serie
           </p>
-          
+
           {/* Main Title */}
-          <h1 
-            className={`mb-6 font-serif text-6xl font-medium tracking-tight text-white md:text-7xl lg:text-8xl xl:text-9xl transition-all duration-1000 ease-out ${
-              mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-            }`}
+          <h1
+            className={`mb-6 font-serif text-6xl font-medium tracking-tight text-white md:text-7xl lg:text-8xl xl:text-9xl transition-all duration-1000 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+              }`}
             style={{ transitionDelay: "400ms" }}
           >
             Wildholz
           </h1>
-          
+
           {/* Tagline */}
-          <p 
-            className={`max-w-xl font-serif text-xl italic text-white/85 md:text-2xl lg:text-3xl transition-all duration-700 ease-out ${
-              mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+          <p
+            className={`max-w-xl font-serif text-xl italic text-white/85 md:text-2xl lg:text-3xl transition-all duration-700 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
             style={{ transitionDelay: "700ms" }}
           >
             „Während du schliefst" trifft auf „Virgin River"
           </p>
 
           {/* Subtle CTA hint */}
-          <div 
-            className={`mt-12 flex items-center gap-3 transition-all duration-700 ease-out ${
-              mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
+          <div
+            className={`mt-12 flex items-center gap-3 transition-all duration-700 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
             style={{ transitionDelay: "1200ms" }}
           >
             <div className="h-px w-12 bg-white/40" />
