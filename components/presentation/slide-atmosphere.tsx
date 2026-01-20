@@ -140,6 +140,19 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
                 transition={{ duration: 1.2 }}
             />
 
+            {/* Cinematic Lens Bloom (Global) */}
+            <motion.div
+                className="absolute inset-0 z-30 pointer-events-none mix-blend-screen"
+                animate={{ opacity: state === 2 ? 0.8 : 0 }}
+                transition={{ duration: 1.5 }}
+            >
+                {/* Central Warm Bloom from Hut */}
+                <div className="absolute bottom-[-10%] left-1/2 -translate-x-1/2 w-[80%] h-[50%] bg-amber-500/20 blur-[100px] rounded-full" />
+
+                {/* Cold Bloom from Moon */}
+                <div className="absolute top-[5%] right-[25%] w-[400px] h-[400px] bg-blue-300/10 blur-[80px] rounded-full" />
+            </motion.div>
+
             {/* --- HUT (THE BOX) --- */}
             {/* Kept big but shifted vertically/scaled to avoid text overlap */}
             <div className="absolute inset-0 z-20 flex items-end justify-center pb-12 md:pb-20 pointer-events-none">
