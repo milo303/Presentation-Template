@@ -1,0 +1,23 @@
+#!/bin/bash
+# Move to the directory where the script is located
+cd "$(dirname "$0")"
+
+echo "------------------------------------------------"
+echo "   Wildholz Pitch Deck - Start Script (Mac)     "
+echo "------------------------------------------------"
+
+# Check if node_modules exists, if not, install
+if [ ! -d "node_modules" ]; then
+    echo "Installing dependencies... (this may take a minute)"
+    npm install
+fi
+
+echo "Starting presentation server..."
+echo "Once the server is ready, the presentation will open in your browser."
+echo "Press Ctrl+C to stop the server when you are finished."
+
+# Open browser after a small delay to give the server time to start
+(sleep 3 && open http://localhost:3000) &
+
+# Run dev server
+npm run dev
