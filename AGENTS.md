@@ -26,7 +26,8 @@ No Copilot rules found (`.github/copilot-instructions.md`).
 Note: `styles/globals.css` exists but the app imports `app/globals.css`.
 
 ## How The Deck Works
-- Entry: `app/page.tsx` renders `PresentationController` with slide components.
+- Entry: `app/page.tsx` renders `PresentationController` with slide components in this order:
+  1) `SlideTitle` (intro), 2) `SlideAtmosphere` (hut/box scene), 3) `SlideWorld` (context), 4) `SlideFeeling` (closing).
 - Keep `TOTAL_SLIDES` in sync with the number of slide children.
 - `components/presentation/presentation-controller.tsx`:
   - keyboard: Right/Space/Enter = next; Left/Backspace = prev
@@ -34,6 +35,13 @@ Note: `styles/globals.css` exists but the app imports `app/globals.css`.
   - animation lock: `isAnimating` for 800ms; slide transition is ~700ms
 - Slides (`components/presentation/slide-*.tsx`) accept `isActive` and typically
   gate animations via local `mounted` state.
+
+### Slide 2 “Box” (Hut) Lighting
+- `components/presentation/slide-atmosphere.tsx` renders the hut/box scene.
+- The “box” is the hut (`/images/wildholz-hut.png`) with layered glow elements.
+- Lighting shifts across three internal states (0 → 1 → 2): daylight → warm dusk → night.
+- The light change is driven by `lightOpacity`, plus volumetric glow and beam layers behind the hut.
+- Night state also dims the hut image (`brightness/contrast/sepia`) and adds ambient pulsing.
 
 ## Commands (pnpm)
 

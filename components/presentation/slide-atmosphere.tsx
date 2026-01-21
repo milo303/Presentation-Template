@@ -5,300 +5,317 @@ import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 
 interface SlideAtmosphereProps {
-    isActive?: boolean
-    onNext?: () => void
-    onPrev?: () => void
+  isActive?: boolean
+  onNext?: () => void
+  onPrev?: () => void
 }
 
-type AtmosphereState = 0 | 1 | 2
+// Configurable sequence: images with video transitions between them
+// To swap or extend assets, simply modify this array
+const SEQUENCE = {
+  images: [
+    '/images/wilholzBox-1.png',
+    '/images/wilholzBox-2.png',
+    '/images/wilholzBox-3.png',
+  ],
+  // Videos that play BETWEEN images (transitions[i] plays between images[i] and images[i+1])
+  transitions: [
+    '/images/Video-1.mp4',
+    '/images/Video-2.mp4',
+  ],
+}
+
+// Text content for each stage
+const TEXT_CONTENT = [
+  {
+    title: "Wildholz in deiner Stadt",
+    description: "Wildholz zum Anfassen, nicht zum Scrollen. Ein analoger Zufluchtsort im urbanen Raum."
+  },
+  {
+    title: "Waldwürfel zum Durchatmen",
+    description: "Holz, Moos und Tannenduft statt Screen und Technik. Ein Ort zum Anlehnen und Rausfallen."
+  },
+  {
+    title: "Analoge Markenwelt",
+    description: "Über Social Media hinaus in den realen Stadtraum. Die Stimmung von Wildholz, physisch erlebbar."
+  }
+]
+
+type MediaState =
+  | { type: 'image'; index: number }
+  | { type: 'video'; index: number; direction: 'forward' | 'backward' }
 
 export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmosphereProps) {
-    const containerRef = useRef<HTMLDivElement>(null)
-    const [state, setState] = useState<AtmosphereState>(0)
-    const lastActionTime = useRef(0)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const lastActionTime = useRef(0)
 
-    const goForward = useCallback(() => {
-        const now = Date.now()
-        if (now - lastActionTime.current < 600) return
-        lastActionTime.current = now
-        if (state < 2) setState((s) => (s + 1) as AtmosphereState)
-        else if (onNext) onNext()
-    }, [state, onNext])
+  const [mediaState, setMediaState] = useState<MediaState>({ type: 'image', index: 0 })
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false)
+  const [isBlending, setIsBlending] = useState(false)
 
-    const goBackward = useCallback(() => {
-        const now = Date.now()
-        if (now - lastActionTime.current < 600) return
-        lastActionTime.current = now
-        if (state > 0) setState((s) => (s - 1) as AtmosphereState)
-        else if (onPrev) onPrev()
-    }, [state, onPrev])
+  // Reset video playing state when media state changes
+  useEffect(() => {
+    setIsVideoPlaying(false)
+  }, [mediaState])
 
-    useEffect(() => {
-        if (!isActive) return
-        const handleWheel = (e: WheelEvent) => {
-            e.preventDefault()
-            e.stopPropagation()
-            if (e.deltaY > 20) goForward()
-            else if (e.deltaY < -20) goBackward()
-        }
-        window.addEventListener("wheel", handleWheel, { passive: false, capture: true })
-        return () => window.removeEventListener("wheel", handleWheel, { capture: true })
-    }, [isActive, goForward, goBackward])
+  const totalImages = SEQUENCE.images.length
 
-    useEffect(() => {
-        if (!isActive) return
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (["ArrowRight", "ArrowDown", " ", "Enter"].includes(e.key)) {
-                e.preventDefault(); e.stopPropagation(); goForward()
-            } else if (["ArrowLeft", "ArrowUp", "Backspace"].includes(e.key)) {
-                e.preventDefault(); e.stopPropagation(); goBackward()
-            }
-        }
-        window.addEventListener("keydown", handleKeyDown, { capture: true })
-        return () => window.removeEventListener("keydown", handleKeyDown, { capture: true })
-    }, [isActive, goForward, goBackward])
+  // Get current image index for indicator dots
+  const currentImageIndex = mediaState.type === 'image'
+    ? mediaState.index
+    : mediaState.direction === 'forward'
+      ? mediaState.index + 1
+      : mediaState.index
 
-    useEffect(() => {
-        if (!isActive) {
-            const timer = setTimeout(() => setState(0), 800)
-            return () => clearTimeout(timer)
-        }
-    }, [isActive])
+  const goForward = useCallback(() => {
+    const now = Date.now()
+    if (now - lastActionTime.current < 200 || isTransitioning) return
+    lastActionTime.current = now
 
-    const visuals = {
-        cityOpacity: state === 0 ? 0.3 : state === 1 ? 0.95 : 0.4, // Dim city more at night for focus
-        cityBlur: state === 0 ? 20 : state === 1 ? 10 : 4,         // Sharper city at night for depth
-        cityY: state === 0 ? "0%" : state === 1 ? "4%" : "15%",
-        cityScale: state === 0 ? 1.05 : state === 1 ? 1.1 : 1.25,
-        warmthOpacity: state === 0 ? 0 : state === 1 ? 0.7 : 0,
-        nightOpacity: state === 0 ? 0 : state === 1 ? 0 : 1,       // Full night overlay
-        hutScale: state === 0 ? 0.8 : state === 1 ? 0.9 : 1.05,
-        lightOpacity: state === 0 ? 0 : state === 1 ? 0.2 : 1.0,
+    if (mediaState.type === 'image') {
+      const currentIndex = mediaState.index
+      if (currentIndex < totalImages - 1) {
+        // Start video transition to next image
+        setIsTransitioning(true)
+        setMediaState({ type: 'video', index: currentIndex, direction: 'forward' })
+      } else {
+        // At last image, proceed to next slide
+        if (onNext) onNext()
+      }
+    }
+  }, [mediaState, totalImages, onNext, isTransitioning])
+
+  const goBackward = useCallback(() => {
+    const now = Date.now()
+    if (now - lastActionTime.current < 200 || isTransitioning) return
+    lastActionTime.current = now
+
+    if (mediaState.type === 'image') {
+      const currentIndex = mediaState.index
+      if (currentIndex > 0) {
+        // Skip video, go directly to previous image
+        setMediaState({ type: 'image', index: currentIndex - 1 })
+      } else {
+        // At first image, go to previous slide
+        if (onPrev) onPrev()
+      }
+    }
+  }, [mediaState, onPrev, isTransitioning])
+
+  // Handle video end - advance to next image after a blend period
+  const handleVideoEnded = useCallback(() => {
+    if (mediaState.type === 'video') {
+      setIsBlending(true)
+
+      const nextImageIndex = mediaState.direction === 'forward'
+        ? mediaState.index + 1
+        : mediaState.index
+
+      // Wait for the fade-out to complete before switching states
+      setTimeout(() => {
+        setMediaState({ type: 'image', index: nextImageIndex })
+        setIsTransitioning(false)
+        setIsBlending(false)
+      }, 600)
+    }
+  }, [mediaState])
+
+  // Start video playback when transitioning
+  useEffect(() => {
+    if (mediaState.type === 'video' && videoRef.current) {
+      videoRef.current.playbackRate = 8.0 // Fast playback
+      videoRef.current.currentTime = 0
+      videoRef.current.play().catch(console.error)
+    }
+  }, [mediaState])
+
+  // Keyboard navigation
+  useEffect(() => {
+    if (!isActive) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (["ArrowRight", "ArrowDown", " ", "Enter"].includes(e.key)) {
+        e.preventDefault()
+        e.stopPropagation()
+        goForward()
+      } else if (["ArrowLeft", "ArrowUp", "Backspace"].includes(e.key)) {
+        e.preventDefault()
+        e.stopPropagation()
+        goBackward()
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown, { capture: true })
+    return () => window.removeEventListener("keydown", handleKeyDown, { capture: true })
+  }, [isActive, goForward, goBackward])
+
+  // Wheel navigation
+  useEffect(() => {
+    if (!isActive) return
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      if (e.deltaY > 20) goForward()
+      else if (e.deltaY < -20) goBackward()
+    }
+    window.addEventListener("wheel", handleWheel, { passive: false, capture: true })
+    return () => window.removeEventListener("wheel", handleWheel, { capture: true })
+  }, [isActive, goForward, goBackward])
+
+  // Reset to first image when slide becomes inactive
+  useEffect(() => {
+    if (!isActive) {
+      const timer = setTimeout(() => {
+        setMediaState({ type: 'image', index: 0 })
+        setIsTransitioning(false)
+      }, 800)
+      return () => clearTimeout(timer)
+    }
+  }, [isActive])
+
+  // Helper to determine if an image should be visible
+  const isImageVisible = (idx: number) => {
+    // If currently showing this static image
+    if (mediaState.type === 'image' && mediaState.index === idx) return true
+
+    // If transitioning
+    if (mediaState.type === 'video') {
+      const sourceIndex = mediaState.index
+      const targetIndex = mediaState.direction === 'forward'
+        ? mediaState.index + 1
+        : mediaState.index
+
+      // During blending (fade-out), only the target image should be visible underneath
+      if (isBlending) {
+        return idx === targetIndex
+      }
+
+      // During playback, show both (source is covered by video, target is ready underneath)
+      return idx === sourceIndex || idx === targetIndex
     }
 
-    const textColor = state === 2 ? "text-white" : "text-stone-900"
-    const textShadow = state === 2 ? "drop-shadow-lg" : "drop-shadow-sm"
+    return false
+  }
 
-    return (
-        <section ref={containerRef} className="relative h-screen w-full overflow-hidden bg-stone-100">
+  // Helper for z-index during transition
+  const getImageZIndex = (idx: number) => {
+    if (mediaState.type === 'image') return 10
 
-            {/* Background Transitions */}
-            <motion.div
-                className="absolute inset-0 z-0"
-                animate={{
-                    backgroundColor: state === 0 ? "#e7e5e4" : state === 1 ? "#faebd7" : "#0f172a"
-                }}
-                transition={{ duration: 1.2, ease: "easeInOut" }}
-            />
+    if (mediaState.type === 'video') {
+      const sourceIndex = mediaState.index
+      const targetIndex = mediaState.direction === 'forward'
+        ? mediaState.index + 1
+        : mediaState.index
 
-            {/* MOON & STARS (State 2) - Premium Image Asset */}
-            <motion.div
-                className="absolute inset-0 z-0 pointer-events-none"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: state === 2 ? 1 : 0 }}
-                transition={{ duration: 1.5 }}
-            >
-                <Image
-                    src="/images/night-sky.png"
-                    alt="Night Sky with Moon and Stars"
-                    fill
-                    className="object-cover object-top"
-                    priority
-                />
-            </motion.div>
+      // During blending, target image stays at mid-level while video fades over it
+      if (isBlending) {
+        if (idx === targetIndex) return 10
+        return 1
+      }
 
-            {/* City Backdrop */}
-            <motion.div
-                className="absolute inset-0 z-0"
-                animate={{
-                    opacity: visuals.cityOpacity,
-                    y: visuals.cityY,
-                    scale: visuals.cityScale,
-                    filter: `blur(${visuals.cityBlur}px)`
-                }}
-                transition={{ duration: 1.2, ease: "easeInOut" }}
-            >
-                <Image
-                    src="/images/city-neutral.png"
-                    alt="City"
-                    fill
-                    className="object-cover"
-                    priority
-                />
-            </motion.div>
+      // Source on top of Target, so video covers Source -> Source disappears -> Target revealed
+      if (idx === sourceIndex) return 10
+      if (idx === targetIndex) return 5
+    }
 
-            {/* Atmosphere Overlays */}
-            <motion.div
-                className="absolute inset-0 z-5 bg-gradient-to-t from-orange-500/30 to-transparent mix-blend-overlay pointer-events-none"
-                animate={{ opacity: visuals.warmthOpacity }}
-                transition={{ duration: 1.2 }}
-            />
-            {/* Night Gradient Overlay - adjusted for new sky image */}
-            <motion.div
-                className="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-slate-950/40 to-slate-900 pointer-events-none"
-                animate={{ opacity: visuals.nightOpacity }}
-                transition={{ duration: 1.2 }}
-            />
+    return 1
+  }
 
-            {/* Cinematic Lens Bloom (Global) - BALANCED GLOW */}
-            <motion.div
-                className="absolute inset-0 z-30 pointer-events-none mix-blend-screen"
-                animate={{ opacity: state === 2 ? 1 : 0 }}
-                transition={{ duration: 1.5 }}
-            >
-                {/* 1. Base Haze (Warm) - Smaller & more transparent */}
-                <div className="absolute bottom-[-10%] left-1/2 -translate-x-1/2 w-[70%] h-[40%] bg-amber-600/15 blur-[120px] rounded-full" />
+  return (
+    <section ref={containerRef} className="relative h-screen w-full overflow-hidden bg-black">
 
-                {/* 2. Core Glow (Hot) - Toned down */}
-                <div className="absolute bottom-[-5%] left-1/2 -translate-x-1/2 w-[40%] h-[25%] bg-orange-400/20 blur-[80px] rounded-full" />
+      {/* Still Images Layer */}
+      {SEQUENCE.images.map((src, idx) => (
+        <div
+          key={src}
+          className="absolute inset-0"
+          style={{
+            opacity: isImageVisible(idx) ? 1 : 0,
+            zIndex: getImageZIndex(idx),
+          }}
+        >
+          <Image
+            src={src}
+            alt={`Scene ${idx + 1}`}
+            fill
+            className="object-cover"
+            priority={idx <= 1} // Preload first two
+          />
+        </div>
+      ))}
 
-                {/* 3. Anamorphic Horizontal Streak (Cinematic) - More subtle */}
-                <div className="absolute bottom-[25%] left-1/2 -translate-x-1/2 w-[100%] h-[5%] bg-blue-300/5 blur-[40px] rounded-full" />
+      {/* Video Transition Layer */}
+      {mediaState.type === 'video' && (
+        <div className="absolute inset-0 z-20">
+          <video
+            ref={videoRef}
+            src={SEQUENCE.transitions[mediaState.index]}
+            className={`w-full h-full object-cover transition-opacity ease-in-out ${isBlending ? 'duration-600 opacity-0' : 'duration-150'
+              }`}
+            style={{ opacity: isBlending ? 0 : (isVideoPlaying ? 1 : 0) }}
+            muted
+            playsInline
+            onEnded={handleVideoEnded}
+            onPlaying={() => setIsVideoPlaying(true)}
+          />
+        </div>
+      )}
 
-                {/* 4. Moon Haze (Cold) - Subtle */}
-                <div className="absolute top-[5%] right-[25%] w-[400px] h-[400px] bg-blue-300/10 blur-[100px] rounded-full opacity-80" />
+      {/* Preload videos */}
+      <div className="hidden">
+        {SEQUENCE.transitions.map((src) => (
+          <video key={src} src={src} preload="auto" muted />
+        ))}
+      </div>
 
-                {/* 5. Moon Core (Bright) */}
-                <div className="absolute top-[10%] right-[29%] w-[150px] h-[150px] bg-white/10 blur-[50px] rounded-full" />
-            </motion.div>
+      {/* Text Overlay Layer */}
+      <div className="absolute inset-0 z-40 pointer-events-none flex items-end pb-24">
+        <div className="w-full max-w-7xl mx-auto px-8 md:px-16 lg:px-24">
+          <div className="max-w-2xl border-l-[2px] border-amber-400 pl-8">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentImageIndex}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 10 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <p className="mb-4 text-xs md:text-sm font-sans uppercase tracking-[0.4em] text-white/50">
+                  Konzept: Pop-up Store
+                </p>
+                <h2 className="mb-6 font-serif text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white leading-[1.1]">
+                  {TEXT_CONTENT[currentImageIndex]?.title}
+                </h2>
+                <p className="text-lg md:text-xl leading-relaxed text-white/70 max-w-xl font-light">
+                  {TEXT_CONTENT[currentImageIndex]?.description}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
 
-            {/* --- HUT (THE BOX) --- */}
-            {/* Kept big but shifted vertically/scaled to avoid text overlap */}
-            <div className="absolute inset-0 z-20 flex items-end justify-center pb-12 md:pb-20 pointer-events-none">
-                <motion.div
-                    className="relative h-[55vh] md:h-[65vh] w-full max-w-5xl flex items-end justify-center"
-                    animate={{
-                        scale: visuals.hutScale,
-                        y: state === 0 ? "10%" : "0%"
-                    }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                >
-                    {/* Volumetric Floor Glow - Reduced intensity */}
-                    <motion.div
-                        className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[60%] h-[15%] bg-amber-500/20 blur-[50px] rounded-[100%] mix-blend-screen z-0"
-                        animate={{ opacity: state === 2 ? 0.4 : 0, scale: state === 2 ? 1.1 : 0.8 }}
-                    />
+      {/* Cinematic gradient overlay for legibility */}
+      <div className="absolute inset-0 z-30 pointer-events-none">
+        {/* Left-to-right gradient */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent" />
+        {/* Bottom-to-top gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10" />
+      </div>
 
-                    {/* Volumetric Beams (Behind) - Softer */}
-                    <motion.div
-                        className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[120%] h-[150%] z-0"
-                        animate={{ opacity: state === 2 ? 0.6 : 0 }}
-                    >
-                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[15%] h-full bg-gradient-to-t from-amber-200/10 to-transparent blur-[50px] rotate-[-12deg] origin-bottom" />
-                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[15%] h-full bg-gradient-to-t from-amber-200/10 to-transparent blur-[50px] rotate-[12deg] origin-bottom" />
-                    </motion.div>
+      {/* Indicator Dots */}
+      <div className="absolute top-1/2 -translate-y-1/2 right-8 z-50 flex flex-col gap-6">
+        {SEQUENCE.images.map((_, i) => (
+          <div
+            key={i}
+            className={`w-1 h-8 rounded-full transition-all duration-500 ${currentImageIndex === i
+              ? 'bg-amber-400 scale-x-150'
+              : 'bg-white/30'
+              }`}
+          />
+        ))}
+      </div>
 
-                    {/* Interior 3D Glow Source - NOW BEHIND (Backlighting/Volume) */}
-                    <motion.div
-                        className="absolute inset-0 z-0"
-                        animate={{ opacity: visuals.lightOpacity }}
-                    >
-                        {/* Core Light - Less intense core */}
-                        <div className="absolute bottom-[30%] left-1/2 -translate-x-1/2 w-[30%] h-[30%] bg-white/30 blur-[60px] rounded-full mix-blend-hard-light" />
-
-                        {/* Middle warmth - Amber/Gold */}
-                        <div className="absolute bottom-[25%] left-1/2 -translate-x-1/2 w-[60%] h-[60%] bg-amber-500/30 blur-[100px] rounded-full mix-blend-screen" />
-
-                        {/* Outer atmosphere - Wide Orange spill */}
-                        <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[110%] h-[90%] bg-orange-600/10 blur-[140px] rounded-full mix-blend-screen" />
-
-                        {/* Pulse Effect - Subtle ambient pulse */}
-                        {state === 2 && (
-                            <motion.div
-                                className="absolute bottom-[30%] left-1/2 -translate-x-1/2 w-[60%] h-[60%] bg-amber-300/10 blur-[90px] rounded-full mix-blend-overlay"
-                                animate={{ opacity: [0.3, 0.5, 0.3], scale: [1, 1.05, 1] }}
-                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                            />
-                        )}
-                    </motion.div>
-
-                    {/* Animated Hut Image */}
-                    <motion.div
-                        className="relative w-full h-full z-10"
-                        animate={{
-                            filter: state === 2 ? "brightness(0.7) contrast(1.15) sepia(0.2)" : "brightness(1) contrast(1) sepia(0)"
-                        }}
-                        transition={{ duration: 1.2 }}
-                    >
-                        <Image
-                            src="/images/wildholz-hut.png"
-                            alt="Hut"
-                            fill
-                            className="object-contain drop-shadow-2xl"
-                            style={{ objectPosition: "bottom center" }}
-                            priority
-                        />
-                    </motion.div>
-                </motion.div>
-            </div>
-
-            {/* --- THE TEXT --- */}
-            {/* Positioned in the TOP HALF to clear the grounded box */}
-            <div className="absolute inset-0 z-40 px-10 md:px-20 lg:px-32 flex flex-col pt-16 md:pt-24 pointer-events-none">
-                <AnimatePresence mode="wait">
-                    {state === 0 && (
-                        <motion.div
-                            key="t0"
-                            initial={{ opacity: 0, y: 40 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -40 }}
-                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                            className="max-w-5xl"
-                        >
-                            <h2 className={`font-serif text-6xl md:text-8xl lg:text-[10rem] leading-[0.9] tracking-tighter ${textColor} ${textShadow} mb-6`}>
-                                Pop-up <br /><span className="italic pl-2 md:pl-4">Wildholz</span>
-                            </h2>
-                            <p className={`font-serif text-2xl md:text-4xl italic opacity-90 ${textColor} ${textShadow}`}>
-                                Zum Anfassen, nicht zum Scrollen
-                            </p>
-                        </motion.div>
-                    )}
-
-                    {state === 1 && (
-                        <motion.div
-                            key="t1"
-                            initial={{ opacity: 0, y: 40 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -40 }}
-                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                            className="max-w-4xl"
-                        >
-                            <p className={`text-3xl md:text-5xl lg:text-6xl leading-[1.1] font-light ${textColor} ${textShadow}`}>
-                                Ein <span className="font-semibold underline underline-offset-8 decoration-orange-500/20">Waldwürfel</span> in der Stadt. Holz, Moos, Tannenduft.
-                            </p>
-                            <p className={`mt-10 text-xl md:text-2xl leading-relaxed italic font-serif ${textColor} opacity-80`}>
-                                „Ein Stück Forsthof im echten Leben.“
-                            </p>
-                        </motion.div>
-                    )}
-
-                    {state === 2 && (
-                        <motion.div
-                            key="t2"
-                            initial={{ opacity: 0, y: 40 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -40 }}
-                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                            className="max-w-5xl pt-10"
-                        >
-                            <p className={`text-3xl md:text-5xl lg:text-7xl leading-[1.1] font-light ${textColor} ${textShadow}`}>
-                                Ein Ort zum <span className="text-amber-400">Durchatmen</span>. <br />Ein analoger Zufluchtsort.
-                            </p>
-                            <p className="mt-12 text-sm md:text-lg font-bold uppercase tracking-[0.4em] text-amber-400 opacity-90">
-                                Vom Social Media in den Stadtraum.
-                            </p>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
-
-            {/* Indicator Dots */}
-            <div className="absolute top-1/2 -translate-y-1/2 right-8 z-50 flex flex-col gap-6">
-                {[0, 1, 2].map((i) => (
-                    <div key={i} className={`w-1 h-8 rounded-full transition-all duration-500 ${state === i ? (state === 2 ? 'bg-amber-400 scale-x-150' : 'bg-stone-900 scale-x-150') : 'bg-stone-400/30'}`} />
-                ))}
-            </div>
-
-        </section>
-    )
+    </section>
+  )
 }
