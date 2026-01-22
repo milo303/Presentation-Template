@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useState, useRef } from "react"
 import { motion, AnimatePresence, Variants, Transition } from "framer-motion"
 import Image from "next/image"
-import { cn } from "@/lib/utils"
+import { cn, getAssetPath } from "@/lib/utils"
 
 interface PresentationControllerProps {
   children: React.ReactNode[]
@@ -18,7 +18,7 @@ function SlideBackground() {
       <div className="absolute inset-0 bg-[#f4ebd0]" />
       <div className="absolute inset-0 opacity-100 mix-blend-multiply">
         <img
-          src="/images/paper-texture-torn.png"
+          src={getAssetPath("/images/paper-texture-torn.png")}
           alt=""
           className="w-full h-full object-cover"
         />
@@ -30,14 +30,14 @@ function SlideBackground() {
           animate={{ y: [0, -24, 0], x: [0, 12, 0], rotate: [-10, -3, -10] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         >
-          <img src="/images/autumn-leaves-overlay.png" alt="" className="w-full h-full object-contain" />
+          <img src={getAssetPath("/images/autumn-leaves-overlay.png")} alt="" className="w-full h-full object-contain" />
         </motion.div>
         <motion.div
           className="absolute bottom-[-5%] right-[-5%] w-[40%] h-[40%] rotate-[170deg] scale-x-[-1]"
           animate={{ y: [0, 26, 0], x: [0, -14, 0], rotate: [170, 178, 170] }}
           transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
         >
-          <img src="/images/autumn-leaves-overlay.png" alt="" className="w-full h-full object-contain" />
+          <img src={getAssetPath("/images/autumn-leaves-overlay.png")} alt="" className="w-full h-full object-contain" />
         </motion.div>
       </div>
     </div>
@@ -210,7 +210,7 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
         <div className="absolute inset-0 z-0 pointer-events-none">
           <div className="absolute inset-0 bg-[#f4ebd0]" />
           <div className="absolute inset-0 opacity-100 mix-blend-multiply">
-            <img src="/images/paper-texture-torn.png" alt="" className="w-full h-full object-cover" />
+            <img src={getAssetPath("/images/paper-texture-torn.png")} alt="" className="w-full h-full object-cover" />
           </div>
           {/* Leaves */}
           <div className="absolute inset-0 z-5 opacity-80 mix-blend-multiply">
@@ -219,14 +219,14 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
               animate={{ y: [0, -24, 0], x: [0, 12, 0], rotate: [-10, -3, -10] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
             >
-              <img src="/images/autumn-leaves-overlay.png" alt="" className="w-full h-full object-contain" />
+              <img src={getAssetPath("/images/autumn-leaves-overlay.png")} alt="" className="w-full h-full object-contain" />
             </motion.div>
             <motion.div
               className="absolute bottom-[-5%] right-[-5%] w-[40%] h-[40%] rotate-[170deg] scale-x-[-1]"
               animate={{ y: [0, 26, 0], x: [0, -14, 0], rotate: [170, 178, 170] }}
               transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
             >
-              <img src="/images/autumn-leaves-overlay.png" alt="" className="w-full h-full object-contain" />
+              <img src={getAssetPath("/images/autumn-leaves-overlay.png")} alt="" className="w-full h-full object-contain" />
             </motion.div>
           </div>
         </div>
@@ -304,7 +304,7 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
                 }}
               >
                 <div className="absolute inset-0 opacity-100 mix-blend-multiply">
-                  <img src="/images/paper-texture-torn.png" alt="" className="w-full h-full object-cover scale-x-[-1]" />
+                  <img src={getAssetPath("/images/paper-texture-torn.png")} alt="" className="w-full h-full object-cover scale-x-[-1]" />
                 </div>
                 {/* Back side spine shadow */}
                 <div
@@ -365,7 +365,7 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
               "relative w-40 h-10 transition-all duration-700",
               [6, 11, 14].includes(currentSlide) ? "brightness-0 invert" : "opacity-60 grayscale brightness-0"
             )}>
-              <Image src="/images/wildholz-logo.png" alt="Wildholz" fill className="object-contain object-left" />
+              <Image src={getAssetPath("/images/wildholz-logo.png")} alt="Wildholz" fill className="object-contain object-left" />
             </div>
           </motion.div>
         )}

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { SlideTemplate, SlideLabel, SlideHeading } from "./slide-template"
+import { getAssetPath } from "@/lib/utils"
 
 interface SlideFamilyTreeProps {
     isActive: boolean
@@ -17,7 +18,10 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
             mode="paper"
             className="bg-[#F9F5EA]"
         >
-            <div className="absolute inset-0 z-0 opacity-10 pointer-events-none bg-[url('/images/paper-texture.jpg')] bg-cover mix-blend-multiply" />
+            <div
+                className="absolute inset-0 z-0 opacity-10 pointer-events-none bg-cover mix-blend-multiply"
+                style={{ backgroundImage: `url('${getAssetPath('/images/paper-texture.jpg')}')` }}
+            />
 
             <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-16">
                 {/* Header */}
@@ -32,7 +36,7 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
 
                         {/* Level 1: Grandparents */}
                         <FamilyNode
-                            image="/images/Ilse und Carl.png"
+                            image={getAssetPath("/images/Ilse und Carl.png")}
                             label="Opa Karl & Oma Ilse"
                             sub="Die Großeltern"
                             isActive={isActive}
@@ -50,7 +54,7 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
 
                         {/* Level 2: Martha */}
                         <FamilyNode
-                            image="/images/Martha.png"
+                            image={getAssetPath("/images/Martha.png")}
                             label="Martha"
                             sub="Familienoberhaupt"
                             isActive={isActive}
@@ -88,7 +92,7 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
                                         transition={{ duration: 0.3, delay: 1.6 }}
                                     />
                                     <FamilyNode
-                                        image="/images/Clara und Robert.png"
+                                        image={getAssetPath("/images/Clara und Robert.png")}
                                         label="Clara & Robert"
                                         sub="BWLerin & Bürgermeister"
                                         isActive={isActive}
@@ -119,7 +123,7 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
                                                     transition={{ duration: 0.2, delay: 2.5 }}
                                                 />
                                                 <FamilyNode
-                                                    image="/images/Emma.png"
+                                                    image={getAssetPath("/images/Emma.png")}
                                                     label="Emma"
                                                     sub="Enkelin"
                                                     isActive={isActive}
@@ -135,7 +139,7 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
                                                     transition={{ duration: 0.2, delay: 2.6 }}
                                                 />
                                                 <FamilyNode
-                                                    image="/images/Tom.png"
+                                                    image={getAssetPath("/images/Tom.png")}
                                                     label="Tom"
                                                     sub="Enkel"
                                                     isActive={isActive}
@@ -156,7 +160,7 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
                                         transition={{ duration: 0.3, delay: 1.7 }}
                                     />
                                     <FamilyNode
-                                        image="/images/Paul.png"
+                                        image={getAssetPath("/images/Paul.png")}
                                         label="Paul"
                                         sub="Der Tischler"
                                         isActive={isActive}
@@ -174,7 +178,7 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
                                         transition={{ duration: 0.3, delay: 1.8 }}
                                     />
                                     <FamilyNode
-                                        image="/images/lotte.png"
+                                        image={getAssetPath("/images/lotte.png")}
                                         label="Lotte"
                                         sub="Die Försterin"
                                         isActive={isActive}
@@ -192,7 +196,7 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
                                         transition={{ duration: 0.3, delay: 1.9 }}
                                     />
                                     <FamilyNode
-                                        image="/images/Benjamin.png"
+                                        image={getAssetPath("/images/Benjamin.png")}
                                         label="Benjamin"
                                         sub="Der Autor"
                                         isActive={isActive}

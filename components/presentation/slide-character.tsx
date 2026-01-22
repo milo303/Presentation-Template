@@ -1,7 +1,7 @@
 "use client"
 
 import { SlideTemplate, SlideLabel, SlideHeading, SlideBody } from "./slide-template"
-import { cn } from "@/lib/utils"
+import { cn, getAssetPath } from "@/lib/utils"
 
 interface SlideCharacterProps {
     isActive: boolean
@@ -13,21 +13,21 @@ const SECONDARY_CHARACTERS = [
         name: "Erik Wildholz",
         age: 35,
         role: "Der Lieblingsautor",
-        image: "/images/char-erik.png",
+        image: getAssetPath("/images/char-erik.png"),
         description: "Geheimnisvoll, zurückgezogen. Sein Bestseller machte ihn zum Star, doch er hasst das Rampenlicht."
     },
     {
         name: "Sophie",
         age: 30,
         role: "Die beste Freundin",
-        image: "/images/char-sophie.png",
+        image: getAssetPath("/images/char-sophie.png"),
         description: "Digital Native, Realistin. Sie versucht Emily aus ihren Tagträumen zurück in die Berliner Realität zu holen."
     },
     {
         name: "Konrad",
         age: 65,
         role: "Der gute Geist",
-        image: "/images/char-konrad.png",
+        image: getAssetPath("/images/char-konrad.png"),
         description: "Verwalter des Forsthofs. Er durchschaut Emilys Spiel sofort, schweigt aber aus Liebe zu Erik."
     }
 ]

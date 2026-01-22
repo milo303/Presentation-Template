@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { getAssetPath } from "@/lib/utils"
 import { useEffect, useState } from "react"
 
 interface SlideTitleProps {
@@ -34,7 +35,7 @@ export function SlideTitle({ isActive = true, skipAnimations = false }: SlideTit
         <div className={`absolute inset-0 ${skipAnimations ? "" : "transition-transform duration-[12000ms] ease-out"} ${show ? "scale-110" : "scale-100"
           }`}>
           <Image
-            src="/images/wildholz-background-new.png"
+            src={getAssetPath("/images/wildholz-background-new.png")}
             alt="Autumn mountain landscape with golden foliage"
             fill
             className="object-cover"
@@ -54,7 +55,7 @@ export function SlideTitle({ isActive = true, skipAnimations = false }: SlideTit
       >
         <div className="relative h-[135vh] w-[85vw]">
           <Image
-            src="/images/wildholz-couple-new.png"
+            src={getAssetPath("/images/wildholz-couple-new.png")}
             alt="Romantic couple embracing"
             fill
             className="object-contain object-bottom drop-shadow-[0_45px_45px_rgba(0,0,0,0.6)] mix-blend-multiply"
@@ -83,7 +84,7 @@ export function SlideTitle({ isActive = true, skipAnimations = false }: SlideTit
           >
             <div className="relative w-[clamp(560px,42vw,880px)] h-[clamp(180px,18vw,280px)]">
               <Image
-                src="/images/wildholz-logo.png"
+                src={getAssetPath("/images/wildholz-logo.png")}
                 alt="Wildholz"
                 fill
                 className="object-contain object-left"
@@ -109,7 +110,7 @@ export function SlideTitle({ isActive = true, skipAnimations = false }: SlideTit
           >
             <div className="relative h-14 w-44 transition-transform hover:scale-105 duration-300 shadow-sm">
               <Image
-                src="/images/logo-degeto.png"
+                src={getAssetPath("/images/logo-degeto.png")}
                 alt="ARD Degeto Logo"
                 fill
                 className="object-contain"
@@ -117,7 +118,7 @@ export function SlideTitle({ isActive = true, skipAnimations = false }: SlideTit
             </div>
             <div className="relative h-14 w-24 transition-transform hover:scale-105 duration-300 shadow-sm">
               <Image
-                src="/images/logo-ufa.png"
+                src={getAssetPath("/images/logo-ufa.png")}
                 alt="UFA Logo"
                 fill
                 className="object-contain"

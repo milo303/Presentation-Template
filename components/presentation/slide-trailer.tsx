@@ -1,4 +1,5 @@
 "use client"
+import { getAssetPath } from "@/lib/utils"
 
 import { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -91,8 +92,8 @@ export function SlideTrailer({ isActive = false, skipAnimations = false }: Slide
                     onEnded={() => setIsPlaying(false)}
                     playsInline
                     muted={isMuted}
-                    src="/images/Wildholz-Compressed.mp4"
-                    poster="/images/wildholz-background-new.png"
+                    src={getAssetPath("/images/Wildholz-Compressed.mp4")}
+                    poster={getAssetPath("/images/wildholz-background-new.png")}
                 />
 
                 {/* Overlay Play Button (when paused) */}

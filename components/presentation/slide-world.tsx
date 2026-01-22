@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { getAssetPath } from "@/lib/utils"
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 
@@ -38,7 +39,7 @@ export function SlideWorld({ isActive = true, skipAnimations = false }: SlideWor
         transition={skipAnimations ? noTransition : { duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
       >
         <Image
-          src="/images/wildholz-world-new.png"
+          src={getAssetPath("/images/wildholz-world-new.png")}
           alt="Atmospheric forest and mountains"
           fill
           className="object-cover"

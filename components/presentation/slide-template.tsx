@@ -3,7 +3,7 @@
 import { ReactNode, useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
-import { cn } from "@/lib/utils"
+import { cn, getAssetPath } from "@/lib/utils"
 
 interface SlideTemplateProps {
     isActive: boolean
@@ -83,7 +83,7 @@ export function SlideTemplate({
                             >
                                 {backgroundVideo ? (
                                     <video
-                                        src={backgroundVideo}
+                                        src={getAssetPath(backgroundVideo)}
                                         className="h-full w-full object-cover"
                                         autoPlay
                                         muted
@@ -92,7 +92,7 @@ export function SlideTemplate({
                                     />
                                 ) : (
                                     <Image
-                                        src={backgroundImage!}
+                                        src={getAssetPath(backgroundImage!)}
                                         alt="Slide background"
                                         fill
                                         className="object-cover"
@@ -148,7 +148,7 @@ export function SlideTemplate({
                                             >
                                                 {backgroundVideo ? (
                                                     <video
-                                                        src={backgroundVideo}
+                                                        src={getAssetPath(backgroundVideo)}
                                                         className={cn("h-full w-full object-cover", isPaper && !fullImage && "mix-blend-normal")}
                                                         autoPlay
                                                         muted
@@ -157,7 +157,7 @@ export function SlideTemplate({
                                                     />
                                                 ) : (
                                                     <Image
-                                                        src={backgroundImage!}
+                                                        src={getAssetPath(backgroundImage!)}
                                                         alt="Slide visual"
                                                         fill
                                                         className={cn("object-cover", isPaper && !fullImage && "mix-blend-normal")}
@@ -185,7 +185,7 @@ export function SlideTemplate({
                                                     }}
                                                 >
                                                     <Image
-                                                        src={backgroundSecondary!}
+                                                        src={getAssetPath(backgroundSecondary!)}
                                                         alt="Secondary visual"
                                                         fill
                                                         className="object-cover"

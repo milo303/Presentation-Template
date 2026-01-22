@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { getAssetPath } from "@/lib/utils"
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 
@@ -38,7 +39,7 @@ export function SlideFeeling({ isActive = true, skipAnimations = false }: SlideF
         transition={skipAnimations ? noTransition : { duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
       >
         <Image
-          src="/images/wildholz-feeling-new.png"
+          src={getAssetPath("/images/wildholz-feeling-new.png")}
           alt="Intimate autumn forest moment"
           fill
           className="object-cover"
