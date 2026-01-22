@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 interface SlideTemplateProps {
     isActive: boolean
     backgroundImage?: string
+    backgroundVideo?: string
     backgroundOverlay?: ReactNode
     children: ReactNode
     className?: string
@@ -23,6 +24,7 @@ interface SlideTemplateProps {
 export function SlideTemplate({
     isActive,
     backgroundImage,
+    backgroundVideo,
     backgroundOverlay,
     children,
     className,
@@ -68,20 +70,31 @@ export function SlideTemplate({
                 {mode === "cinematic" ? (
                     // CINEMATIC MODE: Full-bleed background
                     <>
-                        {backgroundImage && (
+                        {(backgroundImage || backgroundVideo) && (
                             <motion.div
                                 className="absolute inset-0"
                                 initial={skipAnimations ? false : { scale: 1.1, opacity: 0 }}
                                 animate={skipAnimations ? { scale: 1, opacity: 1 } : (mounted ? { scale: 1, opacity: 1 } : { scale: 1.1, opacity: 0 })}
                                 transition={skipAnimations ? { duration: 0 } : { duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                             >
-                                <Image
-                                    src={backgroundImage}
-                                    alt="Slide background"
-                                    fill
-                                    className="object-cover"
-                                    priority
-                                />
+                                {backgroundVideo ? (
+                                    <video
+                                        src={backgroundVideo}
+                                        className="h-full w-full object-cover"
+                                        autoPlay
+                                        muted
+                                        loop
+                                        playsInline
+                                    />
+                                ) : (
+                                    <Image
+                                        src={backgroundImage!}
+                                        alt="Slide background"
+                                        fill
+                                        className="object-cover"
+                                        priority
+                                    />
+                                )}
                             </motion.div>
                         )}
                         {!backgroundOverlay && (
@@ -96,7 +109,7 @@ export function SlideTemplate({
                         {/* Global texture is in PresentationController */}
 
                         {/* Inset Image / Full Image for Paper Mode */}
-                        {backgroundImage && (
+                        {(backgroundImage || backgroundVideo) && (
                             <motion.div
                                 className={cn(
                                     "absolute z-10",
@@ -119,13 +132,24 @@ export function SlideTemplate({
                                     "relative w-full h-full bg-white overflow-hidden",
                                     fullImage ? "border-0" : "border-[12px] border-white shadow-xl"
                                 )}>
-                                    <Image
-                                        src={backgroundImage}
-                                        alt="Slide visual"
-                                        fill
-                                        className={cn("object-cover", isPaper && !fullImage && "mix-blend-normal")}
-                                        priority
-                                    />
+                                    {backgroundVideo ? (
+                                        <video
+                                            src={backgroundVideo}
+                                            className={cn("h-full w-full object-cover", isPaper && !fullImage && "mix-blend-normal")}
+                                            autoPlay
+                                            muted
+                                            loop
+                                            playsInline
+                                        />
+                                    ) : (
+                                        <Image
+                                            src={backgroundImage!}
+                                            alt="Slide visual"
+                                            fill
+                                            className={cn("object-cover", isPaper && !fullImage && "mix-blend-normal")}
+                                            priority
+                                        />
+                                    )}
                                     {fullImage && (
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                                     )}

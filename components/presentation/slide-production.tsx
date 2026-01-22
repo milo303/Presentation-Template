@@ -12,7 +12,7 @@ export function SlideProduction({ isActive, skipAnimations }: SlideProductionPro
         <SlideTemplate
             isActive={isActive}
             skipAnimations={skipAnimations}
-            backgroundImage="/images/wildholz-production-v2.jpg"
+            backgroundVideo="/images/hf_20260122_154804_b77bf969-4e16-4887-8857-7459813fdc17.mp4"
             mode="paper"
             alignment="right"
         >
@@ -26,12 +26,7 @@ export function SlideProduction({ isActive, skipAnimations }: SlideProductionPro
                     <strong>Green Motion:</strong> Massive Reduktion von Emissionen durch digitale 3D-Umgebungen und regionale Produktion.
                 </p>
 
-                <div className="pt-8 grid grid-cols-2 gap-8 border-t border-[#5C4033]/20">
-                    <div>
-                        <p className="text-[#5C4033]/60 uppercase tracking-widest text-xs mb-1">Budget (Staffel 1)</p>
-                        <p className="text-2xl font-serif">17,5 Mio. €</p>
-                        <p className="text-sm opacity-70">200 Folgen à 24-30 Min.</p>
-                    </div>
+                <div className="pt-8 border-t border-[#5C4033]/20">
                     <div>
                         <p className="text-[#5C4033]/60 uppercase tracking-widest text-xs mb-1">Timeline</p>
                         <p className="text-2xl font-serif">Sept. 2027</p>
