@@ -52,10 +52,10 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
           {hasEnded && (
             <div className="absolute inset-0 flex items-start justify-center pt-[12vh]">
               <motion.p
-                className="text-white text-[clamp(3rem,4.6vw+1.6rem,6.2rem)] font-serif font-semibold tracking-[0.04em] drop-shadow-[0_6px_24px_rgba(0,0,0,0.45)]"
-                initial={skipAnimations ? false : { opacity: 0, y: 16, scale: 0.98 }}
+                className="text-white text-[clamp(3.6rem,5.4vw+1.8rem,7.2rem)] font-serif font-semibold tracking-[0.04em] drop-shadow-[0_8px_28px_rgba(0,0,0,0.45)]"
+                initial={skipAnimations ? false : { opacity: 0, y: 18, scale: 0.98 }}
                 animate={skipAnimations ? { opacity: 1, y: 0, scale: 1 } : { opacity: 1, y: 0, scale: 1 }}
-                transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                transition={skipAnimations ? { duration: 0 } : { duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
               >
                 Warum Wildholz?
               </motion.p>
