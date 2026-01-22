@@ -43,7 +43,7 @@ export function SlideCharacterPaul({ isActive, skipAnimations }: SlideCharacterP
                     <video
                         ref={videoRef}
                         className="absolute inset-0 h-full w-full object-cover"
-                        src={getAssetPath("/images/hf_20260122_165308_45669a47-d321-491b-948a-40da701a2792.mp4")}
+                        src={getAssetPath("/animation/Paul%20Hartmann.mp4")}
                         autoPlay={false}
                         muted
                         playsInline
@@ -62,7 +62,7 @@ export function SlideCharacterPaul({ isActive, skipAnimations }: SlideCharacterP
                         Paul Hartmann
                     </SlideHeading>
                 </div>
-                <div className="absolute right-0 top-[22%] max-w-[520px] text-right">
+                <div className="absolute right-0 top-[32%] max-w-[500px] text-right">
                     <SlideBody isActive={isActive} skipAnimations={skipAnimations} mode="paper" className="text-[clamp(0.9rem,1.2vw+0.7rem,1.8rem)] text-white/85">
                         37, Benjamins großer Bruder und Tischler. Nicht so feingeistig wie der Autor – anpackend,
                         ehrlich und nimmt kein Blatt vor den Mund.<br /><br />
