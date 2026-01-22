@@ -18,10 +18,11 @@ import { SlideTransmedia } from "@/components/presentation/slide-transmedia"
 import { SlideAtmosphere } from "@/components/presentation/slide-atmosphere"
 import { SlideMarketing } from "@/components/presentation/slide-marketing"
 import { SlideProduction } from "@/components/presentation/slide-production"
+import { SlideProducersNote } from "@/components/presentation/slide-producers-note"
 import { SlideTrailer } from "@/components/presentation/slide-trailer"
 import { SlideClosing } from "@/components/presentation/slide-closing"
 
-const TOTAL_SLIDES = 18
+const TOTAL_SLIDES = 20
 
 export default function WildholzPresentation() {
   const [activeSlide, setActiveSlide] = useState(0)
@@ -33,23 +34,25 @@ export default function WildholzPresentation() {
         onSlideChange={setActiveSlide}
       >
         <SlideTitle isActive={activeSlide === 0} />
-        <SlideTrailer isActive={activeSlide === 1} />
-        <SlideLocation isActive={activeSlide === 2} />
-        <SlideIdea isActive={activeSlide === 3} />
-        <SlideCharacter isActive={activeSlide === 4} />
-        <SlideCharacterPaul isActive={activeSlide === 5} />
-        <SlideIncitingIncident isActive={activeSlide === 6} />
-        <SlideCharacterBenjamin isActive={activeSlide === 7} />
-        <SlideFamilyTree isActive={activeSlide === 8} />
-        <SlideCommunity isActive={activeSlide === 9} />
-        <SlideFeeling isActive={activeSlide === 10} />
-        <SlideStructure isActive={activeSlide === 11} />
-        <SlideDifferentiation isActive={activeSlide === 12} />
-        <SlideTransmedia isActive={activeSlide === 13} />
-        <SlideAtmosphere isActive={activeSlide === 14} />
-        <SlideMarketing isActive={activeSlide === 15} />
-        <SlideProduction isActive={activeSlide === 16} />
-        <SlideClosing isActive={activeSlide === 17} />
+        <SlideProducersNote isActive={activeSlide === 1} />
+        <SlideTrailer isActive={activeSlide === 2} />
+        <SlideProducersNote isActive={activeSlide === 3} />
+        <SlideLocation isActive={activeSlide === 4} />
+        <SlideIdea isActive={activeSlide === 5} />
+        <SlideCharacter isActive={activeSlide === 6} />
+        <SlideCharacterPaul isActive={activeSlide === 7} />
+        <SlideIncitingIncident isActive={activeSlide === 8} />
+        <SlideCharacterBenjamin isActive={activeSlide === 9} />
+        <SlideFamilyTree isActive={activeSlide === 10} />
+        <SlideCommunity isActive={activeSlide === 11} />
+        <SlideFeeling isActive={activeSlide === 12} />
+        <SlideStructure isActive={activeSlide === 13} />
+        <SlideDifferentiation isActive={activeSlide === 14} />
+        <SlideTransmedia isActive={activeSlide === 15} />
+        <SlideAtmosphere isActive={activeSlide === 16} />
+        <SlideMarketing isActive={activeSlide === 17} />
+        <SlideProduction isActive={activeSlide === 18} />
+        <SlideClosing isActive={activeSlide === 19} />
       </PresentationController>
     </main>
   )
