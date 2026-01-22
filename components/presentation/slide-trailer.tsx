@@ -178,14 +178,6 @@ export function SlideTrailer({ isActive = false, skipAnimations = false }: Slide
                 >
                     Konzept Trailer
                 </motion.p>
-                <motion.h2
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={isActive ? { opacity: 1, x: 0 } : {}}
-                    transition={{ delay: 0.7 }}
-                    className="text-4xl font-serif italic text-white/90"
-                >
-                    Visual Mood & Tone
-                </motion.h2>
             </div>
         </section>
     )

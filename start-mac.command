@@ -6,10 +6,17 @@ echo "------------------------------------------------"
 echo "   Wildholz Pitch Deck - Start Script (Mac)     "
 echo "------------------------------------------------"
 
+has_cmd() { command -v "$1" >/dev/null 2>&1; }
+
+if ! has_cmd node; then
+    echo "Node.js is not installed. Please install it first: https://nodejs.org/"
+    exit 1
+fi
+
 # Check if node_modules exists, if not, install
 if [ ! -d "node_modules" ]; then
     echo "Installing dependencies... (this may take a minute)"
-    npm install
+    npm install --no-audit --no-fund
 fi
 
 echo "Starting presentation server..."
