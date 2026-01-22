@@ -28,7 +28,7 @@ No Copilot rules found (`.github/copilot-instructions.md`).
 Note: `styles/globals.css` exists but the app imports `app/globals.css`.
 
 ## How The Deck Works
-- **Entry**: `app/page.tsx` renders `PresentationController` with **15 slides**.
+- **Entry**: `app/page.tsx` renders `PresentationController` with **16 slides**.
 - **Slide Modes**:
     - **Cinematic**: Full-bleed background images, dark gradients, white text.
     - **Paper**: Transparent slides sitting on a global or per-slide paper texture with autumn leaves. Content is inset like a printed book page.
@@ -43,20 +43,21 @@ Note: `styles/globals.css` exists but the app imports `app/globals.css`.
 
 ## Slide Reference (Order in app/page.tsx)
 1. `SlideTitle` - Logo + Intro (Cinematic)
-2. `SlideLocation` - "Der Ort" (Paper)
-3. `SlideIdea` - "Die Serie" (Paper)
-4. `SlideCharacter` - "Charaktere" (Paper)
-5. `SlideIncitingIncident` - "Der Aufhänger" (Paper)
-6. `SlideCommunity` - "Zielgruppe" (Paper)
-7. `SlideFeeling` - "Das Gefühl" (Cinematic)
-8. `SlideStructure` - "Struktur" (Paper)
-9. `SlideDifferentiation` - "Alleinstellungsmerkmal" (Paper)
-10. `SlideAudience` - "Audienz" (Paper)
-11. `SlideTransmedia` - "Transmedia" (Paper)
-12. `SlideAtmosphere` - Interactive "Hut" (Cinematic) - handles interactive hut states
-13. `SlideMarketing` - "Marketing" (Paper)
-14. `SlideProduction` - "Produktion" (Paper) - Uses `wildholz-production-v2.jpg`
-15. `SlideClosing` - Outro (Cinematic)
+2. `SlideTrailer` - Video Mood Trailer (Cinematic) - Handles custom playback/fullscreen
+3. `SlideLocation` - "Der Ort" (Paper)
+4. `SlideIdea` - "Die Serie" (Paper)
+5. `SlideCharacter` - "Charaktere" (Paper)
+6. `SlideIncitingIncident` - "Der Aufhänger" (Paper)
+7. `SlideCommunity` - "Zielgruppe" (Paper)
+8. `SlideFeeling` - "Das Gefühl" (Cinematic)
+9. `SlideStructure` - "Struktur" (Paper)
+10. `SlideDifferentiation` - "Alleinstellungsmerkmal" (Paper)
+11. `SlideAudience` - "Audienz" (Paper)
+12. `SlideTransmedia` - "Transmedia" (Paper)
+13. `SlideAtmosphere` - Interactive "Hut" (Cinematic) - handles interactive hut states
+14. `SlideMarketing` - "Marketing" (Paper)
+15. `SlideProduction` - "Produktion" (Paper) - Uses `wildholz-production-v2.jpg`
+16. `SlideClosing` - Outro (Cinematic)
 
 ## Core Props for Slides
 - `isActive`: Boolean to trigger entrance animations.

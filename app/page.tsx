@@ -16,9 +16,10 @@ import { SlideTransmedia } from "@/components/presentation/slide-transmedia"
 import { SlideAtmosphere } from "@/components/presentation/slide-atmosphere"
 import { SlideMarketing } from "@/components/presentation/slide-marketing"
 import { SlideProduction } from "@/components/presentation/slide-production"
+import { SlideTrailer } from "@/components/presentation/slide-trailer"
 import { SlideClosing } from "@/components/presentation/slide-closing"
 
-const TOTAL_SLIDES = 15
+const TOTAL_SLIDES = 16
 
 export default function WildholzPresentation() {
   const [activeSlide, setActiveSlide] = useState(0)
@@ -30,20 +31,21 @@ export default function WildholzPresentation() {
         onSlideChange={setActiveSlide}
       >
         <SlideTitle isActive={activeSlide === 0} />
-        <SlideLocation isActive={activeSlide === 1} />
-        <SlideIdea isActive={activeSlide === 2} />
-        <SlideCharacter isActive={activeSlide === 3} />
-        <SlideIncitingIncident isActive={activeSlide === 4} />
-        <SlideCommunity isActive={activeSlide === 5} />
-        <SlideFeeling isActive={activeSlide === 6} />
-        <SlideStructure isActive={activeSlide === 7} />
-        <SlideDifferentiation isActive={activeSlide === 8} />
-        <SlideAudience isActive={activeSlide === 9} />
-        <SlideTransmedia isActive={activeSlide === 10} />
-        <SlideAtmosphere isActive={activeSlide === 11} />
-        <SlideMarketing isActive={activeSlide === 12} />
-        <SlideProduction isActive={activeSlide === 13} />
-        <SlideClosing isActive={activeSlide === 14} />
+        <SlideTrailer isActive={activeSlide === 1} />
+        <SlideLocation isActive={activeSlide === 2} />
+        <SlideIdea isActive={activeSlide === 3} />
+        <SlideCharacter isActive={activeSlide === 4} />
+        <SlideIncitingIncident isActive={activeSlide === 5} />
+        <SlideCommunity isActive={activeSlide === 6} />
+        <SlideFeeling isActive={activeSlide === 7} />
+        <SlideStructure isActive={activeSlide === 8} />
+        <SlideDifferentiation isActive={activeSlide === 9} />
+        <SlideAudience isActive={activeSlide === 10} />
+        <SlideTransmedia isActive={activeSlide === 11} />
+        <SlideAtmosphere isActive={activeSlide === 12} />
+        <SlideMarketing isActive={activeSlide === 13} />
+        <SlideProduction isActive={activeSlide === 14} />
+        <SlideClosing isActive={activeSlide === 15} />
       </PresentationController>
     </main>
   )
