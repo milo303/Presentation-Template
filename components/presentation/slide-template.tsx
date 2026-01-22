@@ -1,7 +1,7 @@
 "use client"
 
 import { ReactNode, useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 
@@ -9,6 +9,8 @@ interface SlideTemplateProps {
     isActive: boolean
     backgroundImage?: string
     backgroundVideo?: string
+    backgroundSecondary?: string
+    isSecondaryActive?: boolean
     backgroundOverlay?: ReactNode
     children: ReactNode
     className?: string
@@ -25,6 +27,8 @@ export function SlideTemplate({
     isActive,
     backgroundImage,
     backgroundVideo,
+    backgroundSecondary,
+    isSecondaryActive = false,
     backgroundOverlay,
     children,
     className,
@@ -109,7 +113,7 @@ export function SlideTemplate({
                         {/* Global texture is in PresentationController */}
 
                         {/* Inset Image / Full Image for Paper Mode */}
-                        {(backgroundImage || backgroundVideo) && (
+                        {(backgroundImage || backgroundVideo || backgroundSecondary) && (
                             <motion.div
                                 className={cn(
                                     "absolute z-10",
@@ -132,26 +136,67 @@ export function SlideTemplate({
                                     "relative w-full h-full bg-white overflow-hidden",
                                     fullImage ? "border-0" : "border-[12px] border-white shadow-xl"
                                 )}>
-                                    {backgroundVideo ? (
-                                        <video
-                                            src={backgroundVideo}
-                                            className={cn("h-full w-full object-cover", isPaper && !fullImage && "mix-blend-normal")}
-                                            autoPlay
-                                            muted
-                                            loop
-                                            playsInline
-                                        />
-                                    ) : (
-                                        <Image
-                                            src={backgroundImage!}
-                                            alt="Slide visual"
-                                            fill
-                                            className={cn("object-cover", isPaper && !fullImage && "mix-blend-normal")}
-                                            priority
-                                        />
-                                    )}
+                                    <AnimatePresence mode="popLayout">
+                                        {!isSecondaryActive ? (
+                                            <motion.div
+                                                key="primary"
+                                                className="absolute inset-0"
+                                                initial={{ opacity: 0, x: -20, scale: 1.05 }}
+                                                animate={{ opacity: 1, x: 0, scale: 1 }}
+                                                exit={{ opacity: 0, x: 20, scale: 1.05 }}
+                                                transition={{ duration: 0.8, ease: "easeInOut" }}
+                                            >
+                                                {backgroundVideo ? (
+                                                    <video
+                                                        src={backgroundVideo}
+                                                        className={cn("h-full w-full object-cover", isPaper && !fullImage && "mix-blend-normal")}
+                                                        autoPlay
+                                                        muted
+                                                        loop
+                                                        playsInline
+                                                    />
+                                                ) : (
+                                                    <Image
+                                                        src={backgroundImage!}
+                                                        alt="Slide visual"
+                                                        fill
+                                                        className={cn("object-cover", isPaper && !fullImage && "mix-blend-normal")}
+                                                        priority
+                                                    />
+                                                )}
+                                            </motion.div>
+                                        ) : (
+                                            <motion.div
+                                                key="secondary"
+                                                className="absolute inset-0 overflow-hidden"
+                                                initial={{ opacity: 0, x: 40 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                exit={{ opacity: 0, x: -40 }}
+                                                transition={{ duration: 0.8, ease: "easeInOut" }}
+                                            >
+                                                <motion.div
+                                                    className="absolute -inset-x-20 inset-y-0"
+                                                    animate={{ x: ["-4%", "4%"] }}
+                                                    transition={{
+                                                        duration: 4,
+                                                        repeat: Infinity,
+                                                        repeatType: "reverse",
+                                                        ease: "easeInOut"
+                                                    }}
+                                                >
+                                                    <Image
+                                                        src={backgroundSecondary!}
+                                                        alt="Secondary visual"
+                                                        fill
+                                                        className="object-cover"
+                                                        priority
+                                                    />
+                                                </motion.div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                     {fullImage && (
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                                        backgroundOverlay ? backgroundOverlay : <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                                     )}
                                 </div>
                             </motion.div>

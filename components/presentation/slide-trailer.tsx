@@ -168,16 +168,19 @@ export function SlideTrailer({ isActive = false, skipAnimations = false }: Slide
                 </div>
             </div>
 
-            {/* Caption Content */}
-            <div className="absolute top-12 left-24 z-20">
-                <motion.p
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={isActive ? { opacity: 1, x: 0 } : {}}
-                    transition={{ delay: 0.5 }}
-                    className="text-gold uppercase tracking-[0.5em] text-sm mb-4"
+            {/* Header Overlay */}
+            <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
+                <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isActive && !isPlaying ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+                    transition={{
+                        opacity: { duration: isPlaying ? 0.3 : 1, delay: isPlaying ? 0 : 0.8 },
+                        y: { duration: isPlaying ? 0.5 : 1, delay: isPlaying ? 0 : 0.8 }
+                    }}
+                    className="text-white font-serif text-[8vw] tracking-tighter opacity-20 select-none mix-blend-overlay"
                 >
-                    Konzept Trailer
-                </motion.p>
+                    Trailer
+                </motion.h2>
             </div>
         </section>
     )
