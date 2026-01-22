@@ -70,16 +70,25 @@ Install:
 pnpm install
 ```
 
-Dev:
+Dev (runs on port 4000):
 ```bash
 pnpm dev
+# Opens at http://localhost:4000
 ```
 
-Build / start:
+Build / start (production server on port 4000):
 ```bash
 pnpm build
 pnpm start
+# Opens at http://localhost:4000
 ```
+
+### Mac Quick Start
+Double-click `start-mac.command` to:
+- Install dependencies (if needed)
+- Start dev server on port 4000
+- Auto-open browser to http://localhost:4000
+
 
 ### Lint
 ```bash
@@ -159,10 +168,84 @@ Use aliases from `components.json`:
 - Keep timings aligned with `PresentationController` (1.8s for book transitions).
 - Use `skipAnimations` in custom slide logic to bypass entrance fades when book mode is active.
 
+## Deployment
+
+### GitHub Pages (Production)
+- **Live URL**: `https://milo303.github.io/wildholz-pitch-deck`
+- **Deployment**: Automatic via GitHub Actions on push to `main` branch
+- **Workflow**: `.github/workflows/deploy.yml`
+  - Builds Next.js static export (`pnpm next build`)
+  - Creates `.nojekyll` file to prevent Jekyll processing
+  - Deploys to GitHub Pages using `actions/deploy-pages@v4`
+- **Configuration**: 
+  - `next.config.mjs`: `output: 'export'`, `basePath: '/wildholz-pitch-deck'`
+  - Static HTML export to `./out` directory
+
+### Docker Deployment
+- **Image**: `ghcr.io/milo303/wildholz-pitch-deck:latest`
+- **Registry**: GitHub Container Registry (GHCR)
+- **Workflow**: `.github/workflows/docker-publish.yml`
+  - Builds multi-stage Docker image on push to `main`
+  - Publishes to GHCR automatically
+- **Local Docker**:
+  ```bash
+  docker-compose up
+  # or
+  docker pull ghcr.io/milo303/wildholz-pitch-deck:latest
+  docker run -p 3000:3000 ghcr.io/milo303/wildholz-pitch-deck:latest
+  ```
+- **Files**: `Dockerfile`, `docker-compose.yml`, `.dockerignore`
+
+### Electron App (Desktop Distribution)
+- **Purpose**: Standalone desktop app for offline presentations
+- **Architecture**: Electron shell loading the live GitHub Pages URL
+- **Auto-updates**: Automatically reflects changes when the web version is updated
+- **Build**:
+  ```bash
+  pnpm run app:build  # Creates .dmg (macOS) and .exe (Windows)
+  ```
+- **Output**: `dist/` folder with installers
+- **Configuration**: `electron/main.js`, `package.json` build section
+- **Dev mode**: `pnpm run app:dev`
+
 ## Images / Assets
-- Put slide images in `public/images/` and reference via `/images/...`.
-- Use `next/image` with meaningful `alt`; be conservative with `priority`.
-- `next.config.mjs`: `images.unoptimized: true` (do not assume optimization).
+
+### Asset Path Handling
+**CRITICAL**: All image and video paths MUST use the `getAssetPath()` utility to work correctly on GitHub Pages.
+
+```typescript
+import { getAssetPath } from "@/lib/utils"
+
+// ✅ Correct - works on both localhost and GitHub Pages
+<Image src={getAssetPath("/images/wildholz-logo.png")} alt="Logo" />
+<video src={getAssetPath("/images/video.mp4")} />
+
+// ❌ Wrong - will break on GitHub Pages
+<Image src="/images/wildholz-logo.png" alt="Logo" />
+```
+
+### Why `getAssetPath()` is Required
+- **Local dev**: Assets load from `/images/...`
+- **GitHub Pages**: Assets must load from `/wildholz-pitch-deck/images/...`
+- `getAssetPath()` automatically prepends the correct base path based on environment
+
+### Asset Storage
+- Put slide images in `public/images/` and reference via `/images/...` (wrapped in `getAssetPath()`)
+- Use `next/image` with meaningful `alt`; be conservative with `priority`
+- `next.config.mjs`: `images.unoptimized: true` (static export requirement)
+
+### Components Using Assets
+- **Direct usage**: `slide-title.tsx`, `slide-trailer.tsx`, `slide-family-tree.tsx`, etc.
+- **Via props**: `slide-template.tsx` handles `backgroundImage`, `backgroundVideo`, `backgroundSecondary`
+  - These props are automatically wrapped with `getAssetPath()` in the template
+  - Pass paths as strings: `backgroundImage="/images/my-image.png"`
+- **Character data**: `slide-character.tsx` wraps image paths in the `SECONDARY_CHARACTERS` array
+
+### Adding New Assets
+1. Place file in `public/images/`
+2. Reference with `getAssetPath("/images/filename.ext")`
+3. For `SlideTemplate` props, just pass the path string (wrapping is automatic)
+
 
 ## Toasts / Notifications
 Two options exist:

@@ -24,7 +24,7 @@ echo "Once the server is ready, the presentation will open in your browser."
 echo "Press Ctrl+C to stop the server when you are finished."
 
 # Open browser after a small delay to give the server time to start
-(sleep 3 && open http://localhost:3000) &
+(sleep 3 && open http://localhost:4000) &
 
 # Run dev server
 npm run dev

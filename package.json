@@ -22,9 +22,9 @@
   },
   "scripts": {
     "build": "next build",
-    "dev": "next dev --hostname 127.0.0.1",
+    "dev": "next dev --hostname 127.0.0.1 -p 4000",
     "lint": "eslint .",
-    "start": "next start",
+    "start": "next start -p 4000",
     "app:dev": "electron .",
     "app:build": "electron-builder -mw"
   },
