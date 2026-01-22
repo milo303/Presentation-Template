@@ -1,12 +1,32 @@
 {
-  "name": "my-v0-project",
-  "version": "0.1.0",
+  "name": "wildholz-pitch-deck",
+  "productName": "Wildholz Presentation",
+  "version": "1.0.0",
+  "description": "Wildholz Pitch Deck Presentation",
+  "author": "Milo Brogi",
   "private": true,
+  "main": "electron/main.js",
+  "build": {
+    "appId": "com.wildholz.presentation",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
+  },
   "scripts": {
     "build": "next build",
     "dev": "next dev --hostname 127.0.0.1",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "next start",
+    "app:dev": "electron .",
+    "app:build": "electron-builder -mw"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -37,8 +57,8 @@
     "@radix-ui/react-toggle": "1.1.1",
     "@radix-ui/react-toggle-group": "1.1.1",
     "@radix-ui/react-tooltip": "1.1.6",
-    "@vercel/analytics": "1.3.1",
     "@swc/helpers": "0.5.15",
+    "@vercel/analytics": "1.3.1",
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -68,6 +88,8 @@
     "@types/node": "^22.19.7",
     "@types/react": "^19.2.9",
     "@types/react-dom": "^19",
+    "electron": "^40.0.0",
+    "electron-builder": "^26.4.0",
     "postcss": "^8.5",
     "tailwindcss": "^4.1.9",
     "tw-animate-css": "1.3.3",

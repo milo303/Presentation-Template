@@ -1,0 +1,13 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.wildholz.presentation
+mac:
+  category: public.app-category.productivity
+  target:
+    - dmg
+win:
+  target:
+    - nsis
+files: []
+electronVersion: 40.0.0
