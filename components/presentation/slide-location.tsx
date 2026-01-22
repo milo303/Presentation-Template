@@ -17,7 +17,7 @@ export function SlideLocation({ isActive, skipAnimations }: SlideLocationProps) 
             imageClassName="w-[38%] h-[66%]"
             contentClassName="max-w-[820px]"
         >
-            <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="paper">Das Setting</SlideLabel>
+            <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="paper">Setting</SlideLabel>
             <SlideHeading isActive={isActive} skipAnimations={skipAnimations} mode="paper">
                 Wald statt WLAN,<br />Humor statt Homeoffice.
             </SlideHeading>
