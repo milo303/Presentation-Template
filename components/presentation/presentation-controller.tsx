@@ -1,7 +1,9 @@
 "use client"
 
-import React, { useCallback, useEffect, useState } from "react"
-import { motion, Variants, Transition } from "framer-motion"
+import React, { useCallback, useEffect, useState, useRef } from "react"
+import { motion, AnimatePresence, Variants, Transition } from "framer-motion"
+import Image from "next/image"
+import { cn } from "@/lib/utils"
 
 interface PresentationControllerProps {
   children: React.ReactNode[]
@@ -9,34 +11,104 @@ interface PresentationControllerProps {
   onSlideChange?: (index: number) => void
 }
 
+// Helper for the paper background that rotates WITH the slide
+function SlideBackground() {
+  return (
+    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 bg-[#f4ebd0]" />
+      <div className="absolute inset-0 opacity-100 mix-blend-multiply">
+        <img
+          src="/images/paper-texture-torn.png"
+          alt=""
+          className="w-full h-full object-cover"
+        />
+      </div>
+      {/* Global Leaves - consistently framed on each page */}
+      <div className="absolute inset-0 z-5 opacity-80 mix-blend-multiply">
+        <motion.div
+          className="absolute top-[-5%] left-[-5%] w-[40%] h-[40%] rotate-[-10deg]"
+          animate={{ y: [0, -24, 0], x: [0, 12, 0], rotate: [-10, -3, -10] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <img src="/images/autumn-leaves-overlay.png" alt="" className="w-full h-full object-contain" />
+        </motion.div>
+        <motion.div
+          className="absolute bottom-[-5%] right-[-5%] w-[40%] h-[40%] rotate-[170deg] scale-x-[-1]"
+          animate={{ y: [0, 26, 0], x: [0, -14, 0], rotate: [170, 178, 170] }}
+          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <img src="/images/autumn-leaves-overlay.png" alt="" className="w-full h-full object-contain" />
+        </motion.div>
+      </div>
+    </div>
+  )
+}
+
 export function PresentationController({ children, totalSlides, onSlideChange }: PresentationControllerProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [transitionStyle, setTransitionStyle] = useState<"slide" | "book">("slide")
+  const [lastDirection, setLastDirection] = useState<1 | -1>(1)
+  const containerRef = useRef<HTMLDivElement>(null)
 
-  const goToSlide = useCallback((index: number) => {
+  const slideChildren = React.Children.toArray(children)
+
+  const goToSlide = useCallback((index: number, direction: 1 | -1) => {
     if (isAnimating || index < 0 || index >= totalSlides) return
     setIsAnimating(true)
+    setLastDirection(direction)
     setCurrentSlide(index)
     onSlideChange?.(index)
-    // Synchronize animation lock with motion duration
-    setTimeout(() => setIsAnimating(false), 1000)
+    // Synchronize animation lock with motion duration (matches durations in variants)
+    setTimeout(() => setIsAnimating(false), 1800)
   }, [isAnimating, totalSlides, onSlideChange])
 
   const nextSlide = useCallback(() => {
     if (currentSlide < totalSlides - 1) {
-      goToSlide(currentSlide + 1)
+      goToSlide(currentSlide + 1, 1)
     }
   }, [currentSlide, totalSlides, goToSlide])
 
   const prevSlide = useCallback(() => {
     if (currentSlide > 0) {
-      goToSlide(currentSlide - 1)
+      goToSlide(currentSlide - 1, -1)
     }
   }, [currentSlide, goToSlide])
+
+  const toggleFullscreen = useCallback(() => {
+    const element = containerRef.current
+    if (!element) return
+
+    if (document.fullscreenElement) {
+      void document.exitFullscreen()
+    } else {
+      void element.requestFullscreen()
+    }
+  }, [])
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement))
+    }
+    document.addEventListener("fullscreenchange", handleFullscreenChange)
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange)
+  }, [])
 
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "f" || e.key === "F") {
+        e.preventDefault()
+        toggleFullscreen()
+        return
+      }
+
+      const activeElement = document.activeElement
+      if (activeElement?.tagName === "INPUT" || activeElement?.tagName === "TEXTAREA" || activeElement?.tagName === "SELECT") {
+        return
+      }
+
       if (e.key === "ArrowRight" || e.key === " " || e.key === "Enter") {
         e.preventDefault()
         nextSlide()
@@ -48,126 +120,296 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
 
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [nextSlide, prevSlide])
+  }, [nextSlide, prevSlide, toggleFullscreen])
 
-  // Touch/swipe support
-  useEffect(() => {
-    let touchStartX = 0
-    let touchEndX = 0
-
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartX = e.changedTouches[0].screenX
-    }
-
-    const handleTouchEnd = (e: TouchEvent) => {
-      touchEndX = e.changedTouches[0].screenX
-      const diff = touchStartX - touchEndX
-      if (Math.abs(diff) > 50) {
-        if (diff > 0) nextSlide()
-        else prevSlide()
-      }
-    }
-
-    window.addEventListener("touchstart", handleTouchStart)
-    window.addEventListener("touchend", handleTouchEnd)
-    return () => {
-      window.removeEventListener("touchstart", handleTouchStart)
-      window.removeEventListener("touchend", handleTouchEnd)
-    }
-  }, [nextSlide, prevSlide])
-
-  // PowerPoint-style "Morph" variants with explicit types - Optimized for Performance
-  // Removed dynamic blur (filter) as it causes significant repaints during animation
-  const variants: Variants = {
-    enter: {
-      x: "100%",
+  const slideVariants: Variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? "100%" : "-100%",
       opacity: 0,
-      scale: 1.02, // Reduced scale for less texture thrashing
-      clipPath: "inset(0% 0% 0% 100%)",
-      pointerEvents: "none"
-    },
-    center: {
       zIndex: 1,
+    }),
+    center: {
       x: 0,
       opacity: 1,
-      scale: 1,
-      clipPath: "inset(0% 0% 0% 0%)",
-      pointerEvents: "auto",
+      zIndex: 10,
       transition: {
-        // Tighter spring for snappier feel without "floaty" lag
-        x: { type: "spring", stiffness: 90, damping: 20, mass: 1 },
-        opacity: { duration: 0.6, ease: "linear" }, // Faster opacity
-        scale: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-        clipPath: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
-      } as Transition
+        x: { type: "spring", stiffness: 200, damping: 25, mass: 0.5 },
+        opacity: { duration: 0.4 }
+      }
     },
-    exit: {
-      zIndex: 0,
-      x: "-20%", // Reduced parallax distance
+    exit: (direction: number) => ({
+      x: direction > 0 ? "-25%" : "25%",
       opacity: 0,
-      scale: 0.98,
-      clipPath: "inset(0% 100% 0% 0%)",
-      pointerEvents: "none",
+      zIndex: 0,
       transition: {
-        x: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-        opacity: { duration: 0.6, ease: "linear" },
-        scale: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-        clipPath: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
-      } as Transition
-    }
+        x: { duration: 0.8, ease: [0.33, 1, 0.68, 1] },
+        opacity: { duration: 0.4 }
+      }
+    })
+  }
+
+  // Enhanced Book Page Flip Variants - simulating curvature and paper flexibility
+  const bookVariants: Variants = {
+    enter: (direction: number) => ({
+      rotateY: 0,
+      rotateZ: 0,
+      skewY: 0,
+      scale: 1,
+      zIndex: 1,
+      opacity: 1,
+      transformOrigin: direction > 0 ? "left center" : "right center"
+    }),
+    center: {
+      rotateY: 0,
+      rotateZ: 0,
+      skewY: 0,
+      scale: 1,
+      zIndex: 10,
+      opacity: 1,
+      transition: {
+        duration: 1.8,
+        ease: [0.22, 1, 0.36, 1]
+      }
+    },
+    exit: (direction: number) => ({
+      // Add subtle rotateZ and skew to simulate the paper "bending" as it turns
+      rotateY: direction > 0 ? -180 : 180,
+      rotateZ: direction > 0 ? -4 : 4,
+      skewY: direction > 0 ? 2 : -2,
+      scale: 0.98, // Slight pull-back to emphasize the turn path
+      zIndex: 20,
+      opacity: 1,
+      transformOrigin: direction > 0 ? "left center" : "right center",
+      transition: {
+        rotateY: { duration: 1.8, ease: [0.22, 1, 0.36, 1] },
+        rotateZ: { duration: 1.8, ease: [0.22, 1, 0.36, 1] },
+        skewY: { duration: 1.8, ease: [0.22, 1, 0.36, 1] },
+        scale: { duration: 1.8, ease: [0.22, 1, 0.36, 1] }
+      }
+    })
   }
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-black">
-      {/* Slides Container - Everything is mounted to preload images */}
-      <div className="relative h-full w-full">
-        {React.Children.map(children, (child, index) => {
-          const isCurrent = index === currentSlide
-          const isPast = index < currentSlide
-          const state = isCurrent ? "center" : isPast ? "exit" : "enter"
-
-          return (
+    <div
+      ref={containerRef}
+      className="relative h-screen w-full overflow-hidden bg-black"
+      onClick={(e) => {
+        if (e.defaultPrevented) return
+        const width = window.innerWidth
+        if (e.clientX < width * 0.3) prevSlide()
+        else nextSlide()
+      }}
+      style={{ perspective: "1500px" }}
+    >
+      {/* Global Paper Background (only for 'slide' mode since book needs it per-slide to flip) */}
+      {transitionStyle === "slide" && (
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[#f4ebd0]" />
+          <div className="absolute inset-0 opacity-100 mix-blend-multiply">
+            <img src="/images/paper-texture-torn.png" alt="" className="w-full h-full object-cover" />
+          </div>
+          {/* Leaves */}
+          <div className="absolute inset-0 z-5 opacity-80 mix-blend-multiply">
             <motion.div
-              key={index}
-              initial="enter"
-              animate={state}
-              variants={variants}
-              className="absolute inset-0 h-full w-full"
+              className="absolute top-[-5%] left-[-5%] w-[40%] h-[40%] rotate-[-10deg]"
+              animate={{ y: [0, -24, 0], x: [0, 12, 0], rotate: [-10, -3, -10] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <img src="/images/autumn-leaves-overlay.png" alt="" className="w-full h-full object-contain" />
+            </motion.div>
+            <motion.div
+              className="absolute bottom-[-5%] right-[-5%] w-[40%] h-[40%] rotate-[170deg] scale-x-[-1]"
+              animate={{ y: [0, 26, 0], x: [0, -14, 0], rotate: [170, 178, 170] }}
+              transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <img src="/images/autumn-leaves-overlay.png" alt="" className="w-full h-full object-contain" />
+            </motion.div>
+          </div>
+        </div>
+      )}
+
+      <div className="relative h-full w-full">
+        <AnimatePresence initial={false} custom={lastDirection} mode="popLayout">
+          <motion.div
+            key={currentSlide}
+            custom={lastDirection}
+            variants={transitionStyle === "book" ? bookVariants : slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="absolute inset-0 h-full w-full"
+            style={{
+              transformStyle: "preserve-3d",
+              willChange: "transform",
+            }}
+          >
+            {/* Front of the page */}
+            <div
+              className="absolute inset-0 h-full w-full overflow-hidden"
               style={{
-                visibility: (isCurrent || isPast || index === currentSlide + 1) ? "visible" : "hidden",
-                willChange: "transform, opacity, clip-path", // Hardware acceleration hint
                 backfaceVisibility: "hidden",
-                perspective: 1000
+                boxShadow: transitionStyle === "book" ? "0 0 50px rgba(0,0,0,0.15)" : "none"
               }}
             >
-              {React.isValidElement(child)
-                ? React.cloneElement(child as React.ReactElement<any>, {
-                  isActive: isCurrent,
+              {/* Individual Slide Background for Book mode (so it turns with the content) */}
+              {transitionStyle === "book" && (
+                <>
+                  <SlideBackground />
+                  {/* Spine Crease / Fold Shadow */}
+                  <div
+                    className={cn(
+                      "absolute inset-y-0 z-20 w-16 pointer-events-none",
+                      lastDirection > 0 ? "left-0 bg-gradient-to-r from-black/25 via-black/10 to-transparent" : "right-0 bg-gradient-to-l from-black/25 via-black/10 to-transparent"
+                    )}
+                  />
+                  {/* Dynamic surface highlight during turn - simulated curve */}
+                  <motion.div
+                    className="absolute inset-0 z-30 pointer-events-none"
+                    initial={{ opacity: 0 }}
+                    animate={isAnimating ? { opacity: [0, 0.15, 0] } : { opacity: 0 }}
+                    transition={{ duration: 1.8 }}
+                    style={{
+                      background: lastDirection > 0
+                        ? "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.25) 50%, transparent 65%)"
+                        : "linear-gradient(-105deg, transparent 35%, rgba(255,255,255,0.25) 50%, transparent 65%)"
+                    }}
+                  />
+                </>
+              )}
+
+              {React.isValidElement(slideChildren[currentSlide])
+                ? React.cloneElement(slideChildren[currentSlide] as React.ReactElement<any>, {
+                  isActive: true,
+                  skipAnimations: transitionStyle === "book",
                   onNext: nextSlide,
-                  onPrev: prevSlide
+                  onPrev: prevSlide,
                 })
-                : child}
-            </motion.div>
-          )
-        })}
+                : slideChildren[currentSlide]}
+            </div>
+
+            {/* Back of the page (Paper only) */}
+            {transitionStyle === "book" && (
+              <div
+                className="absolute inset-0 h-full w-full bg-[#f4ebd0] shadow-2xl"
+                style={{
+                  transform: "rotateY(180deg)",
+                  backfaceVisibility: "hidden"
+                }}
+              >
+                <div className="absolute inset-0 opacity-100 mix-blend-multiply">
+                  <img src="/images/paper-texture-torn.png" alt="" className="w-full h-full object-cover scale-x-[-1]" />
+                </div>
+                {/* Back side spine shadow */}
+                <div
+                  className={cn(
+                    "absolute inset-y-0 z-10 w-20 pointer-events-none",
+                    lastDirection > 0 ? "right-0 bg-gradient-to-l from-black/20 via-black/5 to-transparent" : "left-0 bg-gradient-to-r from-black/20 via-black/5 to-transparent"
+                  )}
+                />
+                {/* Back side sweeping shadow / curve illusion during turn */}
+                <motion.div
+                  className="absolute inset-0 z-20 pointer-events-none"
+                  initial={{ opacity: 0 }}
+                  animate={isAnimating ? { opacity: [0, 0.25, 0] } : { opacity: 0 }}
+                  transition={{ duration: 1.8 }}
+                  style={{
+                    background: lastDirection > 0
+                      ? "linear-gradient(to right, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 20%, transparent 60%)"
+                      : "linear-gradient(to left, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 20%, transparent 60%)"
+                  }}
+                />
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Improved Shadow cast on the slide UNDERNEATH during the turn */}
+        {transitionStyle === "book" && isAnimating && (
+          <motion.div
+            className="absolute inset-0 z-5 pointer-events-none"
+            initial={{ opacity: 0, scaleX: 0.8 }}
+            animate={{ opacity: [0, 0.5, 0], scaleX: [0.8, 1, 0.8] }}
+            transition={{ duration: 1.8, ease: "easeInOut" }}
+            style={{
+              background: lastDirection > 0
+                ? "linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 30%, transparent 50%)"
+                : "linear-gradient(to left, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 30%, transparent 50%)",
+              transformOrigin: lastDirection > 0 ? "left center" : "right center"
+            }}
+          />
+        )}
       </div>
 
-      {/* Keyboard hint */}
+
+
+      {/* Global UI Elements (Watermark, Progress, etc.) */}
+      <AnimatePresence>
+        {currentSlide !== 0 && (
+          <motion.div
+            className="absolute top-10 left-10 z-[60] pointer-events-none"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+          >
+            <div className={cn(
+              "relative w-40 h-10 transition-all duration-700",
+              [6, 11, 14].includes(currentSlide) ? "brightness-0 invert" : "opacity-60 grayscale brightness-0"
+            )}>
+              <Image src="/images/wildholz-logo.png" alt="Wildholz" fill className="object-contain object-left" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="absolute bottom-8 right-8 z-50 hidden items-center gap-2 text-xs text-muted-foreground/40 md:flex">
+        <span className="text-white/20 uppercase tracking-[0.2em] text-[10px] mr-2">Steuerung</span>
         <kbd className="rounded border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-xs text-white/50">←</kbd>
         <kbd className="rounded border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-xs text-white/50">→</kbd>
-        <span className="ml-1 text-white/30 uppercase tracking-widest">navigate</span>
+        <span className="mx-1 text-white/20">/</span>
+        <span className="text-white/40 uppercase tracking-widest font-sans text-[10px]">Klick</span>
       </div>
 
-      {/* Progress bar */}
-      <div className="absolute top-0 left-0 z-50 h-1 w-full bg-white/5">
-        <motion.div
-          className="h-full bg-gold"
-          initial={false}
-          animate={{ width: `${((currentSlide + 1) / totalSlides) * 100}%` }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] } as Transition}
-        />
+      <div className="absolute top-0 left-0 z-50 w-full">
+        <div className="h-1 w-full bg-white/5 overflow-hidden">
+          <motion.div
+            className="h-full bg-gold"
+            initial={false}
+            animate={{ width: `${((currentSlide + 1) / totalSlides) * 100}%` }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          />
+        </div>
+        <div className="px-10 py-3 flex justify-between items-center bg-transparent pointer-events-none">
+          <span className={cn(
+            "text-[10px] uppercase tracking-[0.5em] transition-all duration-700",
+            currentSlide === 0 ? "opacity-0" : "opacity-100",
+            [6, 11, 14].includes(currentSlide) ? "text-white/40" : "text-[#5C4033]/40"
+          )}>
+            Wildholz — Pitch Deck 2026
+          </span>
+          {!isFullscreen && (
+            <span className={cn(
+              "text-[clamp(0.75rem,0.5vw+0.6rem,1rem)] font-mono transition-colors duration-700",
+              [0, 6, 11, 14].includes(currentSlide) ? "text-white/40" : "text-[#5C4033]/40"
+            )}>
+              {String(currentSlide + 1).padStart(2, '0')} / {String(totalSlides).padStart(2, '0')}
+            </span>
+          )}
+        </div>
       </div>
+
+      {!isFullscreen && (
+        <div className="absolute bottom-8 left-8 z-50 flex items-center gap-3 rounded-full border border-white/10 bg-black/40 px-4 py-2 text-xs text-white/70 backdrop-blur-sm">
+          <span className="uppercase tracking-[0.2em] text-[10px] text-white/50">Transition</span>
+          <select
+            value={transitionStyle}
+            onChange={(e) => setTransitionStyle(e.target.value as "slide" | "book")}
+            className="bg-transparent text-white/80 text-xs uppercase tracking-[0.2em] outline-none cursor-pointer"
+          >
+            <option value="slide">Slide</option>
+            <option value="book">Book</option>
+          </select>
+        </div>
+      )}
     </div>
   )
 }

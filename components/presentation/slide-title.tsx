@@ -5,25 +5,33 @@ import { useEffect, useState } from "react"
 
 interface SlideTitleProps {
   isActive?: boolean
+  skipAnimations?: boolean
 }
 
-export function SlideTitle({ isActive = true }: SlideTitleProps) {
+export function SlideTitle({ isActive = true, skipAnimations = false }: SlideTitleProps) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    if (skipAnimations) {
+      setMounted(true)
+      return
+    }
     if (isActive) {
       const timer = setTimeout(() => setMounted(true), 100)
       return () => clearTimeout(timer)
     } else {
       setMounted(false)
     }
-  }, [isActive])
+  }, [isActive, skipAnimations])
+
+  // Force mounted true if skipAnimations
+  const show = skipAnimations || mounted
 
   return (
-    <section className="relative h-screen w-full flex flex-col overflow-hidden">
+    <section className="relative h-full w-full flex flex-col overflow-hidden">
       {/* Background Image with Ken Burns effect */}
       <div className="absolute inset-0">
-        <div className={`absolute inset-0 transition-transform duration-[12000ms] ease-out ${mounted ? "scale-110" : "scale-100"
+        <div className={`absolute inset-0 ${skipAnimations ? "" : "transition-transform duration-[12000ms] ease-out"} ${show ? "scale-110" : "scale-100"
           }`}>
           <Image
             src="/images/wildholz-background-new.png"
@@ -40,11 +48,11 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
 
       {/* Couple Image - positioned on right side with transparent background (simulated via multiply) */}
       <div
-        className={`absolute bottom-0 right-0 md:right-4 lg:right-8 z-10 transition-all duration-1000 ease-out ${mounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-24"
+        className={`absolute bottom-0 right-0 md:right-4 lg:right-8 z-10 ${skipAnimations ? "" : "transition-all duration-1000 ease-out"} ${show ? "opacity-100 translate-x-0" : "opacity-0 translate-x-24"
           }`}
-        style={{ transitionDelay: "600ms" }}
+        style={{ transitionDelay: skipAnimations ? "0ms" : "600ms" }}
       >
-        <div className="relative h-[115vh] md:h-[125vh] lg:h-[135vh] w-[70vw] md:w-[75vw] lg:w-[85vw]">
+        <div className="relative h-[135vh] w-[85vw]">
           <Image
             src="/images/wildholz-couple-new.png"
             alt="Romantic couple embracing"
@@ -56,40 +64,48 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
       </div>
 
       {/* Content - Left aligned */}
-      <div className="relative z-20 flex flex-1 flex-col justify-center px-8 md:px-16 lg:px-24">
-        <div className="max-w-3xl">
+      <div className="relative z-20 flex flex-1 flex-col justify-center px-24">
+        <div className="max-w-4xl">
           {/* Subtitle */}
           <p
-            className={`mb-4 text-sm font-sans uppercase tracking-[0.25em] text-white/70 md:text-base transition-all duration-700 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            className={`mb-6 text-[clamp(0.95rem,0.7vw+0.6rem,1.2rem)] font-sans uppercase tracking-[0.3em] text-white/80 ${skipAnimations ? "" : "transition-all duration-700 ease-out"} ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
-            style={{ transitionDelay: "200ms" }}
+            style={{ transitionDelay: skipAnimations ? "0ms" : "200ms" }}
           >
             Konzept fur eine Mediathek-Serie
           </p>
 
-          {/* Main Title */}
-          <h1
-            className={`mb-6 font-serif text-6xl font-medium tracking-tight text-white md:text-7xl lg:text-9xl xl:text-[10rem] transition-all duration-1000 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          {/* Main Title (Logo Schriftzug) */}
+          <div
+            className={`mb-12 ${skipAnimations ? "" : "transition-all duration-1000 ease-out"} ${show ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95"
               }`}
-            style={{ transitionDelay: "400ms" }}
+            style={{ transitionDelay: skipAnimations ? "0ms" : "400ms" }}
           >
-            Wildholz
-          </h1>
+            <div className="relative w-[clamp(560px,42vw,880px)] h-[clamp(180px,18vw,280px)]">
+              <Image
+                src="/images/wildholz-logo.png"
+                alt="Wildholz"
+                fill
+                className="object-contain object-left"
+                priority
+              />
+            </div>
+          </div>
 
           {/* Tagline */}
           <p
-            className={`max-w-xl font-serif text-xl italic text-white/85 md:text-2xl lg:text-3xl transition-all duration-700 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            className={`max-w-2xl font-serif text-[clamp(1.8rem,1.6vw+1.1rem,2.6rem)] italic text-white/95 leading-tight ${skipAnimations ? "" : "transition-all duration-700 ease-out"} ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
-            style={{ transitionDelay: "700ms" }}
+            style={{ transitionDelay: skipAnimations ? "0ms" : "700ms" }}
           >
             „Während du schliefst" trifft auf „Virgin River"
           </p>
 
           {/* Integration of Logos */}
           <div
-            className={`mt-16 flex items-center gap-10 transition-all duration-1000 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            className={`mt-14 flex items-center gap-10 ${skipAnimations ? "" : "transition-all duration-1000 ease-out"} ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
-            style={{ transitionDelay: "1000ms" }}
+            style={{ transitionDelay: skipAnimations ? "0ms" : "1000ms" }}
           >
             <div className="relative h-10 w-32 transition-transform hover:scale-105 duration-300">
               <Image
@@ -111,12 +127,12 @@ export function SlideTitle({ isActive = true }: SlideTitleProps) {
 
           {/* Subtle CTA hint */}
           <div
-            className={`mt-16 flex items-center gap-3 transition-all duration-700 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            className={`mt-12 flex items-center gap-3 ${skipAnimations ? "" : "transition-all duration-700 ease-out"} ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
-            style={{ transitionDelay: "1400ms" }}
+            style={{ transitionDelay: skipAnimations ? "0ms" : "1400ms" }}
           >
             <div className="h-px w-12 bg-white/40" />
-            <span className="text-sm font-sans text-white/50 tracking-wide">Weiter mit Pfeiltasten</span>
+            <span className="text-[clamp(0.85rem,0.4vw+0.7rem,1rem)] font-sans text-white/55 tracking-wide">Weiter mit Pfeiltasten oder Klick</span>
           </div>
         </div>
       </div>

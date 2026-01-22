@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 
 interface SlideAtmosphereProps {
   isActive?: boolean
+  skipAnimations?: boolean
   onNext?: () => void
   onPrev?: () => void
 }
@@ -28,16 +29,16 @@ const SEQUENCE = {
 // Text content for each stage
 const TEXT_CONTENT = [
   {
-    title: "Wildholz in deiner Stadt",
-    description: "Wildholz zum Anfassen, nicht zum Scrollen. Ein analoger Zufluchtsort im urbanen Raum."
+    title: "Wildholz zum Anfassen",
+    description: "Holz, Moos, Tannenduft. Ein kleiner Waldwürfel in der Stadt, der sich anfühlt wie ein Stück Forsthof im echten Leben."
   },
   {
-    title: "Waldwürfel zum Durchatmen",
-    description: "Holz, Moos und Tannenduft statt Screen und Technik. Ein Ort zum Anlehnen und Rausfallen."
+    title: "Durchatmen statt Scrollen",
+    description: "Kein Screen, keine Technik im Vordergrund. Ein analoger Zufluchtsort zum Anlehnen und Rausfallen aus der Stadthektik."
   },
   {
-    title: "Analoge Markenwelt",
-    description: "Über Social Media hinaus in den realen Stadtraum. Die Stimmung von Wildholz, physisch erlebbar."
+    title: "Authentisch Erlebbar",
+    description: "Die Stimmung von Wildholz mitten in die Fußgängerzone geholt. Mehr Spaziergang im Wald als Promotionfläche."
   }
 ]
 
@@ -221,8 +222,26 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
     return 1
   }
 
+  const handleInternalClick = useCallback((e: React.MouseEvent) => {
+    const width = window.innerWidth
+    const x = e.clientX
+
+    if (x < width * 0.3) {
+      goBackward()
+    } else {
+      goForward()
+    }
+
+    // Prevent PresentationController from also handling this click
+    e.preventDefault()
+  }, [goForward, goBackward])
+
   return (
-    <section ref={containerRef} className="relative h-screen w-full overflow-hidden bg-black">
+    <section
+      ref={containerRef}
+      className="relative h-full w-full overflow-hidden bg-black"
+      onClick={handleInternalClick}
+    >
 
       {/* Still Images Layer */}
       {SEQUENCE.images.map((src, idx) => (
@@ -269,24 +288,24 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
       </div>
 
       {/* Text Overlay Layer */}
-      <div className="absolute inset-0 z-40 pointer-events-none flex items-end pb-24">
-        <div className="w-full max-w-7xl mx-auto px-8 md:px-16 lg:px-24">
-          <div className="max-w-2xl border-l-[2px] border-amber-400 pl-8">
+      <div className="absolute inset-0 z-40 pointer-events-none flex items-start pt-24">
+        <div className="w-full max-w-[1600px] mx-auto px-16">
+          <div className="max-w-[540px] bg-black/35 backdrop-blur-sm border-l-[3px] border-amber-400 px-8 py-7">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentImageIndex}
-                initial={{ opacity: 0, x: -10 }}
+                initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 10 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                exit={{ opacity: 0, x: 12 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               >
-                <p className="mb-4 text-xs md:text-sm font-sans uppercase tracking-[0.4em] text-white/50">
+                <p className="mb-5 text-[clamp(0.8rem,0.6vw+0.55rem,1.05rem)] font-sans uppercase tracking-[0.3em] text-white/70 font-medium">
                   Konzept: Pop-up Store
                 </p>
-                <h2 className="mb-6 font-serif text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white leading-[1.1]">
+                <h2 className="mb-6 font-serif text-[clamp(2.4rem,2.4vw+1.6rem,3.6rem)] font-medium tracking-tight text-white leading-[1.08]">
                   {TEXT_CONTENT[currentImageIndex]?.title}
                 </h2>
-                <p className="text-lg md:text-xl leading-relaxed text-white/70 max-w-xl font-light">
+                <p className="text-[clamp(1rem,1vw+0.75rem,1.45rem)] leading-relaxed text-white/85 font-light">
                   {TEXT_CONTENT[currentImageIndex]?.description}
                 </p>
               </motion.div>
@@ -306,12 +325,20 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
       {/* Indicator Dots */}
       <div className="absolute top-1/2 -translate-y-1/2 right-8 z-50 flex flex-col gap-6">
         {SEQUENCE.images.map((_, i) => (
-          <div
+          <button
             key={i}
-            className={`w-1 h-8 rounded-full transition-all duration-500 ${currentImageIndex === i
+            onClick={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+              if (!isTransitioning) {
+                setMediaState({ type: 'image', index: i })
+              }
+            }}
+            className={`w-1 h-8 rounded-full transition-all duration-500 hover:bg-amber-400/60 ${currentImageIndex === i
               ? 'bg-amber-400 scale-x-150'
               : 'bg-white/30'
               }`}
+            aria-label={`Go to scene ${i + 1}`}
           />
         ))}
       </div>
