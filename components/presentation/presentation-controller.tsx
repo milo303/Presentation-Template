@@ -172,19 +172,23 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
       }
     },
     exit: (direction: number) => ({
-      // Add subtle rotateZ and skew to simulate the paper "bending" as it turns
-      rotateY: direction > 0 ? -180 : 180,
-      rotateZ: direction > 0 ? -4 : 4,
-      skewY: direction > 0 ? 2 : -2,
-      scale: 0.98, // Slight pull-back to emphasize the turn path
+      // Simulating a diagonal pull from the top corner to the bottom opposite
+      // Slightly over-rotating (190) to ensure the edge fully clears the viewport
+      rotateY: direction > 0 ? -190 : 190,
+      rotateX: direction > 0 ? 12 : -12,
+      rotateZ: direction > 0 ? 15 : -15,
+      skewY: direction > 0 ? 8 : -8,
+      scale: 0.94, // Slightly smaller to pull the edges away from the frame
       zIndex: 20,
-      opacity: 1,
+      opacity: 0, // Proactively fade out
       transformOrigin: direction > 0 ? "left center" : "right center",
       transition: {
         rotateY: { duration: 1.8, ease: [0.22, 1, 0.36, 1] },
+        rotateX: { duration: 1.8, ease: [0.22, 1, 0.36, 1] },
         rotateZ: { duration: 1.8, ease: [0.22, 1, 0.36, 1] },
         skewY: { duration: 1.8, ease: [0.22, 1, 0.36, 1] },
-        scale: { duration: 1.8, ease: [0.22, 1, 0.36, 1] }
+        scale: { duration: 1.8, ease: [0.22, 1, 0.36, 1] },
+        opacity: { duration: 0.6, delay: 0.2 } // Start fading almost immediately
       }
     })
   }
@@ -255,8 +259,11 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
               {transitionStyle === "book" && (
                 <>
                   <SlideBackground />
-                  {/* Spine Crease / Fold Shadow */}
-                  <div
+                  {/* Spine Crease / Fold Shadow - now fades out gracefully */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={isAnimating ? { opacity: 1 } : { opacity: 0 }}
+                    transition={{ duration: 0.4, delay: isAnimating ? 0 : 0.1 }}
                     className={cn(
                       "absolute inset-y-0 z-20 w-16 pointer-events-none",
                       lastDirection > 0 ? "left-0 bg-gradient-to-r from-black/25 via-black/10 to-transparent" : "right-0 bg-gradient-to-l from-black/25 via-black/10 to-transparent"
@@ -266,12 +273,12 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
                   <motion.div
                     className="absolute inset-0 z-30 pointer-events-none"
                     initial={{ opacity: 0 }}
-                    animate={isAnimating ? { opacity: [0, 0.15, 0] } : { opacity: 0 }}
+                    animate={isAnimating ? { opacity: [0, 0.1, 0] } : { opacity: 0 }}
                     transition={{ duration: 1.8 }}
                     style={{
                       background: lastDirection > 0
-                        ? "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.25) 50%, transparent 65%)"
-                        : "linear-gradient(-105deg, transparent 35%, rgba(255,255,255,0.25) 50%, transparent 65%)"
+                        ? "linear-gradient(135deg, transparent 35%, rgba(255,255,255,0.15) 50%, transparent 65%)"
+                        : "linear-gradient(-135deg, transparent 35%, rgba(255,255,255,0.15) 50%, transparent 65%)"
                     }}
                   />
                 </>
@@ -310,12 +317,12 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
                 <motion.div
                   className="absolute inset-0 z-20 pointer-events-none"
                   initial={{ opacity: 0 }}
-                  animate={isAnimating ? { opacity: [0, 0.25, 0] } : { opacity: 0 }}
+                  animate={isAnimating ? { opacity: [0, 0.15, 0] } : { opacity: 0 }}
                   transition={{ duration: 1.8 }}
                   style={{
                     background: lastDirection > 0
-                      ? "linear-gradient(to right, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 20%, transparent 60%)"
-                      : "linear-gradient(to left, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 20%, transparent 60%)"
+                      ? "linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 20%, transparent 70%)"
+                      : "linear-gradient(-135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 20%, transparent 70%)"
                   }}
                 />
               </div>
@@ -323,13 +330,16 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
           </motion.div>
         </AnimatePresence>
 
-        {/* Improved Shadow cast on the slide UNDERNEATH during the turn */}
-        {transitionStyle === "book" && isAnimating && (
+        {/* Improved Shadow cast on the slide UNDERNEATH - now with smoother exit */}
+        {transitionStyle === "book" && (
           <motion.div
             className="absolute inset-0 z-5 pointer-events-none"
             initial={{ opacity: 0, scaleX: 0.8 }}
-            animate={{ opacity: [0, 0.5, 0], scaleX: [0.8, 1, 0.8] }}
-            transition={{ duration: 1.8, ease: "easeInOut" }}
+            animate={isAnimating ? { opacity: [0, 0.3, 0] } : { opacity: 0 }}
+            transition={{
+              duration: isAnimating ? 1.8 : 0.4,
+              ease: "easeInOut"
+            }}
             style={{
               background: lastDirection > 0
                 ? "linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 30%, transparent 50%)"

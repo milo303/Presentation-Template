@@ -103,11 +103,11 @@ export function SlideTitle({ isActive = true, skipAnimations = false }: SlideTit
 
           {/* Integration of Logos */}
           <div
-            className={`mt-14 flex items-center gap-10 ${skipAnimations ? "" : "transition-all duration-1000 ease-out"} ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            className={`mt-14 flex items-center gap-14 ${skipAnimations ? "" : "transition-all duration-1000 ease-out"} ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             style={{ transitionDelay: skipAnimations ? "0ms" : "1000ms" }}
           >
-            <div className="relative h-10 w-32 transition-transform hover:scale-105 duration-300">
+            <div className="relative h-14 w-44 transition-transform hover:scale-105 duration-300 shadow-sm">
               <Image
                 src="/images/logo-degeto.png"
                 alt="ARD Degeto Logo"
@@ -115,7 +115,7 @@ export function SlideTitle({ isActive = true, skipAnimations = false }: SlideTit
                 className="object-contain"
               />
             </div>
-            <div className="relative h-10 w-16 transition-transform hover:scale-105 duration-300">
+            <div className="relative h-14 w-24 transition-transform hover:scale-105 duration-300 shadow-sm">
               <Image
                 src="/images/logo-ufa.png"
                 alt="UFA Logo"

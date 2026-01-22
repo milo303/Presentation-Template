@@ -16,8 +16,10 @@ No Copilot rules found (`.github/copilot-instructions.md`).
 - shadcn config: `components.json` (aliases + `app/globals.css` as Tailwind entry)
 
 ## Repo Layout
-- `app/` - `app/layout.tsx`, `app/page.tsx`, `app/globals.css`
-- `components/presentation/` - deck controller + slides
+- `app/` - `app/layout.tsx`, `app/page.tsx`, `app/globals.css` (Tailwind v4 entry)
+- `components/presentation/` - deck controller, slides, and the core template
+    - `presentation-controller.tsx` - The engine (handles 3D book flip + slide transition)
+    - `slide-template.tsx` - The foundation for 90% of slides (handles Paper/Cinematic modes)
 - `components/ui/` - shadcn/ui components (Radix-based)
 - `hooks/` - client hooks
 - `lib/` - utilities (`lib/utils.ts` -> `cn()`)
@@ -26,22 +28,39 @@ No Copilot rules found (`.github/copilot-instructions.md`).
 Note: `styles/globals.css` exists but the app imports `app/globals.css`.
 
 ## How The Deck Works
-- Entry: `app/page.tsx` renders `PresentationController` with slide components in this order:
-  1) `SlideTitle` (intro), 2) `SlideAtmosphere` (hut/box scene), 3) `SlideWorld` (context), 4) `SlideFeeling` (closing).
-- Keep `TOTAL_SLIDES` in sync with the number of slide children.
-- `components/presentation/presentation-controller.tsx`:
-  - keyboard: Right/Space/Enter = next; Left/Backspace = prev
-  - touch: swipe left/right
-  - animation lock: `isAnimating` for 800ms; slide transition is ~700ms
-- Slides (`components/presentation/slide-*.tsx`) accept `isActive` and typically
-  gate animations via local `mounted` state.
+- **Entry**: `app/page.tsx` renders `PresentationController` with **15 slides**.
+- **Slide Modes**:
+    - **Cinematic**: Full-bleed background images, dark gradients, white text.
+    - **Paper**: Transparent slides sitting on a global or per-slide paper texture with autumn leaves. Content is inset like a printed book page.
+- **Transition Styles**:
+    - **Slide**: Parallax "Push" motion (Classic presentation feel).
+    - **Book**: High-end 3D page flip.
+        - **Diagonal Peel**: Pages flip from top-right to bottom-left (RotateY + RotateX + RotateZ + SkewY).
+        - **Backface logic**: Turning pages have a "Back Face" with paper texture.
+        - **Shadows**: Dynamic "floor" shadow cast on the page below and a spine crease.
+        - **Timing**: 1.8s duration for a premium, heavy feel.
+        - **Visibility**: Exiting pages fade out proactively (starts at 0.2s) to prevent corner lingering.
 
-### Slide 2 “Box” (Hut) Lighting
-- `components/presentation/slide-atmosphere.tsx` renders the hut/box scene.
-- The “box” is the hut (`/images/wildholz-hut.png`) with layered glow elements.
-- Lighting shifts across three internal states (0 → 1 → 2): daylight → warm dusk → night.
-- The light change is driven by `lightOpacity`, plus volumetric glow and beam layers behind the hut.
-- Night state also dims the hut image (`brightness/contrast/sepia`) and adds ambient pulsing.
+## Slide Reference (Order in app/page.tsx)
+1. `SlideTitle` - Logo + Intro (Cinematic)
+2. `SlideLocation` - "Der Ort" (Paper)
+3. `SlideIdea` - "Die Serie" (Paper)
+4. `SlideCharacter` - "Charaktere" (Paper)
+5. `SlideIncitingIncident` - "Der Aufhänger" (Paper)
+6. `SlideCommunity` - "Zielgruppe" (Paper)
+7. `SlideFeeling` - "Das Gefühl" (Cinematic)
+8. `SlideStructure` - "Struktur" (Paper)
+9. `SlideDifferentiation` - "Alleinstellungsmerkmal" (Paper)
+10. `SlideAudience` - "Audienz" (Paper)
+11. `SlideTransmedia` - "Transmedia" (Paper)
+12. `SlideAtmosphere` - Interactive "Hut" (Cinematic) - handles interactive hut states
+13. `SlideMarketing` - "Marketing" (Paper)
+14. `SlideProduction` - "Produktion" (Paper) - Uses `wildholz-production-v2.jpg`
+15. `SlideClosing` - Outro (Cinematic)
+
+## Core Props for Slides
+- `isActive`: Boolean to trigger entrance animations.
+- `skipAnimations`: Boolean (true in Book mode). If true, the `SlideTemplate` skips entrance fades/scales to prevent visual clashing with the page-flip animation.
 
 ## Commands (pnpm)
 
@@ -136,7 +155,8 @@ Use aliases from `components.json`:
 ## Motion Guidelines
 - Slides may use framer-motion; keep it client-only.
 - Prefer a few deliberate entrance animations over many competing effects.
-- Keep timings aligned with `PresentationController` (avoid mismatched durations).
+- Keep timings aligned with `PresentationController` (1.8s for book transitions).
+- Use `skipAnimations` in custom slide logic to bypass entrance fades when book mode is active.
 
 ## Images / Assets
 - Put slide images in `public/images/` and reference via `/images/...`.

@@ -12,7 +12,7 @@ export function SlideProduction({ isActive, skipAnimations }: SlideProductionPro
         <SlideTemplate
             isActive={isActive}
             skipAnimations={skipAnimations}
-            backgroundImage="/images/wildholz-production.png"
+            backgroundImage="/images/wildholz-production-v2.jpg"
             mode="paper"
             alignment="right"
         >
