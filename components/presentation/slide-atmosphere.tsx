@@ -3,6 +3,7 @@
 import React, { useRef, useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
+import { getAssetPath } from "@/lib/utils"
 
 interface SlideAtmosphereProps {
   isActive?: boolean
@@ -15,14 +16,14 @@ interface SlideAtmosphereProps {
 // To swap or extend assets, simply modify this array
 const SEQUENCE = {
   images: [
-    '/images/wilholzBox-1.png',
-    '/images/wilholzBox-2.png',
-    '/images/wilholzBox-3.png',
+    getAssetPath('/images/wilholzBox-1.png'),
+    getAssetPath('/images/wilholzBox-2.png'),
+    getAssetPath('/images/wilholzBox-3.png'),
   ],
   // Videos that play BETWEEN images (transitions[i] plays between images[i] and images[i+1])
   transitions: [
-    '/images/Video-1.mp4',
-    '/images/Video-2.mp4',
+    getAssetPath('/images/Video-1.mp4'),
+    getAssetPath('/images/Video-2.mp4'),
   ],
 }
 
