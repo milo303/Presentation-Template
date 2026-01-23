@@ -48,8 +48,7 @@ export function SlideCharacter({ isActive, skipAnimations }: SlideCharacterProps
                 Emily (Anna) Keller
             </SlideHeading>
             <SlideBody isActive={isActive} skipAnimations={skipAnimations} mode="paper" className="text-[clamp(0.9rem,1.2vw+0.7rem,1.8rem)] text-white/85">
-                33, Grafik-Designerin für New-Adult-Romane. Sie lebt lieber in Tagträumen als in der Realität – bis sie durch einen Unfall zur Verlobten ihres Lieblingsautors wird.<br /><br />
-                Ehrlich, humorvoll und endlich angekommen, aber mit einem Geheimnis, das alles zerstören könnte.
+                33, Grafik-Designerin und Social-Media-Expertin für New Adult-Romane. Sehr erfolgreich in ihrer Karriere, privat zu viel in Tagträumen unterwegs. Bis sie durch einen Unfall Verlobte ihres Lieblingsautors wird.
             </SlideBody>
         </SlideTemplate>
     )
