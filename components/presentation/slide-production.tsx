@@ -1,33 +1,17 @@
 "use client"
 
 import { SlideTemplate, SlideLabel, SlideHeading, SlideBody } from "./slide-template"
-import { useState, useEffect } from "react"
-
 interface SlideProductionProps {
     isActive: boolean
     skipAnimations?: boolean
 }
 
 export function SlideProduction({ isActive, skipAnimations }: SlideProductionProps) {
-    const [showSecond, setShowSecond] = useState(false)
-
-    useEffect(() => {
-        if (!isActive) return
-
-        const interval = setInterval(() => {
-            setShowSecond(prev => !prev)
-        }, 6000)
-
-        return () => clearInterval(interval)
-    }, [isActive])
-
     return (
         <SlideTemplate
             isActive={isActive}
             skipAnimations={skipAnimations}
-            backgroundVideo="/images/hf_20260122_154804_b77bf969-4e16-4887-8857-7459813fdc17.mp4"
-            backgroundSecondary="/images/wildholz-virtual-production.png"
-            isSecondaryActive={showSecond}
+            backgroundImage="/images/Buch.png"
             mode="paper"
             alignment="right"
         >
