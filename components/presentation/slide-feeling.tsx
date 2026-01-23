@@ -96,6 +96,17 @@ export function SlideFeeling({ isActive = true, skipAnimations = false }: SlideF
               </p>
             </motion.div>
 
+            <motion.div
+              className="mt-10 text-[clamp(1.05rem,1vw+0.7rem,1.45rem)] text-white/80 font-light leading-relaxed text-right"
+              initial={skipAnimations ? false : { opacity: 0, y: 24, x: -6, scale: 0.98 }}
+              animate={show ? { opacity: 1, y: 0, x: 0, scale: 1 } : { opacity: 0, y: 24, x: -6, scale: 0.98 }}
+              transition={skipAnimations ? noTransition : { type: "spring", stiffness: 105, damping: 20, delay: 1.1 }}
+            >
+              <p className="font-serif text-white/70">Genre & Haltung:</p>
+              <p>Liebes- und Familiengeschichte</p>
+              <p>Modern-romantisch mit komödiantischen Elementen</p>
+            </motion.div>
+
             {/* End decoration */}
             <motion.div
               className="mt-14 flex items-center justify-end gap-4"
