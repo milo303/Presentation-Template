@@ -1,8 +1,9 @@
 "use client"
 
-import { getAssetPath } from "@/lib/utils"
+import Image from "next/image"
 import { motion } from "framer-motion"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
+import { getAssetPath } from "@/lib/utils"
 
 interface SlideFeelingProps {
   isActive?: boolean
@@ -11,7 +12,6 @@ interface SlideFeelingProps {
 
 export function SlideFeeling({ isActive = true, skipAnimations = false }: SlideFeelingProps) {
   const [mounted, setMounted] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     if (skipAnimations) {
@@ -26,23 +26,6 @@ export function SlideFeeling({ isActive = true, skipAnimations = false }: SlideF
     }
   }, [isActive, skipAnimations])
 
-  useEffect(() => {
-    if (!videoRef.current) return
-
-    if (isActive) {
-      videoRef.current.currentTime = 0
-      videoRef.current.play().catch(() => {})
-    } else {
-      videoRef.current.pause()
-    }
-  }, [isActive])
-
-  const handleEnded = () => {
-    if (!videoRef.current) return
-    videoRef.current.currentTime = videoRef.current.duration
-    videoRef.current.pause()
-  }
-
   const show = skipAnimations || mounted
   const noTransition = { duration: 0 }
 
@@ -55,14 +38,12 @@ export function SlideFeeling({ isActive = true, skipAnimations = false }: SlideF
         animate={show ? { scale: 1, opacity: 1 } : { scale: 1.1, opacity: 0 }}
         transition={skipAnimations ? noTransition : { duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
       >
-        <video
-          ref={videoRef}
-          className="absolute inset-0 h-full w-full object-cover"
-          src={getAssetPath("/animation/Paul%20Hartmann.mp4")}
-          autoPlay={false}
-          muted
-          playsInline
-          onEnded={handleEnded}
+        <Image
+          src={getAssetPath("/images/wildholz-feeling-new.png")}
+          alt="Waldstimmung Hintergrund"
+          fill
+          className="object-cover"
+          priority
         />
         {/* Warm color grade */}
         <div className="absolute inset-0 bg-gradient-to-tl from-orange-900/20 via-transparent to-forest/10 mix-blend-overlay" />
