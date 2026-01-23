@@ -64,7 +64,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
             >
               <div className="absolute inset-0">
                 {/* Left Arrow - Farmhouse (left building) */}
-                <div className="absolute left-[38%] bottom-[58%] flex flex-col items-center gap-3">
+                <div className="absolute left-[34%] bottom-[34%] flex flex-col items-center gap-3">
                   <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                     Familien- und<br />Heimatgeschichte
                   </div>
@@ -79,7 +79,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                   </motion.div>
                 </div>
                 {/* Center Arrow - Main House (central building) */}
-                <div className="absolute left-[47%] bottom-[55%] flex flex-col items-center gap-3">
+                <div className="absolute left-[47%] bottom-[37%] flex flex-col items-center gap-3">
                   <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                     Gesellschaftlicher<br />Anspruch
                   </div>
@@ -94,7 +94,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                   </motion.div>
                 </div>
                 {/* Right Arrow - Barn with Solar Panels */}
-                <div className="absolute left-[68%] bottom-[50%] flex flex-col items-center gap-3">
+                <div className="absolute left-[72%] bottom-[34%] flex flex-col items-center gap-3">
                   <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                     Echte Gefühle
                   </div>
