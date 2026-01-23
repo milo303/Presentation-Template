@@ -39,7 +39,7 @@ const TEXT_CONTENT = [
   },
   {
     title: "Authentisch Erlebbar",
-    description: "Die Stimmung von Wildholz mitten in die Fußgängerzone geholt. Mehr Spaziergang im Wald als Promotionfläche."
+    description: "Die Stimmung von Wildholz mitten in die Fußgängerzone geholt."
   }
 ]
 

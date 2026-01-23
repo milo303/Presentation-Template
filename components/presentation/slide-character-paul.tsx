@@ -58,10 +58,7 @@ export function SlideCharacterPaul({ isActive, skipAnimations }: SlideCharacterP
                         Paul Hartmann
                     </SlideHeading>
                     <SlideBody isActive={isActive} skipAnimations={skipAnimations} mode="cinematic" className="text-[clamp(0.9rem,1.2vw+0.7rem,1.8rem)]">
-                        37, Benjamins großer Bruder und Tischler. Nicht so feingeistig wie der Autor – anpackend,
-                        ehrlich und nimmt kein Blatt vor den Mund.<br /><br />
-                        Er ist der geerdete Gegenpol zu seinem Bruder. Unter der rauen Schale verbirgt sich ein
-                        verletzliches Herz, das schon bald für die falsche Verlobte schlägt.
+                        37, Benjamins großer Bruder. Tischler für exquisite Design-Holzmöbel. Für ihn zählt noch echte Handarbeit mit Liebe zum Detail. Nicht so feingeistig wie der Autor. Ehrlich, anpacken, nimmt kein Blatt vor den Mund.
                     </SlideBody>
                 </div>
             </div>
