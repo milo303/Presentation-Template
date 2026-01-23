@@ -18,12 +18,17 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
             mode="paper"
             className="bg-[#F9F5EA]"
         >
-            <div
-                className="absolute inset-0 z-0 opacity-10 pointer-events-none bg-cover mix-blend-multiply"
-                style={{ backgroundImage: `url('${getAssetPath('/images/paper-texture.jpg')}')` }}
-            />
+            <div className="absolute inset-0 z-0 opacity-10 pointer-events-none mix-blend-multiply">
+                <Image
+                    src={getAssetPath("/images/paper-texture.jpg")}
+                    alt=""
+                    fill
+                    className="object-cover"
+                    priority
+                />
+            </div>
 
-            <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-16">
+            <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-10 text-center">
                 {/* Header */}
                 <div className="text-center mb-8">
                     <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="paper">Das Ensemble</SlideLabel>
@@ -31,8 +36,8 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
                 </div>
 
                 {/* Horizontal Tree Container */}
-                <div className="flex items-center justify-center w-full max-w-[1800px] mx-auto">
-                    <div className="flex items-center scale-[1.08]">
+                <div className="flex items-center justify-center w-full max-w-[2000px] mx-auto">
+                    <div className="flex items-center scale-[1.16]">
 
                         {/* Level 1: Grandparents */}
                         <FamilyNode

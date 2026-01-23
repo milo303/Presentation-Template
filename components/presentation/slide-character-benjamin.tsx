@@ -91,8 +91,7 @@ export function SlideCharacterBenjamin({ isActive, skipAnimations }: SlideCharac
                     Benjamin Hartmann
                 </SlideHeading>
                 <SlideBody isActive={isActive} skipAnimations={skipAnimations} mode="paper" className="text-[clamp(0.9rem,1.2vw+0.7rem,1.8rem)] text-white/85">
-                    33, erfolgreicher Bestseller-Autor. Er schreibt die Liebesgeschichten, von denen Emily träumt.<br /><br />
-                    Charmant, wortgewandt und von allen bewundert. Doch als er nach seinem Unfall aus dem Koma erwacht, ist sein Leben ein unbeschriebenes Blatt – und die falsche Verlobte seine einzige Konstante.
+                    33, erfolgreicher Bestseller-Autor. Schreibt die Liebesgeschichten, von denen Emily träumt. Charmant, wortgewandt und von allen bewundert. Bis er nach seinem Unfall in ein Koma fällt.
                 </SlideBody>
             </SlideTemplate>
         </div>
