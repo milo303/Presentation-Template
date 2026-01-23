@@ -1,7 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { motion } from "framer-motion"
+import { useEffect, useRef } from "react"
 import { SlideTemplate } from "./slide-template"
 import { getAssetPath } from "@/lib/utils"
 
@@ -12,13 +11,11 @@ interface SlideProducersNoteProps {
 
 export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersNoteProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const [hasEnded, setHasEnded] = useState(false)
 
   useEffect(() => {
     if (!videoRef.current) return
 
     if (isActive) {
-      setHasEnded(false)
       videoRef.current.currentTime = 0
       videoRef.current.play().catch(() => {})
     } else {
@@ -30,7 +27,6 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
     if (!videoRef.current) return
     videoRef.current.currentTime = videoRef.current.duration
     videoRef.current.pause()
-    setHasEnded(true)
   }
 
   return (
@@ -49,18 +45,6 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
             playsInline
             onEnded={handleEnded}
           />
-          {hasEnded && (
-            <div className="absolute inset-0 flex items-start justify-center pt-[12vh]">
-              <motion.p
-                className="text-white text-[clamp(3.6rem,5.4vw+1.8rem,7.2rem)] font-serif font-semibold tracking-[0.04em] drop-shadow-[0_8px_28px_rgba(0,0,0,0.45)]"
-                initial={skipAnimations ? false : { opacity: 0, y: 18, scale: 0.98 }}
-                animate={skipAnimations ? { opacity: 1, y: 0, scale: 1 } : { opacity: 1, y: 0, scale: 1 }}
-                transition={skipAnimations ? { duration: 0 } : { duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
-              >
-                Warum Wildholz?
-              </motion.p>
-            </div>
-          )}
         </>
       }
       contentClassName="hidden"
