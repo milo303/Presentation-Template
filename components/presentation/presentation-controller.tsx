@@ -69,8 +69,8 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
     setCurrentSlide(index)
     onSlideChange?.(index)
 
-    // Synchronize animation lock with motion duration
-    const lockDuration = useZoom ? 1200 : 1800
+    // Synchronize animation lock with motion duration (Zoom is 1.4s, Book is 1.8s)
+    const lockDuration = useZoom ? 1400 : 1800
     setTimeout(() => {
       setIsAnimating(false)
       setTransitionOverride(null)
