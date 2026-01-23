@@ -33,28 +33,28 @@ export function SlideTransmedia({ isActive, skipAnimations }: SlideTransmediaPro
                     </p>
                     <div className="mt-3 flex flex-wrap gap-4">
                         <Image
-                            src={getAssetPath("/Logos/443809c5-42c6-4e17-9f31-1732ccfccc09%20(1).jpg")}
+                            src={getAssetPath("/Logos/443809c5-42c6-4e17-9f31-1732ccfccc09%20%281%29.jpg")}
                             alt="Logo 1"
                             width={84}
                             height={84}
                             className="h-12 w-12 object-contain"
                         />
                         <Image
-                            src={getAssetPath("/Logos/6bae3d5a-b44b-418e-bd7d-eb3a356630a8%20(1).png")}
+                            src={getAssetPath("/Logos/6bae3d5a-b44b-418e-bd7d-eb3a356630a8%20%281%29.png")}
                             alt="Logo 2"
                             width={84}
                             height={84}
                             className="h-12 w-12 object-contain"
                         />
                         <Image
-                            src={getAssetPath("/Logos/b0d1a469-093a-469c-ae38-798f884a796b%20(1).png")}
+                            src={getAssetPath("/Logos/b0d1a469-093a-469c-ae38-798f884a796b%20%281%29.png")}
                             alt="Logo 3"
                             width={84}
                             height={84}
                             className="h-12 w-12 object-contain"
                         />
                         <Image
-                            src={getAssetPath("/Logos/cad5ae49-a82b-4828-a961-6476cce4bf73%20(1).png")}
+                            src={getAssetPath("/Logos/cad5ae49-a82b-4828-a961-6476cce4bf73%20%281%29.png")}
                             alt="Logo 4"
                             width={84}
                             height={84}
