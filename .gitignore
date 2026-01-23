@@ -27,3 +27,6 @@ yarn-error.log*
 next-env.d.ts
 # Large Media
 public/images/Wildholz-Compressed.mp4
+public/images/WildholzCOmpress.mp4
+public/images/Wildholz-SuperCompressed.mp4
+public/images/test-compress.mp4

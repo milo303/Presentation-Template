@@ -92,7 +92,7 @@ export function SlideTrailer({ isActive = false, skipAnimations = false }: Slide
                     onEnded={() => setIsPlaying(false)}
                     playsInline
                     muted={isMuted}
-                    src={getAssetPath("/images/Wildholz-Compressed.mp4")}
+                    src="https://wydligtlczuankudjwxp.supabase.co/storage/v1/object/public/videos/Wildholz-SuperCompressed.mp4"
                     poster={getAssetPath("/images/wildholz-background-new.png")}
                 />
 
