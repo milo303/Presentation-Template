@@ -50,19 +50,26 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [transitionStyle, setTransitionStyle] = useState<"slide" | "book">("slide")
   const [lastDirection, setLastDirection] = useState<1 | -1>(1)
+  const [transitionOverride, setTransitionOverride] = useState<"fade" | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const slideChildren = React.Children.toArray(children)
 
   const goToSlide = useCallback((index: number, direction: 1 | -1) => {
     if (isAnimating || index < 0 || index >= totalSlides) return
+    const useFade = (currentSlide === 2 && index === 3) || (currentSlide === 3 && index === 2)
     setIsAnimating(true)
     setLastDirection(direction)
+    setTransitionOverride(useFade ? "fade" : null)
     setCurrentSlide(index)
     onSlideChange?.(index)
     // Synchronize animation lock with motion duration (matches durations in variants)
-    setTimeout(() => setIsAnimating(false), 1800)
-  }, [isAnimating, totalSlides, onSlideChange])
+    const lockDuration = useFade ? 900 : 1800
+    setTimeout(() => {
+      setIsAnimating(false)
+      setTransitionOverride(null)
+    }, lockDuration)
+  }, [isAnimating, totalSlides, onSlideChange, currentSlide])
 
   const nextSlide = useCallback(() => {
     if (currentSlide < totalSlides - 1) {
@@ -146,6 +153,23 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
         opacity: { duration: 0.4 }
       }
     })
+  }
+
+  const fadeVariants: Variants = {
+    enter: {
+      opacity: 0,
+      zIndex: 1,
+    },
+    center: {
+      opacity: 1,
+      zIndex: 10,
+      transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] }
+    },
+    exit: {
+      opacity: 0,
+      zIndex: 0,
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+    }
   }
 
   // Enhanced Book Page Flip Variants - simulating curvature and paper flexibility
@@ -237,7 +261,11 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
           <motion.div
             key={currentSlide}
             custom={lastDirection}
-            variants={transitionStyle === "book" ? bookVariants : slideVariants}
+            variants={
+              transitionOverride === "fade"
+                ? fadeVariants
+                : (transitionStyle === "book" ? bookVariants : slideVariants)
+            }
             initial="enter"
             animate="center"
             exit="exit"
