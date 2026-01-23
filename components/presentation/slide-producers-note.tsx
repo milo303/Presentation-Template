@@ -64,9 +64,12 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
             >
               <div className="absolute inset-0">
                 {/* Left Arrow - Farmhouse (left building) */}
-                <div className="absolute left-[38%] bottom-[32%] flex flex-col items-center gap-3">
+                <div className="absolute left-[38%] bottom-[58%] flex flex-col items-center gap-3">
+                  <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                    Familien- und<br />Heimatgeschichte
+                  </div>
                   <motion.div
-                    className="relative h-28 w-[2px] bg-white/70"
+                    className="relative h-20 w-[2px] bg-white/70"
                     initial={skipAnimations ? false : { scaleY: 0 }}
                     animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
                     transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
@@ -74,14 +77,14 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                   >
                     <div className="absolute -top-2 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-white/80" />
                   </motion.div>
-                  <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap">
-                    Familien- und<br />Heimatgeschichte
-                  </div>
                 </div>
                 {/* Center Arrow - Main House (central building) */}
-                <div className="absolute left-[47%] bottom-[35%] flex flex-col items-center gap-3">
+                <div className="absolute left-[47%] bottom-[55%] flex flex-col items-center gap-3">
+                  <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                    Gesellschaftlicher<br />Anspruch
+                  </div>
                   <motion.div
-                    className="relative h-24 w-[2px] bg-white/70"
+                    className="relative h-18 w-[2px] bg-white/70"
                     initial={skipAnimations ? false : { scaleY: 0 }}
                     animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
                     transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
@@ -89,14 +92,14 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                   >
                     <div className="absolute -top-2 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-white/80" />
                   </motion.div>
-                  <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap">
-                    Gesellschaftlicher<br />Anspruch
-                  </div>
                 </div>
                 {/* Right Arrow - Barn with Solar Panels */}
-                <div className="absolute left-[68%] bottom-[32%] flex flex-col items-center gap-3">
+                <div className="absolute left-[68%] bottom-[50%] flex flex-col items-center gap-3">
+                  <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                    Echte Gefühle
+                  </div>
                   <motion.div
-                    className="relative h-32 w-[2px] bg-white/70"
+                    className="relative h-24 w-[2px] bg-white/70"
                     initial={skipAnimations ? false : { scaleY: 0 }}
                     animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
                     transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
@@ -104,9 +107,6 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                   >
                     <div className="absolute -top-2 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-white/80" />
                   </motion.div>
-                  <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap">
-                    Echte Gefühle
-                  </div>
                 </div>
               </div>
             </motion.div>
