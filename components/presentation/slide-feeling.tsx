@@ -107,46 +107,6 @@ export function SlideFeeling({ isActive = true, skipAnimations = false }: SlideF
               <p>Modern-romantisch mit komödiantischen Elementen</p>
             </motion.div>
 
-            <motion.div
-              className="mt-8 text-right"
-              initial={skipAnimations ? false : { opacity: 0, y: 20, x: -4, scale: 0.98 }}
-              animate={show ? { opacity: 1, y: 0, x: 0, scale: 1 } : { opacity: 0, y: 20, x: -4, scale: 0.98 }}
-              transition={skipAnimations ? noTransition : { type: "spring", stiffness: 105, damping: 20, delay: 1.25 }}
-            >
-              <p className="text-[clamp(1.05rem,1vw+0.7rem,1.45rem)] font-serif text-white/70">
-                Multiplattform-Strategie
-              </p>
-              <div className="mt-4 flex justify-end gap-4">
-                <Image
-                  src={getAssetPath("/Logos/443809c5-42c6-4e17-9f31-1732ccfccc09%20(1).jpg")}
-                  alt="Logo 1"
-                  width={84}
-                  height={84}
-                  className="h-12 w-12 object-contain"
-                />
-                <Image
-                  src={getAssetPath("/Logos/6bae3d5a-b44b-418e-bd7d-eb3a356630a8%20(1).png")}
-                  alt="Logo 2"
-                  width={84}
-                  height={84}
-                  className="h-12 w-12 object-contain"
-                />
-                <Image
-                  src={getAssetPath("/Logos/b0d1a469-093a-469c-ae38-798f884a796b%20(1).png")}
-                  alt="Logo 3"
-                  width={84}
-                  height={84}
-                  className="h-12 w-12 object-contain"
-                />
-                <Image
-                  src={getAssetPath("/Logos/cad5ae49-a82b-4828-a961-6476cce4bf73%20(1).png")}
-                  alt="Logo 4"
-                  width={84}
-                  height={84}
-                  className="h-12 w-12 object-contain"
-                />
-              </div>
-            </motion.div>
 
             {/* End decoration */}
             <motion.div
