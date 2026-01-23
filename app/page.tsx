@@ -14,7 +14,6 @@ import { SlideFeeling } from "@/components/presentation/slide-feeling"
 import { SlideStructure } from "@/components/presentation/slide-structure"
 import { SlideTransmedia } from "@/components/presentation/slide-transmedia"
 import { SlideAtmosphere } from "@/components/presentation/slide-atmosphere"
-import { SlideMarketing } from "@/components/presentation/slide-marketing"
 import { SlideProduction } from "@/components/presentation/slide-production"
 import { SlideProducersNote } from "@/components/presentation/slide-producers-note"
 import { SlideTrailer } from "@/components/presentation/slide-trailer"
@@ -22,7 +21,7 @@ import { SlideClosing } from "@/components/presentation/slide-closing"
 import { SlideQuestion } from "@/components/presentation/slide-question"
 import { SlideKomparsen } from "@/components/presentation/slide-komparsen"
 
-const TOTAL_SLIDES = 19
+const TOTAL_SLIDES = 18
 
 export default function WildholzPresentation() {
   const [activeSlide, setActiveSlide] = useState(0)
@@ -48,10 +47,9 @@ export default function WildholzPresentation() {
         <SlideStructure isActive={activeSlide === 12} />
         <SlideTransmedia isActive={activeSlide === 13} />
         <SlideAtmosphere isActive={activeSlide === 14} />
-        <SlideMarketing isActive={activeSlide === 15} />
-        <SlideProduction isActive={activeSlide === 16} />
-        <SlideKomparsen isActive={activeSlide === 17} />
-        <SlideClosing isActive={activeSlide === 18} />
+        <SlideProduction isActive={activeSlide === 15} />
+        <SlideKomparsen isActive={activeSlide === 16} />
+        <SlideClosing isActive={activeSlide === 17} />
       </PresentationController>
     </main>
   )
