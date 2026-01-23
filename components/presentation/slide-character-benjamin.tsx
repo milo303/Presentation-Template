@@ -77,7 +77,7 @@ export function SlideCharacterBenjamin({ isActive, skipAnimations }: SlideCharac
                         <video
                             ref={videoRef}
                             className="absolute inset-0 h-full w-full object-cover"
-                            src={getAssetPath("/images/hf_20260122_155150_9a4bc8fb-d668-41ce-bd88-d056890d4fc4.mp4")}
+                            src={getAssetPath("/animation/Benjamin%20Hartmann.mp4")}
                             autoPlay={false}
                             muted
                             playsInline
