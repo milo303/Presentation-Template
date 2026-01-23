@@ -50,21 +50,27 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [transitionStyle, setTransitionStyle] = useState<"slide" | "book">("slide")
   const [lastDirection, setLastDirection] = useState<1 | -1>(1)
-  const [transitionOverride, setTransitionOverride] = useState<"fade" | null>(null)
+  const [transitionOverride, setTransitionOverride] = useState<"fade" | "zoom" | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const slideChildren = React.Children.toArray(children)
 
   const goToSlide = useCallback((index: number, direction: 1 | -1) => {
     if (isAnimating || index < 0 || index >= totalSlides) return
-    const useFade = (currentSlide === 2 && index === 3) || (currentSlide === 3 && index === 2)
+
+    // Custom transitions for specific slides
+    // Zoom for index 1 <-> 2 (Video <-> Question) and 2 <-> 3 (Question <-> Producers Note)
+    const useZoom = (currentSlide === 1 && index === 2) || (currentSlide === 2 && index === 1) ||
+      (currentSlide === 2 && index === 3) || (currentSlide === 3 && index === 2)
+
     setIsAnimating(true)
     setLastDirection(direction)
-    setTransitionOverride(useFade ? "fade" : null)
+    setTransitionOverride(useZoom ? "zoom" : null)
     setCurrentSlide(index)
     onSlideChange?.(index)
-    // Synchronize animation lock with motion duration (matches durations in variants)
-    const lockDuration = useFade ? 900 : 1800
+
+    // Synchronize animation lock with motion duration
+    const lockDuration = useZoom ? 1200 : 1800
     setTimeout(() => {
       setIsAnimating(false)
       setTransitionOverride(null)
@@ -172,6 +178,32 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
     }
   }
 
+  const zoomVariants: Variants = {
+    enter: (direction: number) => ({
+      scale: direction > 0 ? 0.85 : 1.15,
+      opacity: 0,
+      zIndex: 1,
+    }),
+    center: {
+      scale: 1,
+      opacity: 1,
+      zIndex: 10,
+      transition: {
+        scale: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
+        opacity: { duration: 0.8, ease: "linear" }
+      }
+    },
+    exit: (direction: number) => ({
+      scale: direction > 0 ? 1.15 : 0.85,
+      opacity: 0,
+      zIndex: 0,
+      transition: {
+        scale: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
+        opacity: { duration: 0.7, ease: "linear" }
+      }
+    })
+  }
+
   // Enhanced Book Page Flip Variants - simulating curvature and paper flexibility
   const bookVariants: Variants = {
     enter: (direction: number) => ({
@@ -262,9 +294,11 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
             key={currentSlide}
             custom={lastDirection}
             variants={
-              transitionOverride === "fade"
-                ? fadeVariants
-                : (transitionStyle === "book" ? bookVariants : slideVariants)
+              transitionOverride === "zoom"
+                ? zoomVariants
+                : transitionOverride === "fade"
+                  ? fadeVariants
+                  : (transitionStyle === "book" ? bookVariants : slideVariants)
             }
             initial="enter"
             animate="center"
