@@ -18,7 +18,7 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
             mode="paper"
             alignment="center"
         >
-            <div className="relative z-10 w-full h-full flex flex-col items-center justify-start px-10 pt-16">
+            <div className="relative z-10 w-full h-full flex flex-col items-center justify-start px-12 pt-20">
                 {/* Header */}
                 <div className="text-center mb-12">
                     <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="paper">Das Ensemble</SlideLabel>

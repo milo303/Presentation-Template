@@ -180,26 +180,29 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
 
   const zoomVariants: Variants = {
     enter: (direction: number) => ({
-      scale: direction > 0 ? 0.85 : 1.15,
+      scale: direction > 0 ? 0.8 : 1.2,
+      x: 0,
       opacity: 0,
       zIndex: 1,
     }),
     center: {
       scale: 1,
+      x: 0,
       opacity: 1,
       zIndex: 10,
       transition: {
-        scale: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
-        opacity: { duration: 0.8, ease: "linear" }
+        scale: { duration: 1.4, ease: [0.16, 1, 0.3, 1] },
+        opacity: { duration: 0.9, ease: "easeInOut" }
       }
     },
     exit: (direction: number) => ({
-      scale: direction > 0 ? 1.15 : 0.85,
+      scale: direction > 0 ? 1.2 : 0.8,
+      x: 0,
       opacity: 0,
       zIndex: 0,
       transition: {
-        scale: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
-        opacity: { duration: 0.7, ease: "linear" }
+        scale: { duration: 1.4, ease: [0.16, 1, 0.3, 1] },
+        opacity: { duration: 0.8, ease: "easeInOut" }
       }
     })
   }
