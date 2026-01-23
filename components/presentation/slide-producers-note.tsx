@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { SlideTemplate } from "./slide-template"
 import { getAssetPath } from "@/lib/utils"
@@ -12,6 +12,7 @@ interface SlideProducersNoteProps {
 
 export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersNoteProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [hasEnded, setHasEnded] = useState(false)
 
   useEffect(() => {
     if (!videoRef.current) return
@@ -19,6 +20,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
     if (isActive) {
       videoRef.current.currentTime = 0
       videoRef.current.play().catch(() => {})
+      setHasEnded(false)
     } else {
       videoRef.current.pause()
     }
@@ -28,6 +30,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
     if (!videoRef.current) return
     videoRef.current.currentTime = videoRef.current.duration
     videoRef.current.pause()
+    setHasEnded(true)
   }
 
   return (
@@ -52,6 +55,29 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
             animate={skipAnimations ? { opacity: 0 } : { opacity: isActive ? 0 : 1 }}
             transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           />
+          {hasEnded && (
+            <motion.div
+              className="absolute inset-0 flex items-end justify-center pb-[10vh]"
+              initial={skipAnimations ? false : { opacity: 0, y: 18 }}
+              animate={skipAnimations ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+              transition={skipAnimations ? { duration: 0 } : { duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="flex flex-col items-center gap-4 text-white/90">
+                <motion.div
+                  className="relative h-24 w-[2px] bg-white/70"
+                  initial={skipAnimations ? false : { scaleY: 0 }}
+                  animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
+                  transition={skipAnimations ? { duration: 0 } : { duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                  style={{ transformOrigin: "bottom" }}
+                >
+                  <div className="absolute -top-2 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-white/80" />
+                </motion.div>
+                <div className="text-sm uppercase tracking-[0.2em] font-semibold text-white/80">
+                  Gesellschaftlicher Anspruch
+                </div>
+              </div>
+            </motion.div>
+          )}
         </>
       }
       contentClassName="hidden"
