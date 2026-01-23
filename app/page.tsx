@@ -10,10 +10,8 @@ import { SlideCharacterPaul } from "@/components/presentation/slide-character-pa
 import { SlideCharacterBenjamin } from "@/components/presentation/slide-character-benjamin"
 import { SlideFamilyTree } from "@/components/presentation/slide-family-tree"
 import { SlideIncitingIncident } from "@/components/presentation/slide-inciting-incident"
-import { SlideCommunity } from "@/components/presentation/slide-community"
 import { SlideFeeling } from "@/components/presentation/slide-feeling"
 import { SlideStructure } from "@/components/presentation/slide-structure"
-import { SlideDifferentiation } from "@/components/presentation/slide-differentiation"
 import { SlideTransmedia } from "@/components/presentation/slide-transmedia"
 import { SlideAtmosphere } from "@/components/presentation/slide-atmosphere"
 import { SlideMarketing } from "@/components/presentation/slide-marketing"
@@ -23,7 +21,7 @@ import { SlideTrailer } from "@/components/presentation/slide-trailer"
 import { SlideClosing } from "@/components/presentation/slide-closing"
 import { SlideQuestion } from "@/components/presentation/slide-question"
 
-const TOTAL_SLIDES = 20
+const TOTAL_SLIDES = 18
 
 export default function WildholzPresentation() {
   const [activeSlide, setActiveSlide] = useState(0)
@@ -45,15 +43,13 @@ export default function WildholzPresentation() {
         <SlideIncitingIncident isActive={activeSlide === 8} />
         <SlideCharacterBenjamin isActive={activeSlide === 9} />
         <SlideFamilyTree isActive={activeSlide === 10} />
-        <SlideCommunity isActive={activeSlide === 11} />
-        <SlideFeeling isActive={activeSlide === 12} />
-        <SlideStructure isActive={activeSlide === 13} />
-        <SlideDifferentiation isActive={activeSlide === 14} />
-        <SlideTransmedia isActive={activeSlide === 15} />
-        <SlideAtmosphere isActive={activeSlide === 16} />
-        <SlideMarketing isActive={activeSlide === 17} />
-        <SlideProduction isActive={activeSlide === 18} />
-        <SlideClosing isActive={activeSlide === 19} />
+        <SlideFeeling isActive={activeSlide === 11} />
+        <SlideStructure isActive={activeSlide === 12} />
+        <SlideTransmedia isActive={activeSlide === 13} />
+        <SlideAtmosphere isActive={activeSlide === 14} />
+        <SlideMarketing isActive={activeSlide === 15} />
+        <SlideProduction isActive={activeSlide === 16} />
+        <SlideClosing isActive={activeSlide === 17} />
       </PresentationController>
     </main>
   )

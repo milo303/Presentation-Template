@@ -13,7 +13,7 @@ export function SlideDifferentiation({ isActive, skipAnimations }: SlideDifferen
             isActive={isActive}
             skipAnimations={skipAnimations}
             alignment="left"
-            backgroundImage="/images/wildholz-mediathek.png"
+            backgroundImage="/images/Buch.png"
             mode="paper"
             imageClassName="right-[4%] top-[14%] w-[42%] h-[70%]"
             contentClassName="max-w-[820px]"
