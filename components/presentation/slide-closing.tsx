@@ -41,8 +41,13 @@ export function SlideClosing({ isActive, skipAnimations }: SlideClosingProps) {
                         <p>Guido Reinhardt</p>
                     </div>
                     <div className="space-y-4">
+                        <p className="font-bold text-white/80 tracking-widest mb-4">Ausführende Produzentin</p>
+                        <p>Dorothe Goldstein</p>
+                    </div>
+                    <div className="space-y-4">
                         <p className="font-bold text-white/80 tracking-widest mb-4">Partner</p>
                         <p>Bavaria Studios</p>
+                        <p>Adobe</p>
                         <p>Filmstiftung NRW</p>
                     </div>
                 </div>
