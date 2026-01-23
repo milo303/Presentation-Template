@@ -40,7 +40,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
           <video
             ref={videoRef}
             className="h-full w-full object-cover"
-            src={getAssetPath("/animation/Producers%20Note.mp4")}
+            src={getAssetPath("/animation/Producers%20Note%20V2.mp4")}
             autoPlay={false}
             muted
             playsInline

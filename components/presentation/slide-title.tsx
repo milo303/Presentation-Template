@@ -73,7 +73,7 @@ export function SlideTitle({ isActive = true, skipAnimations = false }: SlideTit
               }`}
             style={{ transitionDelay: skipAnimations ? "0ms" : "200ms" }}
           >
-            Konzept fur eine Mediathek-Serie
+            Konzept für eine Mediathek-Serie
           </p>
 
           {/* Main Title (Logo Schriftzug) */}
