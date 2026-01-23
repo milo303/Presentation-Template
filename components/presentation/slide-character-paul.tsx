@@ -1,6 +1,8 @@
 "use client"
 
-import { SlideTemplate, SlideLabel, SlideHeading, SlideBody } from "./slide-template"
+import { useEffect, useRef } from "react"
+import { SlideTemplate, SlideHeading, SlideBody } from "./slide-template"
+import { getAssetPath } from "@/lib/utils"
 
 interface SlideCharacterPaulProps {
     isActive: boolean
@@ -8,24 +10,50 @@ interface SlideCharacterPaulProps {
 }
 
 export function SlideCharacterPaul({ isActive, skipAnimations }: SlideCharacterPaulProps) {
+    const videoRef = useRef<HTMLVideoElement>(null)
+
+    useEffect(() => {
+        if (!videoRef.current) return
+
+        if (isActive) {
+            videoRef.current.currentTime = 0
+            videoRef.current.play().catch(() => {})
+        } else {
+            videoRef.current.pause()
+        }
+    }, [isActive])
+
+    const handleEnded = () => {
+        if (!videoRef.current) return
+        videoRef.current.currentTime = videoRef.current.duration
+        videoRef.current.pause()
+    }
+
     return (
         <SlideTemplate
             isActive={isActive}
             skipAnimations={skipAnimations}
             alignment="left"
             mode="cinematic"
-            backgroundVideo="/animation/Paul%20Hartmann.mp4"
             contentWrapperClassName="max-w-[2000px] px-10 items-start"
             contentClassName="w-full h-full"
             backgroundOverlay={
-                <div className="absolute inset-0 bg-gradient-to-l from-black/90 via-black/50 to-transparent" />
+                <>
+                    <video
+                        ref={videoRef}
+                        className="absolute inset-0 h-full w-full object-cover"
+                        src={getAssetPath("/animation/Paul%20Hartmann.mp4")}
+                        autoPlay={false}
+                        muted
+                        playsInline
+                        onEnded={handleEnded}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-l from-black/90 via-black/50 to-transparent" />
+                </>
             }
         >
             <div className="relative h-full w-full">
                 <div className="absolute right-0 top-[18%] max-w-[520px] text-right">
-                    <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="cinematic" className="text-[clamp(0.65rem,0.7vw+0.45rem,1.25rem)]">
-                        Figur
-                    </SlideLabel>
                     <SlideHeading isActive={isActive} skipAnimations={skipAnimations} mode="cinematic" className="text-[clamp(2.2rem,3.2vw+1.6rem,5.8rem)] leading-[1.05]">
                         Paul Hartmann
                     </SlideHeading>

@@ -22,9 +22,6 @@ export function SlideCharacterBenjamin({ isActive, skipAnimations }: SlideCharac
                 <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
             }
         >
-            <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="paper" className="text-[clamp(0.65rem,0.7vw+0.45rem,1.25rem)] text-white/90">
-                Figur
-            </SlideLabel>
             <SlideHeading isActive={isActive} skipAnimations={skipAnimations} mode="paper" className="text-[clamp(2.2rem,3.2vw+1.6rem,5.8rem)] text-white leading-[1.05]">
                 Benjamin Hartmann
             </SlideHeading>
