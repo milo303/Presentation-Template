@@ -25,7 +25,7 @@ export function SlideClosing({ isActive, skipAnimations }: SlideClosingProps) {
                     WILDHOLZ ist unsere Antwort auf die moderne Einsamkeit. Ein klares Versprechen für Familie, Liebe, Freundschaft und Verlässlichkeit.
                 </SlideBody>
 
-                <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-12 text-white/50 text-xs uppercase tracking-[0.2em] pt-16 border-t border-white/20 w-full max-w-5xl">
+                <div className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12 text-white/50 text-xs uppercase tracking-[0.2em] pt-16 border-t border-white/20 w-full max-w-6xl text-center place-items-center">
                     <div className="space-y-4">
                         <p className="font-bold text-white/80 tracking-widest mb-4">Autoren</p>
                         <p>Rebecca Mahnkopf</p>
@@ -43,6 +43,11 @@ export function SlideClosing({ isActive, skipAnimations }: SlideClosingProps) {
                     <div className="space-y-4">
                         <p className="font-bold text-white/80 tracking-widest mb-4">Ausführende Produzentin</p>
                         <p>Dorothe Goldstein</p>
+                    </div>
+                    <div className="space-y-4">
+                        <p className="font-bold text-white/80 tracking-widest mb-4">Virtual Production<br />&amp; Implementation</p>
+                        <p>Stephan Burchhardt</p>
+                        <p>Felix Wolf</p>
                     </div>
                     <div className="space-y-4">
                         <p className="font-bold text-white/80 tracking-widest mb-4">Partner</p>

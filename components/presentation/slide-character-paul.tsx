@@ -22,15 +22,13 @@ export function SlideCharacterPaul({ isActive, skipAnimations }: SlideCharacterP
             }
         >
             <div className="relative h-full w-full">
-                <div className="absolute left-0 top-0">
+                <div className="absolute right-0 top-[18%] max-w-[520px] text-right">
                     <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="cinematic" className="text-[clamp(0.65rem,0.7vw+0.45rem,1.25rem)]">
                         Figur
                     </SlideLabel>
                     <SlideHeading isActive={isActive} skipAnimations={skipAnimations} mode="cinematic" className="text-[clamp(2.2rem,3.2vw+1.6rem,5.8rem)] leading-[1.05]">
                         Paul Hartmann
                     </SlideHeading>
-                </div>
-                <div className="absolute right-0 top-[32%] max-w-[500px] text-right">
                     <SlideBody isActive={isActive} skipAnimations={skipAnimations} mode="cinematic" className="text-[clamp(0.9rem,1.2vw+0.7rem,1.8rem)]">
                         37, Benjamins großer Bruder und Tischler. Nicht so feingeistig wie der Autor – anpackend,
                         ehrlich und nimmt kein Blatt vor den Mund.<br /><br />
