@@ -69,6 +69,7 @@ export function SlideCharacterBenjamin({ isActive, skipAnimations }: SlideCharac
                 alignment="left"
                 mode="paper"
                 fullImage={true}
+                backgroundImage="/images/wildholz-background-new.png"
                 contentWrapperClassName="max-w-[2000px] pl-6 pr-40 justify-start"
                 contentClassName="max-w-4xl text-left"
                 backgroundOverlay={
