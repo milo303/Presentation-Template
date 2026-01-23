@@ -17,7 +17,7 @@ export function SlideClosing({ isActive, skipAnimations }: SlideClosingProps) {
             mode="cinematic"
         >
             <div className="flex flex-col items-center text-center space-y-10">
-                <SlideLabel isActive={isActive} skipAnimations={skipAnimations}>Warum Wildholz</SlideLabel>
+                <SlideLabel isActive={isActive} skipAnimations={skipAnimations}>Das ist Wildholz</SlideLabel>
                 <SlideHeading isActive={isActive} skipAnimations={skipAnimations}>
                     Eine Reise zu dem,<br />was wirklich zählt.
                 </SlideHeading>

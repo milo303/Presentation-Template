@@ -20,8 +20,9 @@ import { SlideProducersNote } from "@/components/presentation/slide-producers-no
 import { SlideTrailer } from "@/components/presentation/slide-trailer"
 import { SlideClosing } from "@/components/presentation/slide-closing"
 import { SlideQuestion } from "@/components/presentation/slide-question"
+import { SlideKomparsen } from "@/components/presentation/slide-komparsen"
 
-const TOTAL_SLIDES = 18
+const TOTAL_SLIDES = 19
 
 export default function WildholzPresentation() {
   const [activeSlide, setActiveSlide] = useState(0)
@@ -49,7 +50,8 @@ export default function WildholzPresentation() {
         <SlideAtmosphere isActive={activeSlide === 14} />
         <SlideMarketing isActive={activeSlide === 15} />
         <SlideProduction isActive={activeSlide === 16} />
-        <SlideClosing isActive={activeSlide === 17} />
+        <SlideKomparsen isActive={activeSlide === 17} />
+        <SlideClosing isActive={activeSlide === 18} />
       </PresentationController>
     </main>
   )
