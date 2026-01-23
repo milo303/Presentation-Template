@@ -64,7 +64,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
             >
               <div className="absolute inset-0">
                 {/* Left Arrow - Farmhouse (left building) */}
-                <div className="absolute left-[34%] bottom-[32%] flex flex-col items-center gap-3">
+                <div className="absolute left-[38%] bottom-[32%] flex flex-col items-center gap-3">
                   <motion.div
                     className="relative h-28 w-[2px] bg-white/70"
                     initial={skipAnimations ? false : { scaleY: 0 }}
