@@ -13,14 +13,13 @@ export function SlideIncitingIncident({ isActive, skipAnimations }: SlideIncitin
             isActive={isActive}
             skipAnimations={skipAnimations}
             alignment="left"
-            backgroundImage="/images/wildholz-incident.png"
-            mode="paper"
-            imageClassName="right-[4%] top-[16%] w-[42%] h-[68%]"
+            backgroundVideo="/animation/Paul%20Hartmann.mp4"
+            mode="cinematic"
             contentClassName="max-w-[780px]"
         >
-            <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="paper">Der Auslöser</SlideLabel>
-            <SlideHeading isActive={isActive} skipAnimations={skipAnimations} mode="paper">Plötzlich Emily-Anna</SlideHeading>
-            <SlideBody isActive={isActive} skipAnimations={skipAnimations} mode="paper" className="text-center">
+            <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="cinematic">Der Auslöser</SlideLabel>
+            <SlideHeading isActive={isActive} skipAnimations={skipAnimations} mode="cinematic">Plötzlich Emily-Anna</SlideHeading>
+            <SlideBody isActive={isActive} skipAnimations={skipAnimations} mode="cinematic">
                 Ein dramatischer Unfall im hektischen Köln führt Emily direkt ins Herz der Familie Hartmann.<br /><br />
                 Vom Krankenhaus in den Forsthof: Ein Missverständnis macht sie zur Verlobten des Star-Autors Benjamin Hartmann – und sie kann das Geheimnis nicht mehr lüften.
             </SlideBody>
