@@ -57,12 +57,12 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
           />
           {hasEnded && (
             <motion.div
-              className="absolute inset-0 flex items-end justify-center pb-[8vh]"
+              className="absolute inset-0 flex items-center justify-center"
               initial={skipAnimations ? false : { opacity: 0, y: 24 }}
               animate={skipAnimations ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
               transition={skipAnimations ? { duration: 0 } : { duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="flex items-end gap-16 text-white/90">
+              <div className="flex items-end gap-16 text-white/90 translate-y-[10vh]">
                 <div className="flex flex-col items-center gap-4">
                   <motion.div
                     className="relative h-40 w-[2px] bg-white/70"
@@ -73,7 +73,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                   >
                     <div className="absolute -top-2 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-white/80" />
                   </motion.div>
-                  <div className="text-sm uppercase tracking-[0.2em] font-semibold text-white/80 text-center">
+                  <div className="text-base uppercase tracking-[0.2em] font-bold text-white/85 text-center">
                     Familien- und Heimatgeschichte
                   </div>
                 </div>
@@ -87,7 +87,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                   >
                     <div className="absolute -top-2 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-white/80" />
                   </motion.div>
-                  <div className="text-sm uppercase tracking-[0.2em] font-semibold text-white/80 text-center">
+                  <div className="text-base uppercase tracking-[0.2em] font-bold text-white/85 text-center">
                     Gesellschaftlicher Anspruch
                   </div>
                 </div>
@@ -101,7 +101,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                   >
                     <div className="absolute -top-2 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-white/80" />
                   </motion.div>
-                  <div className="text-sm uppercase tracking-[0.2em] font-semibold text-white/80 text-center">
+                  <div className="text-base uppercase tracking-[0.2em] font-bold text-white/85 text-center">
                     Echte Gefühle
                   </div>
                 </div>
