@@ -39,9 +39,9 @@ export default function WildholzPresentation() {
         <SlideLocation isActive={activeSlide === 4} />
         <SlideIdea isActive={activeSlide === 5} />
         <SlideCharacter isActive={activeSlide === 6} />
-        <SlideCharacterPaul isActive={activeSlide === 7} />
-        <SlideIncitingIncident isActive={activeSlide === 8} />
-        <SlideCharacterBenjamin isActive={activeSlide === 9} />
+        <SlideCharacterBenjamin isActive={activeSlide === 7} />
+        <SlideCharacterPaul isActive={activeSlide === 8} />
+        <SlideIncitingIncident isActive={activeSlide === 9} />
         <SlideFamilyTree isActive={activeSlide === 10} />
         <SlideFeeling isActive={activeSlide === 11} />
         <SlideStructure isActive={activeSlide === 12} />
