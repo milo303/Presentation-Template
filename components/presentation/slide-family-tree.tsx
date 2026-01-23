@@ -18,16 +18,16 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
             mode="paper"
             alignment="center"
         >
-            <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-10">
+            <div className="relative z-10 w-full h-full flex flex-col items-center justify-start px-10 pt-16">
                 {/* Header */}
-                <div className="text-center mb-8">
+                <div className="text-center mb-12">
                     <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="paper">Das Ensemble</SlideLabel>
                     <SlideHeading isActive={isActive} skipAnimations={skipAnimations} mode="paper">Die Familie Hartmann</SlideHeading>
                 </div>
 
                 {/* Horizontal Tree Container */}
                 <div className="flex items-center justify-center w-full max-w-[2000px] mx-auto">
-                    <div className="flex items-center scale-[1.16]">
+                    <div className="flex items-center scale-[1.12]">
 
                         {/* Level 1: Grandparents */}
                         <FamilyNode
@@ -41,9 +41,9 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
 
                         {/* Connector Line to Martha */}
                         <motion.div
-                            className="h-1 bg-[#5C4033]/50 rounded-full -mx-1"
+                            className="h-1 bg-[#5C4033]/30 rounded-full -mx-1"
                             initial={{ width: 0 }}
-                            animate={isActive ? { width: 80 } : { width: 0 }}
+                            animate={isActive ? { width: 60 } : { width: 0 }}
                             transition={{ duration: 0.5, delay: 0.5 }}
                         />
 
@@ -59,9 +59,9 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
 
                         {/* Connector Line to Siblings Vertical Bar */}
                         <motion.div
-                            className="h-1 bg-[#5C4033]/50 rounded-full -mx-1"
+                            className="h-1 bg-[#5C4033]/30 rounded-full -mx-1"
                             initial={{ width: 0 }}
-                            animate={isActive ? { width: 60 } : { width: 0 }}
+                            animate={isActive ? { width: 50 } : { width: 0 }}
                             transition={{ duration: 0.4, delay: 1.0 }}
                         />
 
@@ -69,21 +69,21 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
                         <div className="relative flex items-center">
                             {/* Vertical Bar */}
                             <motion.div
-                                className="w-1 bg-[#5C4033]/50 rounded-full absolute left-0"
+                                className="w-1 bg-[#5C4033]/30 rounded-full absolute left-0"
                                 style={{ top: '50%', transform: 'translateY(-50%)' }}
                                 initial={{ height: 0 }}
-                                animate={isActive ? { height: 320 } : { height: 0 }}
+                                animate={isActive ? { height: 360 } : { height: 0 }}
                                 transition={{ duration: 0.6, delay: 1.2 }}
                             />
 
                             {/* Level 3: Siblings Column */}
-                            <div className="flex flex-col gap-3 ml-1">
+                            <div className="flex flex-col gap-5 ml-1">
                                 {/* Clara & Robert + Kids */}
                                 <div className="flex items-center">
                                     <motion.div
-                                        className="h-1 bg-[#5C4033]/50 rounded-full"
+                                        className="h-1 bg-[#5C4033]/30 rounded-full"
                                         initial={{ width: 0 }}
-                                        animate={isActive ? { width: 40 } : { width: 0 }}
+                                        animate={isActive ? { width: 30 } : { width: 0 }}
                                         transition={{ duration: 0.3, delay: 1.6 }}
                                     />
                                     <FamilyNode
@@ -149,9 +149,9 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
                                 {/* Paul */}
                                 <div className="flex items-center">
                                     <motion.div
-                                        className="h-1 bg-[#5C4033]/50 rounded-full"
+                                        className="h-1 bg-[#5C4033]/30 rounded-full"
                                         initial={{ width: 0 }}
-                                        animate={isActive ? { width: 40 } : { width: 0 }}
+                                        animate={isActive ? { width: 30 } : { width: 0 }}
                                         transition={{ duration: 0.3, delay: 1.7 }}
                                     />
                                     <FamilyNode
@@ -167,9 +167,9 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
                                 {/* Lotte */}
                                 <div className="flex items-center">
                                     <motion.div
-                                        className="h-1 bg-[#5C4033]/50 rounded-full"
+                                        className="h-1 bg-[#5C4033]/30 rounded-full"
                                         initial={{ width: 0 }}
-                                        animate={isActive ? { width: 40 } : { width: 0 }}
+                                        animate={isActive ? { width: 30 } : { width: 0 }}
                                         transition={{ duration: 0.3, delay: 1.8 }}
                                     />
                                     <FamilyNode
@@ -185,9 +185,9 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
                                 {/* Benjamin */}
                                 <div className="flex items-center">
                                     <motion.div
-                                        className="h-1 bg-[#5C4033]/50 rounded-full"
+                                        className="h-1 bg-[#5C4033]/30 rounded-full"
                                         initial={{ width: 0 }}
-                                        animate={isActive ? { width: 40 } : { width: 0 }}
+                                        animate={isActive ? { width: 30 } : { width: 0 }}
                                         transition={{ duration: 0.3, delay: 1.9 }}
                                     />
                                     <FamilyNode
@@ -234,13 +234,15 @@ function FamilyNode({ image, label, sub, isActive, delay, size }: FamilyNodeProp
 
     return (
         <motion.div
-            className="flex flex-col items-center gap-1 text-center flex-shrink-0 px-2"
+            className="flex flex-col items-center gap-1.5 text-center flex-shrink-0 px-2"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={isActive ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
             transition={{ duration: 0.5, delay, type: "spring", bounce: 0.3 }}
         >
-            <div className={`relative ${sizeClasses[size]} rounded-full overflow-hidden border-4 border-white shadow-xl sepia-[0.2]`}>
-                <Image src={image} alt={label} fill className="object-cover" />
+            <div className={`relative ${sizeClasses[size]} rounded-full overflow-hidden border-2 border-white/80 shadow-[0_8px_16px_rgba(0,0,0,0.12)] p-0.5 bg-white/20`}>
+                <div className="relative w-full h-full rounded-full overflow-hidden border border-black/5">
+                    <Image src={image} alt={label} fill className="object-cover" />
+                </div>
             </div>
             <div>
                 <p className={`font-serif text-[#7A2E2E] ${textSizes[size]} leading-tight font-medium whitespace-nowrap`}>{label}</p>
