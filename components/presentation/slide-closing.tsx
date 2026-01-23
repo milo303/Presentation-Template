@@ -22,7 +22,9 @@ export function SlideClosing({ isActive, skipAnimations }: SlideClosingProps) {
                     Eine Reise zu dem,<br />was wirklich zählt.
                 </SlideHeading>
                 <SlideBody isActive={isActive} skipAnimations={skipAnimations} className="max-w-3xl text-2xl">
-                    WILDHOLZ ist unsere Antwort auf die moderne Einsamkeit. Ein klares Versprechen für Familie, Liebe, Freundschaft und Verlässlichkeit.
+                    WILDHOLZ ist mehr als eine neue Serie. Sie ist eine Einladung in eine sinnlich naturverbundene Welt, erzählt eine moderne und gleichzeitig warme Familien- und
+                    Heimatgeschichte über Herkunft, Zugehörigkeit, Zusammenhalt. Die Serie ist unsere
+                    Antwort auf die moderne Einsamkeit, die immer weiter um sich greift und so viele Menschen in ihrem Leben niederringt.
                 </SlideBody>
 
                 <div className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 items-start gap-12 text-white/50 text-xs uppercase tracking-[0.2em] pt-16 border-t border-white/20 w-full max-w-6xl text-center place-items-center">

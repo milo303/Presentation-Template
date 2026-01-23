@@ -31,8 +31,8 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
                 </div>
 
                 {/* Horizontal Tree Container */}
-                <div className="flex items-center justify-center w-full max-w-[1400px] mx-auto">
-                    <div className="flex items-center">
+                <div className="flex items-center justify-center w-full max-w-[1800px] mx-auto">
+                    <div className="flex items-center scale-[1.08]">
 
                         {/* Level 1: Grandparents */}
                         <FamilyNode
