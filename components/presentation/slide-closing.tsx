@@ -28,7 +28,7 @@ export function SlideClosing({ isActive, skipAnimations }: SlideClosingProps) {
 
                 <div className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 items-start gap-12 text-white/50 text-xs uppercase tracking-[0.2em] pt-16 border-t border-white/20 w-full max-w-6xl text-center place-items-center">
                     <div className="space-y-4">
-                        <p className="font-bold text-white/80 tracking-widest mb-4">Autoren</p>
+                        <p className="font-bold text-white/80 tracking-widest mb-4">Autor*innen</p>
                         <p>Rebecca Mahnkopf</p>
                         <p>Peter Gallert</p>
                         <p>& Writer&apos;s Room</p>
