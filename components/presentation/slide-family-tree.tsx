@@ -16,19 +16,9 @@ export function SlideFamilyTree({ isActive, skipAnimations }: SlideFamilyTreePro
             isActive={isActive}
             skipAnimations={skipAnimations}
             mode="paper"
-            className="bg-[#F9F5EA]"
+            alignment="center"
         >
-            <div className="absolute inset-0 z-0 opacity-10 pointer-events-none mix-blend-multiply">
-                <Image
-                    src={getAssetPath("/images/paper-texture.jpg")}
-                    alt=""
-                    fill
-                    className="object-cover"
-                    priority
-                />
-            </div>
-
-            <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-10 text-center">
+            <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-10">
                 {/* Header */}
                 <div className="text-center mb-8">
                     <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="paper">Das Ensemble</SlideLabel>
