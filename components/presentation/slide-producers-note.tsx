@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import { motion } from "framer-motion"
 import { SlideTemplate } from "./slide-template"
 import { getAssetPath } from "@/lib/utils"
 
@@ -44,6 +45,12 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
             muted
             playsInline
             onEnded={handleEnded}
+          />
+          <motion.div
+            className="absolute inset-0 bg-black"
+            initial={skipAnimations ? false : { opacity: 1 }}
+            animate={skipAnimations ? { opacity: 0 } : { opacity: isActive ? 0 : 1 }}
+            transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           />
         </>
       }
