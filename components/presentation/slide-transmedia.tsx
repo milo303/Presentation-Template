@@ -14,7 +14,7 @@ export function SlideTransmedia({ isActive, skipAnimations }: SlideTransmediaPro
         <SlideTemplate
             isActive={isActive}
             skipAnimations={skipAnimations}
-            backgroundImage="/images/wildholz-novel.png"
+            backgroundImage="/images/Buch.png"
             mode="paper"
             alignment="right"
         >

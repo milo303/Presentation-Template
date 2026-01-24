@@ -13,6 +13,7 @@ interface SlideProducersNoteProps {
 export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersNoteProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [hasEnded, setHasEnded] = useState(false)
+  const [arrowStep, setArrowStep] = useState(0)
 
   useEffect(() => {
     if (!videoRef.current) return
@@ -21,8 +22,10 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
       videoRef.current.currentTime = 0
       videoRef.current.play().catch(() => { })
       setHasEnded(false)
+      setArrowStep(0)
     } else {
       videoRef.current.pause()
+      setArrowStep(0)
     }
   }, [isActive])
 
@@ -31,6 +34,12 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
     videoRef.current.currentTime = videoRef.current.duration
     videoRef.current.pause()
     setHasEnded(true)
+    setArrowStep(0)
+  }
+
+  const handleArrowClick = () => {
+    if (!hasEnded) return
+    setArrowStep((current) => Math.min(current + 1, 3))
   }
 
   return (
@@ -57,57 +66,64 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
           />
           {hasEnded && (
             <motion.div
-              className="absolute inset-0 flex items-center justify-center"
+              className="absolute inset-0 flex items-center justify-center pointer-events-auto"
               initial={skipAnimations ? false : { opacity: 0, y: 24 }}
               animate={skipAnimations ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
               transition={skipAnimations ? { duration: 0 } : { duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              onClick={handleArrowClick}
             >
               <div className="absolute inset-0">
                 {/* Left Arrow - Farmhouse (left building) */}
-                <div className="absolute left-[34%] bottom-[34%] flex flex-col items-center gap-3">
-                  <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-                    Familien- und<br />Heimatgeschichte
+                {arrowStep >= 1 && (
+                  <div className="absolute left-[34%] bottom-[34%] flex flex-col items-center gap-4">
+                    <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                      Familien- und<br />Heimatgeschichte
+                    </div>
+                    <motion.div
+                      className="relative h-28 w-[3px] bg-white/70"
+                      initial={skipAnimations ? false : { scaleY: 0 }}
+                      animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
+                      transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                      style={{ transformOrigin: "bottom" }}
+                    >
+                      <div className="absolute -top-3 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-l-2 border-t-2 border-white/80" />
+                    </motion.div>
                   </div>
-                  <motion.div
-                    className="relative h-20 w-[2px] bg-white/70"
-                    initial={skipAnimations ? false : { scaleY: 0 }}
-                    animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
-                    transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-                    style={{ transformOrigin: "bottom" }}
-                  >
-                    <div className="absolute -top-2 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-white/80" />
-                  </motion.div>
-                </div>
+                )}
                 {/* Center Arrow - Main House (central building) */}
-                <div className="absolute left-[47%] bottom-[37%] flex flex-col items-center gap-3">
-                  <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-                    Gesellschaftlicher<br />Anspruch
+                {arrowStep >= 2 && (
+                  <div className="absolute left-[47%] bottom-[37%] flex flex-col items-center gap-4">
+                    <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                      Gesellschaftlicher<br />Anspruch
+                    </div>
+                    <motion.div
+                      className="relative h-24 w-[3px] bg-white/70"
+                      initial={skipAnimations ? false : { scaleY: 0 }}
+                      animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
+                      transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                      style={{ transformOrigin: "bottom" }}
+                    >
+                      <div className="absolute -top-3 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-l-2 border-t-2 border-white/80" />
+                    </motion.div>
                   </div>
-                  <motion.div
-                    className="relative h-18 w-[2px] bg-white/70"
-                    initial={skipAnimations ? false : { scaleY: 0 }}
-                    animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
-                    transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                    style={{ transformOrigin: "bottom" }}
-                  >
-                    <div className="absolute -top-2 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-white/80" />
-                  </motion.div>
-                </div>
+                )}
                 {/* Right Arrow - Barn with Solar Panels */}
-                <div className="absolute left-[72%] bottom-[34%] flex flex-col items-center gap-3">
-                  <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-                    Echte Gefühle
+                {arrowStep >= 3 && (
+                  <div className="absolute left-[72%] bottom-[34%] flex flex-col items-center gap-4">
+                    <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                      Echte Gefühle
+                    </div>
+                    <motion.div
+                      className="relative h-28 w-[3px] bg-white/70"
+                      initial={skipAnimations ? false : { scaleY: 0 }}
+                      animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
+                      transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                      style={{ transformOrigin: "bottom" }}
+                    >
+                      <div className="absolute -top-3 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-l-2 border-t-2 border-white/80" />
+                    </motion.div>
                   </div>
-                  <motion.div
-                    className="relative h-24 w-[2px] bg-white/70"
-                    initial={skipAnimations ? false : { scaleY: 0 }}
-                    animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
-                    transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
-                    style={{ transformOrigin: "bottom" }}
-                  >
-                    <div className="absolute -top-2 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-white/80" />
-                  </motion.div>
-                </div>
+                )}
               </div>
             </motion.div>
           )}
