@@ -44,6 +44,25 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
     setArrowStep((current) => Math.min(current + 1, 3))
   }
 
+  // Handle keyboard navigation for arrows
+  useEffect(() => {
+    if (!isActive || !hasEnded) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "Enter") {
+        if (arrowStep < 3) {
+          e.preventDefault()
+          e.stopImmediatePropagation() // Prevent global slide navigation
+          setArrowStep((s) => s + 1)
+        }
+      }
+    }
+
+    // Use capture phase to intercept before PresentationController
+    window.addEventListener("keydown", handleKeyDown, true)
+    return () => window.removeEventListener("keydown", handleKeyDown, true)
+  }, [isActive, hasEnded, arrowStep])
+
   return (
     <SlideTemplate
       isActive={isActive}
