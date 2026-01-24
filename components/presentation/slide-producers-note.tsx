@@ -34,7 +34,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
     videoRef.current.currentTime = videoRef.current.duration
     videoRef.current.pause()
     setHasEnded(true)
-    setArrowStep(0)
+    setArrowStep(1)
   }
 
   const handleArrowClick = () => {
