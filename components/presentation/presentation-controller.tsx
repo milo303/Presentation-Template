@@ -50,7 +50,7 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [transitionStyle, setTransitionStyle] = useState<"slide" | "book">("slide")
   const [lastDirection, setLastDirection] = useState<1 | -1>(1)
-  const [transitionOverride, setTransitionOverride] = useState<"fade" | "zoom" | null>(null)
+  const [transitionOverride, setTransitionOverride] = useState<"fade" | "zoom" | "iris" | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const slideChildren = React.Children.toArray(children)
@@ -59,18 +59,27 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
     if (isAnimating || index < 0 || index >= totalSlides) return
 
     // Custom transitions for specific slides
-    // Zoom for index 1 <-> 2 (Video <-> Question) and 2 <-> 3 (Question <-> Producers Note)
-    const useZoom = (currentSlide === 1 && index === 2) || (currentSlide === 2 && index === 1) ||
-      (currentSlide === 2 && index === 3) || (currentSlide === 3 && index === 2)
+    // Zoom for index 1 <-> 2 (Video <-> Question)
+    const useZoom = (currentSlide === 1 && index === 2) || (currentSlide === 2 && index === 1)
+
+    // Iris Wipe for index 2 <-> 3 (Question <-> Producers Note)
+    const useIris = (currentSlide === 2 && index === 3) || (currentSlide === 3 && index === 2)
 
     setIsAnimating(true)
     setLastDirection(direction)
-    setTransitionOverride(useZoom ? "zoom" : null)
+
+    if (useZoom) setTransitionOverride("zoom")
+    else if (useIris) setTransitionOverride("iris")
+    else setTransitionOverride(null)
+
     setCurrentSlide(index)
     onSlideChange?.(index)
 
-    // Synchronize animation lock with motion duration (Zoom is 1.4s, Book is 1.8s)
-    const lockDuration = useZoom ? 1400 : 1800
+    // Synchronize animation lock with motion duration (Iris: 1.5s, Zoom: 1.4s, Book: 1.8s)
+    let lockDuration = 1800
+    if (useZoom) lockDuration = 1400
+    if (useIris) lockDuration = 1500
+
     setTimeout(() => {
       setIsAnimating(false)
       setTransitionOverride(null)
@@ -207,6 +216,38 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
     })
   }
 
+  const irisVariants: Variants = {
+    enter: (direction: number) => ({
+      // If moving forward, we start small and expand.
+      // If moving backward, we just stay behind (zIndex 0 handled in center/exit logic mostly, but let's set init state)
+      clipPath: direction > 0 ? "circle(0% at 50% 50%)" : "circle(100% at 50% 50%)",
+      zIndex: direction > 0 ? 20 : 0, // High Z to be on top
+      opacity: 1,
+    }),
+    center: {
+      clipPath: "circle(150% at 50% 50%)", // Fully open
+      zIndex: 20,
+      opacity: 1,
+      transition: {
+        clipPath: { duration: 1.5, ease: [0.25, 1, 0.5, 1] }, // Cinematic slow ease
+        zIndex: { duration: 0 } // Instant
+      }
+    },
+    exit: (direction: number) => ({
+      // If moving forward, we just stay back/fade out slightly or stay put? 
+      // Actually standard 'exit' happens on the OLD slide.
+      // If direction > 0 (Forward): Old slide stays put (or fades), New slide (iris) opens ON TOP.
+      // If direction < 0 (Backward): Old slide (Iris) closes shrinking circle.
+      clipPath: direction > 0 ? "circle(150% at 50% 50%)" : "circle(0% at 50% 50%)",
+      zIndex: direction > 0 ? 0 : 20, // If going back, we are the top layer closing
+      opacity: 1,
+      transition: {
+        clipPath: { duration: 1.5, ease: [0.25, 1, 0.5, 1] },
+        zIndex: { duration: 0 }
+      }
+    })
+  }
+
   // Enhanced Book Page Flip Variants - simulating curvature and paper flexibility
   const bookVariants: Variants = {
     enter: (direction: number) => ({
@@ -299,9 +340,11 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
             variants={
               transitionOverride === "zoom"
                 ? zoomVariants
-                : transitionOverride === "fade"
-                  ? fadeVariants
-                  : (transitionStyle === "book" ? bookVariants : slideVariants)
+                : transitionOverride === "iris"
+                  ? irisVariants
+                  : transitionOverride === "fade"
+                    ? fadeVariants
+                    : (transitionStyle === "book" ? bookVariants : slideVariants)
             }
             initial="enter"
             animate="center"
