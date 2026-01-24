@@ -75,10 +75,10 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
     setCurrentSlide(index)
     onSlideChange?.(index)
 
-    // Synchronize animation lock with motion duration (Iris: 1.5s, Zoom: 1.4s, Book: 1.8s)
+    // Synchronize animation lock with motion duration (Iris: 2.5s, Zoom: 1.4s, Book: 1.8s)
     let lockDuration = 1800
     if (useZoom) lockDuration = 1400
-    if (useIris) lockDuration = 1500
+    if (useIris) lockDuration = 2500
 
     setTimeout(() => {
       setIsAnimating(false)
@@ -229,8 +229,8 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
       zIndex: 50,
       opacity: 1,
       transition: {
-        clipPath: { duration: 1.5, ease: [0.25, 1, 0.5, 1] },
-        transform: { duration: 1.5, ease: "easeOut" },
+        clipPath: { duration: 2.5, ease: [0.22, 1, 0.36, 1] }, // Slower 2.5s, very smooth cubic-bezier
+        transform: { duration: 2.5, ease: "easeOut" },
         zIndex: { duration: 0 }
       }
     },
