@@ -218,31 +218,29 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
 
   const irisVariants: Variants = {
     enter: (direction: number) => ({
-      // If moving forward, we start small and expand.
-      // If moving backward, we just stay behind (zIndex 0 handled in center/exit logic mostly, but let's set init state)
-      clipPath: direction > 0 ? "circle(0% at 50% 50%)" : "circle(100% at 50% 50%)",
-      zIndex: direction > 0 ? 20 : 0, // High Z to be on top
+      clipPath: "circle(0% at 50% 50%)",
+      transform: "scale(1.1)", // Slight zoom start
+      zIndex: 50, // Force highest Z
       opacity: 1,
     }),
     center: {
-      clipPath: "circle(150% at 50% 50%)", // Fully open
-      zIndex: 20,
-      opacity: 1,
-      transition: {
-        clipPath: { duration: 1.5, ease: [0.25, 1, 0.5, 1] }, // Cinematic slow ease
-        zIndex: { duration: 0 } // Instant
-      }
-    },
-    exit: (direction: number) => ({
-      // If moving forward, we just stay back/fade out slightly or stay put? 
-      // Actually standard 'exit' happens on the OLD slide.
-      // If direction > 0 (Forward): Old slide stays put (or fades), New slide (iris) opens ON TOP.
-      // If direction < 0 (Backward): Old slide (Iris) closes shrinking circle.
-      clipPath: direction > 0 ? "circle(150% at 50% 50%)" : "circle(0% at 50% 50%)",
-      zIndex: direction > 0 ? 0 : 20, // If going back, we are the top layer closing
+      clipPath: "circle(150% at 50% 50%)",
+      transform: "scale(1)",
+      zIndex: 50,
       opacity: 1,
       transition: {
         clipPath: { duration: 1.5, ease: [0.25, 1, 0.5, 1] },
+        transform: { duration: 1.5, ease: "easeOut" },
+        zIndex: { duration: 0 }
+      }
+    },
+    exit: (direction: number) => ({
+      clipPath: "circle(150% at 50% 50%)",
+      transform: "scale(1)",
+      zIndex: 0, // Drop behind
+      opacity: 1, // Stay visible until covered
+      transition: {
+        // Stay mostly static while being covered, maybe slight darken?
         zIndex: { duration: 0 }
       }
     })
@@ -351,7 +349,7 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
             exit="exit"
             className="absolute inset-0 h-full w-full"
             style={{
-              transformStyle: "preserve-3d",
+              transformStyle: transitionOverride === "iris" ? "flat" : "preserve-3d", // Disable 3D for clip-path
               willChange: "transform",
             }}
           >
