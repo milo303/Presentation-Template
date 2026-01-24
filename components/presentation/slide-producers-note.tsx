@@ -38,6 +38,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
   }
 
   const handleArrowClick = (e: React.MouseEvent) => {
+    e.preventDefault()
     e.stopPropagation()
     if (!hasEnded) return
     setArrowStep((current) => Math.min(current + 1, 3))
@@ -67,7 +68,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
           />
           {hasEnded && (
             <motion.div
-              className="absolute inset-0 flex items-center justify-center pointer-events-auto"
+              className="absolute inset-0 z-[60] flex items-center justify-center pointer-events-auto cursor-pointer"
               initial={skipAnimations ? false : { opacity: 0, y: 24 }}
               animate={skipAnimations ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
               transition={skipAnimations ? { duration: 0 } : { duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
