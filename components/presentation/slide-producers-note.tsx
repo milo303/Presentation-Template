@@ -37,7 +37,8 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
     setArrowStep(1)
   }
 
-  const handleArrowClick = () => {
+  const handleArrowClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
     if (!hasEnded) return
     setArrowStep((current) => Math.min(current + 1, 3))
   }
