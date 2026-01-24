@@ -77,7 +77,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                 {arrowStep >= 1 && (
                   <div className="absolute left-[34%] bottom-[34%] flex flex-col items-center gap-4">
                     <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-                      Familien- und<br />Heimatgeschichte
+                      Serienkonzept
                     </div>
                     <motion.div
                       className="relative h-28 w-[3px] bg-white/70"
@@ -94,7 +94,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                 {arrowStep >= 2 && (
                   <div className="absolute left-[47%] bottom-[37%] flex flex-col items-center gap-4">
                     <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-                      Gesellschaftlicher<br />Anspruch
+                      Gesellschaftlicher Anspruch
                     </div>
                     <motion.div
                       className="relative h-24 w-[3px] bg-white/70"
@@ -111,7 +111,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                 {arrowStep >= 3 && (
                   <div className="absolute left-[72%] bottom-[34%] flex flex-col items-center gap-4">
                     <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-                      Echte Gefühle
+                      Werteversprechen
                     </div>
                     <motion.div
                       className="relative h-28 w-[3px] bg-white/70"
