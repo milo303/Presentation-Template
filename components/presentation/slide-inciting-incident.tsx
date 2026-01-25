@@ -49,11 +49,11 @@ export function SlideIncitingIncident({ isActive, skipAnimations }: SlideIncitin
             <SlideHeading isActive={isActive} skipAnimations={skipAnimations} mode="paper">Plötzlich Emily-Anna</SlideHeading>
             <SlideBody isActive={isActive} skipAnimations={skipAnimations} mode="paper" className="space-y-4">
                 <p>• Annas geheime Identität als „Verlobte" - ständige Gratwanderung.</p>
-                <p>• Paul entdeckt seine Gefühle, kämpft aber mit Loyalität und Schuld.</p>
+                <p>• Paul entdeckt seine Gefühle für Anna, kämpft aber mit Loyalität und Schuld.</p>
+                <p>• Die Familie steht vor der Entscheidung:<br />modernisieren oder verkaufen.</p>
                 <p>• Benjamin erwacht mit Gedächtnisverlust -<br />verliebt sich ebenfalls in Anna.</p>
                 <p>• Die echte Anna taucht auf und niemand glaubt ihr.</p>
                 <p>• Paul findet Emilys wahre Identität heraus.</p>
-                <p>• Die Familie steht vor der Entscheidung:<br />modernisieren oder verkaufen.</p>
             </SlideBody>
         </SlideTemplate>
     )

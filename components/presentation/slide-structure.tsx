@@ -27,7 +27,7 @@ export function SlideStructure({ isActive, skipAnimations }: SlideStructureProps
                 <p>
                     Ein wunderschöner Forsthof mit Sägewerk, Möbelwerkstatt, Pension und Hof-Café,
                     Mehrgenerationenfamilie lebt und arbeitet gemeinsam, inklusive Pferd Horst-Peter, den
-                    Schafen Gisela und Greta und der durchgeknallten Labrador-Hunden Timmi, Tommi und Tammi.
+                    Schafen Gisela und Greta und der durchgeknallten Labrador-Hunden Mads, Mikkel und Morten.
                 </p>
             </SlideBody>
         </SlideTemplate>
