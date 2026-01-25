@@ -71,10 +71,10 @@ export default function WildholzPresentation() {
         <SlideLedBackgrounds
           isActive={activeSlide === 20}
           images={[
-            "/LED%20Hintergruende/1.jpg",
-            "/LED%20Hintergruende/2.jpg",
-            "/LED%20Hintergruende/3.jpg",
-            "/LED%20Hintergruende/4.jpg",
+            "/LED%20Hintergruende/eins.jpg",
+            "/LED%20Hintergruende/zwei.jpg",
+            "/LED%20Hintergruende/drei.jpg",
+            "/LED%20Hintergruende/vier.jpg",
           ]}
         />
         <SlideLedBackgrounds
