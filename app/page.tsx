@@ -16,13 +16,14 @@ import { SlideProduction } from "@/components/presentation/slide-production"
 import { SlideProductionData } from "@/components/presentation/slide-production-data"
 import { SlideLedVideo } from "@/components/presentation/slide-led-video"
 import { SlideVideoClip } from "@/components/presentation/slide-video-clip"
+import { SlideGreenProduction } from "@/components/presentation/slide-green-production"
 import { SlideProducersNote } from "@/components/presentation/slide-producers-note"
 import { SlideTrailer } from "@/components/presentation/slide-trailer"
 import { SlideClosing } from "@/components/presentation/slide-closing"
 import { SlideQuestion } from "@/components/presentation/slide-question"
 import { SlideKomparsen } from "@/components/presentation/slide-komparsen"
 
-const TOTAL_SLIDES = 21
+const TOTAL_SLIDES = 22
 
 export default function WildholzPresentation() {
   const [activeSlide, setActiveSlide] = useState(0)
@@ -65,7 +66,8 @@ export default function WildholzPresentation() {
           title="Wildholz Clip 3"
         />
         <SlideKomparsen isActive={activeSlide === 19} />
-        <SlideClosing isActive={activeSlide === 20} />
+        <SlideGreenProduction isActive={activeSlide === 20} />
+        <SlideClosing isActive={activeSlide === 21} />
       </PresentationController>
     </main>
   )
