@@ -18,6 +18,7 @@ export function SlideProduction({ isActive, skipAnimations }: SlideProductionPro
 
         if (isActive) {
             videoRef.current.currentTime = 0
+            videoRef.current.muted = false
             videoRef.current.play().catch(() => { })
             setHasEnded(false)
         } else {
@@ -40,7 +41,6 @@ export function SlideProduction({ isActive, skipAnimations }: SlideProductionPro
                 className="absolute inset-0 h-full w-full object-cover"
                 src={getAssetPath("/images/hf_20260122_154804_b77bf969-4e16-4887-8857-7459813fdc17.mp4")}
                 autoPlay={false}
-                muted
                 playsInline
                 onEnded={handleEnded}
             />
