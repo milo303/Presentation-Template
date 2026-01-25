@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { PresentationController } from "@/components/presentation/presentation-controller"
 import { SlideTitle } from "@/components/presentation/slide-title"
+import { SlideTeamWildholz } from "@/components/presentation/slide-team-wildholz"
 import { SlideCharacter } from "@/components/presentation/slide-character"
 import { SlideCharacterPaul } from "@/components/presentation/slide-character-paul"
 import { SlideCharacterBenjamin } from "@/components/presentation/slide-character-benjamin"
@@ -24,7 +25,7 @@ import { SlideClosing } from "@/components/presentation/slide-closing"
 import { SlideQuestion } from "@/components/presentation/slide-question"
 import { SlideKomparsen } from "@/components/presentation/slide-komparsen"
 
-const TOTAL_SLIDES = 23
+const TOTAL_SLIDES = 24
 
 export default function WildholzPresentation() {
   const [activeSlide, setActiveSlide] = useState(0)
@@ -36,40 +37,41 @@ export default function WildholzPresentation() {
         onSlideChange={setActiveSlide}
       >
         <SlideTitle isActive={activeSlide === 0} />
-        <SlideTrailer isActive={activeSlide === 1} />
-        <SlideQuestion isActive={activeSlide === 2} />
-        <SlideProducersNote isActive={activeSlide === 3} />
-        <SlideCharacter isActive={activeSlide === 4} />
-        <SlideCharacterBenjamin isActive={activeSlide === 5} />
-        <SlideCharacterPaul isActive={activeSlide === 6} />
-        <SlideFamilyTree isActive={activeSlide === 7} />
-        <SlideIncitingIncident isActive={activeSlide === 8} />
-        <SlideFeeling isActive={activeSlide === 9} />
-        <SlideStructure isActive={activeSlide === 10} />
-        <SlideTransmedia isActive={activeSlide === 11} />
-        <SlideAtmosphere isActive={activeSlide === 12} />
-        <SlideProductionData isActive={activeSlide === 13} />
-        <SlideProduction isActive={activeSlide === 14} />
-        <SlideLedVideo isActive={activeSlide === 15} />
+        <SlideTeamWildholz isActive={activeSlide === 1} />
+        <SlideTrailer isActive={activeSlide === 2} />
+        <SlideQuestion isActive={activeSlide === 3} />
+        <SlideProducersNote isActive={activeSlide === 4} />
+        <SlideCharacter isActive={activeSlide === 5} />
+        <SlideCharacterBenjamin isActive={activeSlide === 6} />
+        <SlideCharacterPaul isActive={activeSlide === 7} />
+        <SlideFamilyTree isActive={activeSlide === 8} />
+        <SlideIncitingIncident isActive={activeSlide === 9} />
+        <SlideFeeling isActive={activeSlide === 10} />
+        <SlideStructure isActive={activeSlide === 11} />
+        <SlideTransmedia isActive={activeSlide === 12} />
+        <SlideAtmosphere isActive={activeSlide === 13} />
+        <SlideProductionData isActive={activeSlide === 14} />
+        <SlideProduction isActive={activeSlide === 15} />
+        <SlideLedVideo isActive={activeSlide === 16} />
         <SlideVideoClip
-          isActive={activeSlide === 16}
+          isActive={activeSlide === 17}
           src="/clips/1.%20Wildholz%20Stockshot%20mit%20Musik.mp4"
           title="Wildholz Clip 1"
         />
         <SlideVideoClip
-          isActive={activeSlide === 17}
+          isActive={activeSlide === 18}
           src="/clips/2.%20Wildholz%20Anna%20Paul%20mit%20Musik.mp4"
           title="Wildholz Clip 2"
         />
         <SlideVideoClip
-          isActive={activeSlide === 18}
+          isActive={activeSlide === 19}
           src="/clips/3.%20Wildholz%20Traumsequenz%20mit%20Musik.mp4"
           title="Wildholz Clip 3"
         />
-        <SlideLedBackgrounds isActive={activeSlide === 19} />
-        <SlideKomparsen isActive={activeSlide === 20} />
-        <SlideGreenProduction isActive={activeSlide === 21} />
-        <SlideClosing isActive={activeSlide === 22} />
+        <SlideLedBackgrounds isActive={activeSlide === 20} />
+        <SlideKomparsen isActive={activeSlide === 21} />
+        <SlideGreenProduction isActive={activeSlide === 22} />
+        <SlideClosing isActive={activeSlide === 23} />
       </PresentationController>
     </main>
   )
