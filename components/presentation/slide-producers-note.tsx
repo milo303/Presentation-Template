@@ -97,7 +97,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                 {/* Left Arrow - Farmhouse (left building) */}
                 {arrowStep >= 1 && (
                   <div className="absolute left-[30%] bottom-[34%] flex flex-col items-center gap-5">
-                    <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                    <div className="text-xl uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                       Serienkonzept
                     </div>
                     <motion.div
@@ -113,8 +113,8 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                 )}
                 {/* Center Arrow - Main House (central building) */}
                 {arrowStep >= 2 && (
-                  <div className="absolute left-[50%] bottom-[36%] -translate-x-1/2 flex flex-col items-center gap-5">
-                    <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                  <div className="absolute left-[50%] bottom-[40%] -translate-x-1/2 flex flex-col items-center gap-5">
+                    <div className="text-xl uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                       Gesellschaftlicher Anspruch
                     </div>
                     <motion.div
@@ -131,7 +131,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                 {/* Right Arrow - Barn with Solar Panels */}
                 {arrowStep >= 3 && (
                   <div className="absolute left-[70%] bottom-[34%] flex flex-col items-center gap-5">
-                    <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                    <div className="text-xl uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                       Werteversprechen
                     </div>
                     <motion.div

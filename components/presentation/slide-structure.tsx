@@ -17,7 +17,7 @@ export function SlideStructure({ isActive, skipAnimations }: SlideStructureProps
             mode="paper"
         >
             <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="paper">Dramaturgie</SlideLabel>
-            <SlideHeading isActive={isActive} skipAnimations={skipAnimations} mode="paper">Die Story Engine</SlideHeading>
+            <SlideHeading isActive={isActive} skipAnimations={skipAnimations} mode="paper">Wie in Wildholz die Bäume rascheln</SlideHeading>
             <SlideBody isActive={isActive} skipAnimations={skipAnimations} mode="paper" className="space-y-6">
                 <p>
                     <strong>Identitäts-Drama:</strong> Emilys Gratwanderung als „Anna" – eine Lüge, die von Tag zu Tag schwerer wiegt.
