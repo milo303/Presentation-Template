@@ -34,7 +34,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
     videoRef.current.currentTime = videoRef.current.duration
     videoRef.current.pause()
     setHasEnded(true)
-    setArrowStep(1)
+    setArrowStep(0)
   }
 
   const handleArrowClick = (e: React.MouseEvent) => {
@@ -96,12 +96,12 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
               <div className="absolute inset-0">
                 {/* Left Arrow - Farmhouse (left building) */}
                 {arrowStep >= 1 && (
-                  <>
-                    <div className="absolute left-[62%] bottom-[66%] text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                  <div className="absolute left-[30%] bottom-[34%] flex flex-col items-center gap-5">
+                    <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                       Serienkonzept
                     </div>
                     <motion.div
-                      className="absolute left-1/2 bottom-[36%] h-56 w-[6px] -translate-x-1/2 rotate-[-35deg] bg-white/70"
+                      className="relative h-56 w-[6px] bg-white/70"
                       initial={skipAnimations ? false : { scaleY: 0 }}
                       animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
                       transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
@@ -109,16 +109,16 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                     >
                       <div className="absolute -top-4 left-1/2 h-8 w-8 -translate-x-1/2 rotate-45 border-l-4 border-t-4 border-white/80" />
                     </motion.div>
-                  </>
+                  </div>
                 )}
                 {/* Center Arrow - Main House (central building) */}
                 {arrowStep >= 2 && (
-                  <>
-                    <div className="absolute left-1/2 bottom-[70%] -translate-x-1/2 text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                  <div className="absolute left-[50%] bottom-[36%] -translate-x-1/2 flex flex-col items-center gap-5">
+                    <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                       Gesellschaftlicher Anspruch
                     </div>
                     <motion.div
-                      className="absolute left-1/2 bottom-[36%] h-56 w-[6px] -translate-x-1/2 bg-white/70"
+                      className="relative h-56 w-[6px] bg-white/70"
                       initial={skipAnimations ? false : { scaleY: 0 }}
                       animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
                       transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
@@ -126,16 +126,16 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                     >
                       <div className="absolute -top-4 left-1/2 h-8 w-8 -translate-x-1/2 rotate-45 border-l-4 border-t-4 border-white/80" />
                     </motion.div>
-                  </>
+                  </div>
                 )}
                 {/* Right Arrow - Barn with Solar Panels */}
                 {arrowStep >= 3 && (
-                  <>
-                    <div className="absolute left-[38%] bottom-[66%] text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                  <div className="absolute left-[70%] bottom-[34%] flex flex-col items-center gap-5">
+                    <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                       Werteversprechen
                     </div>
                     <motion.div
-                      className="absolute left-1/2 bottom-[36%] h-56 w-[6px] -translate-x-1/2 rotate-[35deg] bg-white/70"
+                      className="relative h-56 w-[6px] bg-white/70"
                       initial={skipAnimations ? false : { scaleY: 0 }}
                       animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
                       transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
@@ -143,7 +143,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
                     >
                       <div className="absolute -top-4 left-1/2 h-8 w-8 -translate-x-1/2 rotate-45 border-l-4 border-t-4 border-white/80" />
                     </motion.div>
-                  </>
+                  </div>
                 )}
               </div>
             </motion.div>
