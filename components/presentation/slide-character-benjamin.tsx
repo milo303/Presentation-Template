@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
+import { motion } from "framer-motion"
 import { SlideTemplate, SlideHeading, SlideBody } from "./slide-template"
 import { getAssetPath } from "@/lib/utils"
 
@@ -12,6 +13,7 @@ interface SlideCharacterBenjaminProps {
 export function SlideCharacterBenjamin({ isActive, skipAnimations }: SlideCharacterBenjaminProps) {
     const videoRef = useRef<HTMLVideoElement>(null)
     const [hasPlayed, setHasPlayed] = useState(false)
+    const [hasStarted, setHasStarted] = useState(false)
 
     useEffect(() => {
         if (!videoRef.current) return
@@ -20,8 +22,10 @@ export function SlideCharacterBenjamin({ isActive, skipAnimations }: SlideCharac
             videoRef.current.currentTime = 0
             videoRef.current.pause()
             setHasPlayed(false)
+            setHasStarted(false)
         } else {
             videoRef.current.pause()
+            setHasStarted(false)
         }
     }, [isActive])
 
@@ -35,6 +39,7 @@ export function SlideCharacterBenjamin({ isActive, skipAnimations }: SlideCharac
     const triggerPlayback = useCallback(() => {
         if (!isActive || hasPlayed || !videoRef.current) return false
         videoRef.current.play().catch(() => {})
+        setHasStarted(true)
         return true
     }, [isActive, hasPlayed])
 
@@ -91,7 +96,15 @@ export function SlideCharacterBenjamin({ isActive, skipAnimations }: SlideCharac
                     Benjamin Hartmann
                 </SlideHeading>
                 <SlideBody isActive={isActive} skipAnimations={skipAnimations} mode="paper" className="text-[clamp(0.9rem,1.2vw+0.7rem,1.8rem)] text-white/85">
-                    33, erfolgreicher Bestseller-Autor. Schreibt die Liebesgeschichten, von denen Emily träumt. Charmant, wortgewandt und von allen bewundert. Bis er nach seinem Unfall in ein Koma fällt.
+                    33, erfolgreicher Bestseller-Autor. Schreibt die Liebesgeschichten, von denen Emily träumt. Charmant, wortgewandt und von allen bewundert.{" "}
+                    <motion.span
+                        className="inline-block"
+                        initial={skipAnimations ? false : { opacity: 0, y: 8 }}
+                        animate={skipAnimations ? { opacity: 1, y: 0 } : (hasStarted ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 })}
+                        transition={skipAnimations ? { duration: 0 } : { duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                    >
+                        Bis er nach seinem Unfall in ein Koma fällt.
+                    </motion.span>
                 </SlideBody>
             </SlideTemplate>
         </div>
