@@ -65,7 +65,7 @@ export function SlideFeeling({ isActive = true, skipAnimations = false }: SlideF
               animate={show ? { opacity: 1, y: 0, x: 0, scale: 1 } : { opacity: 0, y: 24, x: -6, scale: 0.98 }}
               transition={skipAnimations ? noTransition : { type: "spring", stiffness: 120, damping: 18, delay: 0.3 }}
             >
-              Ton & Gefühl
+              WIE SICH WILDHOLZ ANFÜHLT
             </motion.p>
 
             {/* Heading */}
