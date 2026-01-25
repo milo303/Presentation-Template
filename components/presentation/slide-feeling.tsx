@@ -90,9 +90,9 @@ export function SlideFeeling({ isActive = true, skipAnimations = false }: SlideF
                 „Wald statt WLAN,<br />Humor statt Homeoffice."
               </p>
               <p className="text-[clamp(1.05rem,1vw+0.7rem,1.45rem)] opacity-90 leading-relaxed font-serif">
-                Eine moderne Liebesgeschichte,<br />
-                gefilmt im sanften Licht des Waldes.<br />
-                Echte Figuren, Witz und Herz.
+                WILDHOLZ ist traditionell und modern zugleich: Handwerk, Nachhaltigkeit und
+                Digitalisierung; Stadt- und Landleben; Sehnsucht nach Gemeinschaft in einer immer
+                mehr individualisierten Gesellschaft.
               </p>
             </motion.div>
 
