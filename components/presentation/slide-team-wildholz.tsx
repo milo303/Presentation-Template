@@ -65,7 +65,7 @@ export function SlideTeamWildholz({ isActive }: SlideTeamWildholzProps) {
       <video
         ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover"
-        src={getAssetPath("/animation/Team%20Wildholz%20V2.mp4")}
+        src={getAssetPath("/animation/Team%20Wildholz%20v3.mp4")}
         autoPlay={false}
         muted
         playsInline
