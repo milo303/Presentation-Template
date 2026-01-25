@@ -301,7 +301,7 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
                 transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               >
                 <p className="mb-5 text-[clamp(0.8rem,0.6vw+0.55rem,1.05rem)] font-sans uppercase tracking-[0.3em] text-white/70 font-medium">
-                  Konzept: Pop-up Store
+                  Konzept: Pop-up
                 </p>
                 <h2 className="mb-6 font-serif text-[clamp(2.4rem,2.4vw+1.6rem,3.6rem)] font-medium tracking-tight text-white leading-[1.08]">
                   {TEXT_CONTENT[currentImageIndex]?.title}
