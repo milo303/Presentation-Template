@@ -6,18 +6,10 @@ import { getAssetPath } from "@/lib/utils"
 interface SlideLedBackgroundsProps {
   isActive: boolean
   skipAnimations?: boolean
+  images: string[]
 }
 
-export function SlideLedBackgrounds({ isActive }: SlideLedBackgroundsProps) {
-  const images = [
-    "/LED%20Hintergruende/1.jpg",
-    "/LED%20Hintergruende/2.jpg",
-    "/LED%20Hintergruende/3.jpg",
-    "/LED%20Hintergruende/4.jpg",
-    "/LED%20Hintergruende/5.jpg",
-    "/LED%20Hintergruende/6.jpg",
-    "/LED%20Hintergruende/7.jpg",
-  ]
+export function SlideLedBackgrounds({ isActive, images }: SlideLedBackgroundsProps) {
 
   return (
     <section className="relative h-full w-full overflow-hidden bg-black">

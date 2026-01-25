@@ -25,7 +25,7 @@ import { SlideClosing } from "@/components/presentation/slide-closing"
 import { SlideQuestion } from "@/components/presentation/slide-question"
 import { SlideKomparsen } from "@/components/presentation/slide-komparsen"
 
-const TOTAL_SLIDES = 24
+const TOTAL_SLIDES = 25
 
 export default function WildholzPresentation() {
   const [activeSlide, setActiveSlide] = useState(0)
@@ -68,10 +68,27 @@ export default function WildholzPresentation() {
           src="/clips/3.%20Wildholz%20Traumsequenz%20mit%20Musik.mp4"
           title="Wildholz Clip 3"
         />
-        <SlideLedBackgrounds isActive={activeSlide === 20} />
-        <SlideKomparsen isActive={activeSlide === 21} />
-        <SlideGreenProduction isActive={activeSlide === 22} />
-        <SlideClosing isActive={activeSlide === 23} />
+        <SlideLedBackgrounds
+          isActive={activeSlide === 20}
+          images={[
+            "/LED%20Hintergruende/1.jpg",
+            "/LED%20Hintergruende/2.jpg",
+            "/LED%20Hintergruende/3.jpg",
+            "/LED%20Hintergruende/4.jpg",
+          ]}
+        />
+        <SlideLedBackgrounds
+          isActive={activeSlide === 21}
+          images={[
+            "/LED%20Hintergruende/5.jpg",
+            "/LED%20Hintergruende/6.jpg",
+            "/LED%20Hintergruende/7.jpg",
+            "/LED%20Hintergruende/8.jpg",
+          ]}
+        />
+        <SlideKomparsen isActive={activeSlide === 22} />
+        <SlideGreenProduction isActive={activeSlide === 23} />
+        <SlideClosing isActive={activeSlide === 24} />
       </PresentationController>
     </main>
   )
