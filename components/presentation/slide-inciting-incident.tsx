@@ -16,6 +16,9 @@ export function SlideIncitingIncident({ isActive, skipAnimations }: SlideIncitin
         "/Slideshow/Bildschirmfoto%202026-01-25%20um%2014.29.35.png",
         "/Slideshow/Bildschirmfoto%202026-01-25%20um%2014.32.24.png",
         "/Slideshow/Bildschirmfoto%202026-01-25%20um%2014.32.41.png",
+        "/Slideshow/Bildschirmfoto%202026-01-25%20um%2018.43.40.png",
+        "/Slideshow/Bildschirmfoto%202026-01-25%20um%2018.44.56.png",
+        "/Slideshow/Bildschirmfoto%202026-01-25%20um%2019.08.29.png",
     ]
     const [imageIndex, setImageIndex] = useState(0)
 
