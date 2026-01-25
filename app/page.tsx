@@ -15,13 +15,14 @@ import { SlideAtmosphere } from "@/components/presentation/slide-atmosphere"
 import { SlideProduction } from "@/components/presentation/slide-production"
 import { SlideProductionData } from "@/components/presentation/slide-production-data"
 import { SlideLedVideo } from "@/components/presentation/slide-led-video"
+import { SlideVideoClip } from "@/components/presentation/slide-video-clip"
 import { SlideProducersNote } from "@/components/presentation/slide-producers-note"
 import { SlideTrailer } from "@/components/presentation/slide-trailer"
 import { SlideClosing } from "@/components/presentation/slide-closing"
 import { SlideQuestion } from "@/components/presentation/slide-question"
 import { SlideKomparsen } from "@/components/presentation/slide-komparsen"
 
-const TOTAL_SLIDES = 18
+const TOTAL_SLIDES = 21
 
 export default function WildholzPresentation() {
   const [activeSlide, setActiveSlide] = useState(0)
@@ -48,8 +49,23 @@ export default function WildholzPresentation() {
         <SlideAtmosphere isActive={activeSlide === 13} />
         <SlideProduction isActive={activeSlide === 14} />
         <SlideLedVideo isActive={activeSlide === 15} />
-        <SlideKomparsen isActive={activeSlide === 16} />
-        <SlideClosing isActive={activeSlide === 17} />
+        <SlideVideoClip
+          isActive={activeSlide === 16}
+          src="/clips/1.%20Wildholz%20Stockshot%20mit%20Musik.mp4"
+          title="Wildholz Clip 1"
+        />
+        <SlideVideoClip
+          isActive={activeSlide === 17}
+          src="/clips/2.%20Wildholz%20Anna%20Paul%20mit%20Musik.mp4"
+          title="Wildholz Clip 2"
+        />
+        <SlideVideoClip
+          isActive={activeSlide === 18}
+          src="/clips/3.%20Wildholz%20Traumsequenz%20mit%20Musik.mp4"
+          title="Wildholz Clip 3"
+        />
+        <SlideKomparsen isActive={activeSlide === 19} />
+        <SlideClosing isActive={activeSlide === 20} />
       </PresentationController>
     </main>
   )
