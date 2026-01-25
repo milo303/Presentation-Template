@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { getAssetPath } from "@/lib/utils"
 
 interface SlideProductionDataProps {
@@ -9,12 +10,13 @@ interface SlideProductionDataProps {
 
 export function SlideProductionData({ isActive }: SlideProductionDataProps) {
   return (
-    <section className="relative h-full w-full overflow-hidden bg-white">
-      <iframe
-        title="Produktionelle Eckdaten"
-        src={getAssetPath("/Slide/Produktionelle%20Eckdaten%20.pdf")}
-        className="absolute inset-0 h-full w-full"
-        style={{ border: 0 }}
+    <section className="relative h-full w-full overflow-hidden bg-black">
+      <Image
+        src={getAssetPath("/images/Produktionelle%20Eckdaten.png")}
+        alt="Produktionelle Eckdaten"
+        fill
+        className="object-cover"
+        priority
       />
     </section>
   )
