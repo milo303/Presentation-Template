@@ -37,10 +37,31 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
     setArrowStep(1)
   }
 
-  const handleArrowClick = () => {
+  const handleArrowClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     if (!hasEnded) return
     setArrowStep((current) => Math.min(current + 1, 3))
   }
+
+  // Handle keyboard navigation for arrows
+  useEffect(() => {
+    if (!isActive || !hasEnded) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "Enter") {
+        if (arrowStep < 3) {
+          e.preventDefault()
+          e.stopImmediatePropagation() // Prevent global slide navigation
+          setArrowStep((s) => s + 1)
+        }
+      }
+    }
+
+    // Use capture phase to intercept before PresentationController
+    window.addEventListener("keydown", handleKeyDown, true)
+    return () => window.removeEventListener("keydown", handleKeyDown, true)
+  }, [isActive, hasEnded, arrowStep])
 
   return (
     <SlideTemplate
@@ -66,7 +87,7 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
           />
           {hasEnded && (
             <motion.div
-              className="absolute inset-0 flex items-center justify-center pointer-events-auto"
+              className="absolute inset-0 z-[60] flex items-center justify-center pointer-events-auto cursor-pointer"
               initial={skipAnimations ? false : { opacity: 0, y: 24 }}
               animate={skipAnimations ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
               transition={skipAnimations ? { duration: 0 } : { duration: 1.2, ease: [0.16, 1, 0.3, 1] }}

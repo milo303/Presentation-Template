@@ -50,7 +50,7 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [transitionStyle, setTransitionStyle] = useState<"slide" | "book">("slide")
   const [lastDirection, setLastDirection] = useState<1 | -1>(1)
-  const [transitionOverride, setTransitionOverride] = useState<"fade" | "zoom" | null>(null)
+  const [transitionOverride, setTransitionOverride] = useState<"fade" | "zoom" | "iris" | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const slideChildren = React.Children.toArray(children)
@@ -59,18 +59,27 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
     if (isAnimating || index < 0 || index >= totalSlides) return
 
     // Custom transitions for specific slides
-    // Zoom for index 1 <-> 2 (Video <-> Question) and 2 <-> 3 (Question <-> Producers Note)
-    const useZoom = (currentSlide === 1 && index === 2) || (currentSlide === 2 && index === 1) ||
-      (currentSlide === 2 && index === 3) || (currentSlide === 3 && index === 2)
+    // Zoom for index 1 <-> 2 (Video <-> Question)
+    const useZoom = (currentSlide === 1 && index === 2) || (currentSlide === 2 && index === 1)
+
+    // Iris Wipe for index 2 <-> 3 (Question <-> Producers Note)
+    const useIris = (currentSlide === 2 && index === 3) || (currentSlide === 3 && index === 2)
 
     setIsAnimating(true)
     setLastDirection(direction)
-    setTransitionOverride(useZoom ? "zoom" : null)
+
+    if (useZoom) setTransitionOverride("zoom")
+    else if (useIris) setTransitionOverride("iris")
+    else setTransitionOverride(null)
+
     setCurrentSlide(index)
     onSlideChange?.(index)
 
-    // Synchronize animation lock with motion duration (Zoom is 1.4s, Book is 1.8s)
-    const lockDuration = useZoom ? 1400 : 1800
+    // Synchronize animation lock with motion duration (Iris: 2.5s, Zoom: 1.4s, Book: 1.8s)
+    let lockDuration = 1800
+    if (useZoom) lockDuration = 1400
+    if (useIris) lockDuration = 2500
+
     setTimeout(() => {
       setIsAnimating(false)
       setTransitionOverride(null)
@@ -207,6 +216,36 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
     })
   }
 
+  const irisVariants: Variants = {
+    enter: (direction: number) => ({
+      clipPath: "circle(0% at 50% 50%)",
+      transform: "scale(1.1)", // Slight zoom start
+      zIndex: 50, // Force highest Z
+      opacity: 1,
+    }),
+    center: {
+      clipPath: "circle(150% at 50% 50%)",
+      transform: "scale(1)",
+      zIndex: 50,
+      opacity: 1,
+      transition: {
+        clipPath: { duration: 2.5, ease: [0.22, 1, 0.36, 1] }, // Slower 2.5s, very smooth cubic-bezier
+        transform: { duration: 2.5, ease: "easeOut" },
+        zIndex: { duration: 0 }
+      }
+    },
+    exit: (direction: number) => ({
+      clipPath: "circle(150% at 50% 50%)",
+      transform: "scale(1)",
+      zIndex: 0, // Drop behind
+      opacity: 1, // Stay visible until covered
+      transition: {
+        // Stay mostly static while being covered, maybe slight darken?
+        zIndex: { duration: 0 }
+      }
+    })
+  }
+
   // Enhanced Book Page Flip Variants - simulating curvature and paper flexibility
   const bookVariants: Variants = {
     enter: (direction: number) => ({
@@ -299,16 +338,18 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
             variants={
               transitionOverride === "zoom"
                 ? zoomVariants
-                : transitionOverride === "fade"
-                  ? fadeVariants
-                  : (transitionStyle === "book" ? bookVariants : slideVariants)
+                : transitionOverride === "iris"
+                  ? irisVariants
+                  : transitionOverride === "fade"
+                    ? fadeVariants
+                    : (transitionStyle === "book" ? bookVariants : slideVariants)
             }
             initial="enter"
             animate="center"
             exit="exit"
             className="absolute inset-0 h-full w-full"
             style={{
-              transformStyle: "preserve-3d",
+              transformStyle: transitionOverride === "iris" ? "flat" : "preserve-3d", // Disable 3D for clip-path
               willChange: "transform",
             }}
           >
