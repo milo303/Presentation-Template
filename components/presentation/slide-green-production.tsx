@@ -24,12 +24,12 @@ export function SlideGreenProduction({ isActive }: SlideGreenProductionProps) {
     }
   }, [isActive])
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = (event: React.MouseEvent | React.PointerEvent) => {
     if (!videoRef.current || hasPlayed) return
     videoRef.current.muted = false
     videoRef.current.play().catch(() => { })
-    e.preventDefault()
-    e.stopPropagation()
+    event.preventDefault()
+    event.stopPropagation()
   }
 
   const handleEnded = () => {
@@ -40,7 +40,12 @@ export function SlideGreenProduction({ isActive }: SlideGreenProductionProps) {
   }
 
   return (
-    <section className="relative h-full w-full overflow-hidden bg-black" onClick={handleClick}>
+    <section
+      className="relative h-full w-full overflow-hidden bg-black"
+      onPointerDownCapture={handleClick}
+      onClickCapture={handleClick}
+      onClick={handleClick}
+    >
       <video
         ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover"

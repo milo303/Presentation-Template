@@ -16,14 +16,21 @@ export function SlideTeamWildholz({ isActive }: SlideTeamWildholzProps) {
 
     if (isActive) {
       videoRef.current.currentTime = 0
-      videoRef.current.play().catch(() => { })
+      videoRef.current.pause()
     } else {
       videoRef.current.pause()
     }
   }, [isActive])
 
+  const handleClick = (event: React.MouseEvent) => {
+    if (!videoRef.current || !isActive) return
+    videoRef.current.play().catch(() => { })
+    event.preventDefault()
+    event.stopPropagation()
+  }
+
   return (
-    <section className="relative h-full w-full overflow-hidden bg-black">
+    <section className="relative h-full w-full overflow-hidden bg-black" onClick={handleClick}>
       <video
         ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover"

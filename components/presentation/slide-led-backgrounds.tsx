@@ -11,13 +11,13 @@ interface SlideLedBackgroundsProps {
 
 export function SlideLedBackgrounds({ isActive }: SlideLedBackgroundsProps) {
   const images = [
-    "/LED%20Hintergru%CC%88nde/1.jpg",
-    "/LED%20Hintergru%CC%88nde/2.jpg",
-    "/LED%20Hintergru%CC%88nde/3.jpg",
-    "/LED%20Hintergru%CC%88nde/4.jpg",
-    "/LED%20Hintergru%CC%88nde/5.jpg",
-    "/LED%20Hintergru%CC%88nde/6.jpg",
-    "/LED%20Hintergru%CC%88nde/7.jpg",
+    "/LED%20Hintergruende/1.jpg",
+    "/LED%20Hintergruende/2.jpg",
+    "/LED%20Hintergruende/3.jpg",
+    "/LED%20Hintergruende/4.jpg",
+    "/LED%20Hintergruende/5.jpg",
+    "/LED%20Hintergruende/6.jpg",
+    "/LED%20Hintergruende/7.jpg",
   ]
   const [imageIndex, setImageIndex] = useState(0)
 
