@@ -88,7 +88,7 @@ export function SlideProduction({ isActive, skipAnimations }: SlideProductionPro
                         <div>
                             <p className="text-xl font-medium text-white mb-2">Virtual Production</p>
                             <p className="text-lg text-white/80 font-light leading-relaxed">
-                                KI-gestützte Stage für wetterunabhängige, nachhaltige und hocheffiziente Drehabläufe.
+                                LED-gestützte Stage für wetterunabhängige, nachhaltige und hocheffiziente Drehabläufe.
                             </p>
                         </div>
                     </motion.div>
@@ -108,16 +108,6 @@ export function SlideProduction({ isActive, skipAnimations }: SlideProductionPro
                         </div>
                     </motion.div>
 
-                    <motion.div
-                        className="pt-8 border-t border-white/20 mt-10"
-                        initial={skipAnimations ? false : { opacity: 0 }}
-                        animate={skipAnimations ? { opacity: 1 } : (isActive ? { opacity: 1 } : { opacity: 0 })}
-                        transition={skipAnimations ? { duration: 0 } : { duration: 1.0, delay: 2.0 }}
-                    >
-                        <p className="text-[#c5a059] uppercase tracking-widest text-xs mb-1 font-bold">Timeline</p>
-                        <p className="text-3xl font-serif text-white mb-1">Sept. 2027</p>
-                        <p className="text-base text-white/50 font-light">Möglicher Sendestart</p>
-                    </motion.div>
                 </div>
             </motion.div>
 
