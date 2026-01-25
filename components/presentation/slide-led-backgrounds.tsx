@@ -11,13 +11,13 @@ interface SlideLedBackgroundsProps {
 
 export function SlideLedBackgrounds({ isActive }: SlideLedBackgroundsProps) {
   const images = [
-    "/LED Hintergründe/1.jpg",
-    "/LED Hintergründe/2.jpg",
-    "/LED Hintergründe/3.jpg",
-    "/LED Hintergründe/4.jpg",
-    "/LED Hintergründe/5.jpg",
-    "/LED Hintergründe/6.jpg",
-    "/LED Hintergründe/7.jpg",
+    "/LED%20Hintergru%CC%88nde/1.jpg",
+    "/LED%20Hintergru%CC%88nde/2.jpg",
+    "/LED%20Hintergru%CC%88nde/3.jpg",
+    "/LED%20Hintergru%CC%88nde/4.jpg",
+    "/LED%20Hintergru%CC%88nde/5.jpg",
+    "/LED%20Hintergru%CC%88nde/6.jpg",
+    "/LED%20Hintergru%CC%88nde/7.jpg",
   ]
   const [imageIndex, setImageIndex] = useState(0)
 
@@ -27,7 +27,7 @@ export function SlideLedBackgrounds({ isActive }: SlideLedBackgroundsProps) {
     }
   }, [isActive])
 
-  const handleClick = (event: React.MouseEvent) => {
+  const handleClick = (event: React.MouseEvent | React.PointerEvent) => {
     if (!isActive) return
     event.preventDefault()
     event.stopPropagation()
@@ -37,6 +37,7 @@ export function SlideLedBackgrounds({ isActive }: SlideLedBackgroundsProps) {
   return (
     <section
       className="relative h-full w-full overflow-hidden bg-black"
+      onPointerDownCapture={handleClick}
       onClickCapture={handleClick}
       onClick={handleClick}
     >
