@@ -82,8 +82,8 @@ export default function WildholzPresentation() {
           images={[
             "/LED%20Hintergruende/5.jpg",
             "/LED%20Hintergruende/6.jpg",
-            "/LED%20Hintergruende/7.jpg",
-            "/LED%20Hintergruende/8.jpg",
+            "/LED%20Hintergruende/2.jpg",
+            "/LED%20Hintergruende/1.jpg",
           ]}
         />
         <SlideKomparsen isActive={activeSlide === 22} />
