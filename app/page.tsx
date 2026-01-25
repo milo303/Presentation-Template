@@ -13,13 +13,14 @@ import { SlideStructure } from "@/components/presentation/slide-structure"
 import { SlideTransmedia } from "@/components/presentation/slide-transmedia"
 import { SlideAtmosphere } from "@/components/presentation/slide-atmosphere"
 import { SlideProduction } from "@/components/presentation/slide-production"
+import { SlideLedVideo } from "@/components/presentation/slide-led-video"
 import { SlideProducersNote } from "@/components/presentation/slide-producers-note"
 import { SlideTrailer } from "@/components/presentation/slide-trailer"
 import { SlideClosing } from "@/components/presentation/slide-closing"
 import { SlideQuestion } from "@/components/presentation/slide-question"
 import { SlideKomparsen } from "@/components/presentation/slide-komparsen"
 
-const TOTAL_SLIDES = 16
+const TOTAL_SLIDES = 17
 
 export default function WildholzPresentation() {
   const [activeSlide, setActiveSlide] = useState(0)
@@ -45,7 +46,8 @@ export default function WildholzPresentation() {
         <SlideAtmosphere isActive={activeSlide === 12} />
         <SlideProduction isActive={activeSlide === 13} />
         <SlideKomparsen isActive={activeSlide === 14} />
-        <SlideClosing isActive={activeSlide === 15} />
+        <SlideLedVideo isActive={activeSlide === 15} />
+        <SlideClosing isActive={activeSlide === 16} />
       </PresentationController>
     </main>
   )
