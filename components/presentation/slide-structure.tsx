@@ -13,10 +13,10 @@ export function SlideStructure({ isActive, skipAnimations }: SlideStructureProps
             isActive={isActive}
             skipAnimations={skipAnimations}
             alignment="right"
-            backgroundImage="/images/wildholz-structure.png"
+            backgroundImage="/images/Blätterdach.png"
             mode="paper"
         >
-            <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="paper">Dramaturgie</SlideLabel>
+            <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="paper" className="hidden">Dramaturgie</SlideLabel>
             <SlideHeading isActive={isActive} skipAnimations={skipAnimations} mode="paper">Wie in Wildholz die Bäume rascheln</SlideHeading>
             <SlideBody isActive={isActive} skipAnimations={skipAnimations} mode="paper" className="space-y-6">
                 <p>
@@ -25,7 +25,7 @@ export function SlideStructure({ isActive, skipAnimations }: SlideStructureProps
                     Heldin, die uns zum Lachen bringt.
                 </p>
                 <p>
-                    • Ein wunderschöner Forsthof mit Sägewerk, Möbelwerkstatt, Pension und Hof-Café,
+                    Ein wunderschöner Forsthof mit Sägewerk, Möbelwerkstatt, Pension und Hof-Café,
                     Mehrgenerationenfamilie lebt und arbeitet gemeinsam, inklusive Pferd Horst-Peter, den
                     Schafen Gisela und Greta und der durchgeknallten Labrador-Hunden Timmi, Tommi und Tammi.
                 </p>
