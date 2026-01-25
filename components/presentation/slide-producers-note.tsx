@@ -75,54 +75,54 @@ export function SlideProducersNote({ isActive, skipAnimations }: SlideProducersN
               <div className="absolute inset-0">
                 {/* Left Arrow - Farmhouse (left building) */}
                 {arrowStep >= 1 && (
-                  <div className="absolute left-[34%] bottom-[34%] flex flex-col items-center gap-4">
-                    <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                  <>
+                    <div className="absolute left-[62%] bottom-[66%] text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                       Serienkonzept
                     </div>
                     <motion.div
-                      className="relative h-28 w-[3px] bg-white/70"
+                      className="absolute left-1/2 bottom-[36%] h-56 w-[6px] -translate-x-1/2 rotate-[-35deg] bg-white/70"
                       initial={skipAnimations ? false : { scaleY: 0 }}
                       animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
                       transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                       style={{ transformOrigin: "bottom" }}
                     >
-                      <div className="absolute -top-3 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-l-2 border-t-2 border-white/80" />
+                      <div className="absolute -top-4 left-1/2 h-8 w-8 -translate-x-1/2 rotate-45 border-l-4 border-t-4 border-white/80" />
                     </motion.div>
-                  </div>
+                  </>
                 )}
                 {/* Center Arrow - Main House (central building) */}
                 {arrowStep >= 2 && (
-                  <div className="absolute left-[47%] bottom-[37%] flex flex-col items-center gap-4">
-                    <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                  <>
+                    <div className="absolute left-1/2 bottom-[70%] -translate-x-1/2 text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                       Gesellschaftlicher Anspruch
                     </div>
                     <motion.div
-                      className="relative h-24 w-[3px] bg-white/70"
+                      className="absolute left-1/2 bottom-[36%] h-56 w-[6px] -translate-x-1/2 bg-white/70"
                       initial={skipAnimations ? false : { scaleY: 0 }}
                       animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
                       transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                       style={{ transformOrigin: "bottom" }}
                     >
-                      <div className="absolute -top-3 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-l-2 border-t-2 border-white/80" />
+                      <div className="absolute -top-4 left-1/2 h-8 w-8 -translate-x-1/2 rotate-45 border-l-4 border-t-4 border-white/80" />
                     </motion.div>
-                  </div>
+                  </>
                 )}
                 {/* Right Arrow - Barn with Solar Panels */}
                 {arrowStep >= 3 && (
-                  <div className="absolute left-[72%] bottom-[34%] flex flex-col items-center gap-4">
-                    <div className="text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                  <>
+                    <div className="absolute left-[38%] bottom-[66%] text-sm uppercase tracking-[0.2em] font-bold text-white/85 text-center whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                       Werteversprechen
                     </div>
                     <motion.div
-                      className="relative h-28 w-[3px] bg-white/70"
+                      className="absolute left-1/2 bottom-[36%] h-56 w-[6px] -translate-x-1/2 rotate-[35deg] bg-white/70"
                       initial={skipAnimations ? false : { scaleY: 0 }}
                       animate={skipAnimations ? { scaleY: 1 } : { scaleY: 1 }}
                       transition={skipAnimations ? { duration: 0 } : { duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                       style={{ transformOrigin: "bottom" }}
                     >
-                      <div className="absolute -top-3 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-l-2 border-t-2 border-white/80" />
+                      <div className="absolute -top-4 left-1/2 h-8 w-8 -translate-x-1/2 rotate-45 border-l-4 border-t-4 border-white/80" />
                     </motion.div>
-                  </div>
+                  </>
                 )}
               </div>
             </motion.div>
