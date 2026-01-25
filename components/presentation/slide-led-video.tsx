@@ -28,7 +28,7 @@ export function SlideLedVideo({ isActive }: SlideLedVideoProps) {
       <video
         ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover"
-        src={getAssetPath("/clips/LED%20Clip%20V2.mp4")}
+        src={getAssetPath("/clips/LED%20Video%20V3.mp4")}
         autoPlay={false}
         playsInline
       />

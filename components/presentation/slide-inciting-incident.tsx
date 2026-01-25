@@ -27,7 +27,7 @@ export function SlideIncitingIncident({ isActive, skipAnimations }: SlideIncitin
 
         const intervalId = window.setInterval(() => {
             setImageIndex((current) => (current + 1) % slideshowImages.length)
-        }, 2400)
+        }, 4000)
 
         return () => window.clearInterval(intervalId)
     }, [isActive, slideshowImages.length])
@@ -42,19 +42,15 @@ export function SlideIncitingIncident({ isActive, skipAnimations }: SlideIncitin
             imageClassName="right-[4%] top-[16%] w-[42%] h-[68%]"
             contentClassName="max-w-[780px]"
         >
-            <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="paper">Der Auslöser</SlideLabel>
+            <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="paper">Staffel 1</SlideLabel>
             <SlideHeading isActive={isActive} skipAnimations={skipAnimations} mode="paper">Plötzlich Emily-Anna</SlideHeading>
-            <SlideBody isActive={isActive} skipAnimations={skipAnimations} mode="paper" className="text-center">
-                Ein dramatischer Unfall im hektischen Köln führt Emily direkt ins Herz der Familie Hartmann.<br /><br />
-                Vom Krankenhaus in den Forsthof: Ein Missverständnis macht sie zur Verlobten des Star-Autors Benjamin Hartmann – und sie kann das Geheimnis nicht mehr lüften.
-                <motion.span
-                    className="mt-6 block"
-                    initial={skipAnimations ? false : { opacity: 0, y: 16 }}
-                    animate={skipAnimations ? { opacity: 1, y: 0 } : (isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 })}
-                    transition={skipAnimations ? { duration: 0 } : { duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 1.6 }}
-                >
-                    Bis er nach seinem Unfall in ein Koma fällt.
-                </motion.span>
+            <SlideBody isActive={isActive} skipAnimations={skipAnimations} mode="paper" className="space-y-4">
+                <p>• Annas geheime Identität als „Verlobte" - ständige Gratwanderung.</p>
+                <p>• Paul entdeckt seine Gefühle, kämpft aber mit Loyalität und Schuld.</p>
+                <p>• Benjamin erwacht mit Gedächtnisverlust -<br />verliebt sich ebenfalls in Anna.</p>
+                <p>• Die echte Anna taucht auf und niemand glaubt ihr.</p>
+                <p>• Paul findet Emilys wahre Identität heraus.</p>
+                <p>• Die Familie steht vor der Entscheidung:<br />modernisieren oder verkaufen.</p>
             </SlideBody>
         </SlideTemplate>
     )
