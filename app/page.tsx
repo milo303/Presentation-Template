@@ -45,8 +45,8 @@ export default function WildholzPresentation() {
         <SlideFeeling isActive={activeSlide === 9} />
         <SlideStructure isActive={activeSlide === 10} />
         <SlideTransmedia isActive={activeSlide === 11} />
-        <SlideProductionData isActive={activeSlide === 12} />
-        <SlideAtmosphere isActive={activeSlide === 13} />
+        <SlideAtmosphere isActive={activeSlide === 12} />
+        <SlideProductionData isActive={activeSlide === 13} />
         <SlideProduction isActive={activeSlide === 14} />
         <SlideLedVideo isActive={activeSlide === 15} />
         <SlideVideoClip

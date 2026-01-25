@@ -14,6 +14,7 @@ export function SlideProductionData({ isActive }: SlideProductionDataProps) {
         title="Produktionelle Eckdaten"
         src={getAssetPath("/Slide/Produktionelle%20Eckdaten%20.pdf")}
         className="absolute inset-0 h-full w-full"
+        style={{ border: 0 }}
       />
     </section>
   )
