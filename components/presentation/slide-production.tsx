@@ -73,7 +73,7 @@ export function SlideProduction({ isActive, skipAnimations }: SlideProductionPro
                     animate={skipAnimations ? { opacity: 1, y: 0 } : (isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 })}
                     transition={skipAnimations ? { duration: 0 } : { duration: 1.0, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
                 >
-                    Technologie & Rahmen
+                    Technologie & Workflows
                 </motion.h2>
 
                 {/* Content Body */}
