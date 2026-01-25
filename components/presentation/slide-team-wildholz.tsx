@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { getAssetPath } from "@/lib/utils"
 
 interface SlideTeamWildholzProps {
@@ -10,6 +10,7 @@ interface SlideTeamWildholzProps {
 
 export function SlideTeamWildholz({ isActive }: SlideTeamWildholzProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [hasPlayed, setHasPlayed] = useState(false)
 
   useEffect(() => {
     if (!videoRef.current) return
@@ -17,16 +18,17 @@ export function SlideTeamWildholz({ isActive }: SlideTeamWildholzProps) {
     if (isActive) {
       videoRef.current.currentTime = 0
       videoRef.current.pause()
+      setHasPlayed(false)
     } else {
       videoRef.current.pause()
     }
   }, [isActive])
 
   const triggerPlayback = useCallback(() => {
-    if (!videoRef.current || !isActive) return false
+    if (!videoRef.current || !isActive || hasPlayed) return false
     videoRef.current.play().catch(() => { })
     return true
-  }, [isActive])
+  }, [isActive, hasPlayed])
 
   useEffect(() => {
     if (!isActive) return
@@ -51,6 +53,13 @@ export function SlideTeamWildholz({ isActive }: SlideTeamWildholzProps) {
     }
   }
 
+  const handleEnded = () => {
+    if (!videoRef.current) return
+    videoRef.current.currentTime = videoRef.current.duration
+    videoRef.current.pause()
+    setHasPlayed(true)
+  }
+
   return (
     <section className="relative h-full w-full overflow-hidden bg-black" onClick={handleClick}>
       <video
@@ -60,6 +69,7 @@ export function SlideTeamWildholz({ isActive }: SlideTeamWildholzProps) {
         autoPlay={false}
         muted
         playsInline
+        onEnded={handleEnded}
       />
     </section>
   )
