@@ -13,7 +13,7 @@ export function SlideStructure({ isActive, skipAnimations }: SlideStructureProps
             isActive={isActive}
             skipAnimations={skipAnimations}
             alignment="right"
-            backgroundImage="/images/Blätterdach.png"
+            backgroundImage="/images/Blätterdach.png"
             mode="paper"
         >
             <SlideLabel isActive={isActive} skipAnimations={skipAnimations} mode="paper" className="hidden">Dramaturgie</SlideLabel>

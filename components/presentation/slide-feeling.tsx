@@ -89,7 +89,7 @@ export function SlideFeeling({ isActive = true, skipAnimations = false }: SlideF
               <p className="italic">
                 „Wald statt WLAN,<br />Humor statt Homeoffice."
               </p>
-              <p className="text-[clamp(1.05rem,1vw+0.7rem,1.45rem)] opacity-90 leading-relaxed font-serif">
+              <p className="text-[clamp(1.05rem,1vw+0.7rem,1.45rem)] leading-relaxed font-serif text-white/70">
                 WILDHOLZ ist traditionell und modern zugleich: Handwerk, Nachhaltigkeit und
                 Digitalisierung; Stadt- und Landleben; Sehnsucht nach Gemeinschaft in einer immer
                 mehr individualisierten Gesellschaft.
