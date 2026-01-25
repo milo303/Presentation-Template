@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import { getAssetPath } from "@/lib/utils"
 
 interface SlideTeamWildholzProps {
@@ -22,11 +22,33 @@ export function SlideTeamWildholz({ isActive }: SlideTeamWildholzProps) {
     }
   }, [isActive])
 
-  const handleClick = (event: React.MouseEvent) => {
-    if (!videoRef.current || !isActive) return
+  const triggerPlayback = useCallback(() => {
+    if (!videoRef.current || !isActive) return false
     videoRef.current.play().catch(() => { })
-    event.preventDefault()
-    event.stopPropagation()
+    return true
+  }, [isActive])
+
+  useEffect(() => {
+    if (!isActive) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (["ArrowRight", "ArrowDown", " ", "Enter", "PageDown"].includes(event.key)) {
+        if (triggerPlayback()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown, { capture: true })
+    return () => window.removeEventListener("keydown", handleKeyDown, { capture: true })
+  }, [isActive, triggerPlayback])
+
+  const handleClick = (event: React.MouseEvent) => {
+    if (triggerPlayback()) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
   }
 
   return (

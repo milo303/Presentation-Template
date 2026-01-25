@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { getAssetPath } from "@/lib/utils"
 
 interface SlideGreenProductionProps {
@@ -24,12 +24,34 @@ export function SlideGreenProduction({ isActive }: SlideGreenProductionProps) {
     }
   }, [isActive])
 
-  const handleClick = (event: React.MouseEvent | React.PointerEvent) => {
-    if (!videoRef.current || hasPlayed) return
+  const triggerPlayback = useCallback(() => {
+    if (!videoRef.current || hasPlayed) return false
     videoRef.current.muted = false
     videoRef.current.play().catch(() => { })
-    event.preventDefault()
-    event.stopPropagation()
+    return true
+  }, [hasPlayed])
+
+  useEffect(() => {
+    if (!isActive) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (["ArrowRight", "ArrowDown", " ", "Enter", "PageDown"].includes(event.key)) {
+        if (triggerPlayback()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown, { capture: true })
+    return () => window.removeEventListener("keydown", handleKeyDown, { capture: true })
+  }, [isActive, triggerPlayback])
+
+  const handleClick = (event: React.MouseEvent | React.PointerEvent) => {
+    if (triggerPlayback()) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
   }
 
   const handleEnded = () => {
@@ -49,7 +71,7 @@ export function SlideGreenProduction({ isActive }: SlideGreenProductionProps) {
       <video
         ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover"
-        src={getAssetPath("/animation/Green%20Production.mp4")}
+        src={getAssetPath("/animation/Green%20Studio%20V3.mp4")}
         autoPlay={false}
         playsInline
         onEnded={handleEnded}

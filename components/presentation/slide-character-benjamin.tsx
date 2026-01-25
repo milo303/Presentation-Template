@@ -47,7 +47,7 @@ export function SlideCharacterBenjamin({ isActive, skipAnimations }: SlideCharac
         if (!isActive) return
 
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (["ArrowRight", "ArrowDown", " ", "Enter"].includes(e.key)) {
+            if (["ArrowRight", "ArrowDown", " ", "Enter", "PageDown"].includes(e.key)) {
                 if (triggerPlayback()) {
                     e.preventDefault()
                     e.stopPropagation()

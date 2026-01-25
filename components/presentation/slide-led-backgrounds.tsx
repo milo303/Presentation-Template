@@ -1,7 +1,6 @@
 "use client"
 
 import Image from "next/image"
-import { useEffect, useState } from "react"
 import { getAssetPath } from "@/lib/utils"
 
 interface SlideLedBackgroundsProps {
@@ -19,35 +18,22 @@ export function SlideLedBackgrounds({ isActive }: SlideLedBackgroundsProps) {
     "/LED%20Hintergruende/6.jpg",
     "/LED%20Hintergruende/7.jpg",
   ]
-  const [imageIndex, setImageIndex] = useState(0)
-
-  useEffect(() => {
-    if (!isActive) {
-      setImageIndex(0)
-    }
-  }, [isActive])
-
-  const handleClick = (event: React.MouseEvent | React.PointerEvent) => {
-    if (!isActive) return
-    event.preventDefault()
-    event.stopPropagation()
-    setImageIndex((current) => (current + 1) % images.length)
-  }
 
   return (
-    <section
-      className="relative h-full w-full overflow-hidden bg-black"
-      onPointerDownCapture={handleClick}
-      onClickCapture={handleClick}
-      onClick={handleClick}
-    >
-      <Image
-        src={getAssetPath(images[imageIndex])}
-        alt="LED Hintergrund"
-        fill
-        className="object-cover"
-        priority
-      />
+    <section className="relative h-full w-full overflow-hidden bg-black">
+      <div className="absolute inset-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-6">
+        {images.map((src, index) => (
+          <div key={src} className="relative h-full min-h-[140px] w-full overflow-hidden">
+            <Image
+              src={getAssetPath(src)}
+              alt={`LED Hintergrund ${index + 1}`}
+              fill
+              className="object-cover"
+              priority={index < 4}
+            />
+          </div>
+        ))}
+      </div>
     </section>
   )
 }

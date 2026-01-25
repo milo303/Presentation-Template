@@ -131,10 +131,10 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
         return
       }
 
-      if (e.key === "ArrowRight" || e.key === " " || e.key === "Enter") {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "Enter" || e.key === "PageDown") {
         e.preventDefault()
         nextSlide()
-      } else if (e.key === "ArrowLeft" || e.key === "Backspace") {
+      } else if (e.key === "ArrowLeft" || e.key === "Backspace" || e.key === "PageUp") {
         e.preventDefault()
         prevSlide()
       }

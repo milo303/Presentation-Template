@@ -137,11 +137,11 @@ export function SlideAtmosphere({ isActive = false, onNext, onPrev }: SlideAtmos
   useEffect(() => {
     if (!isActive) return
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (["ArrowRight", "ArrowDown", " ", "Enter"].includes(e.key)) {
+      if (["ArrowRight", "ArrowDown", " ", "Enter", "PageDown"].includes(e.key)) {
         e.preventDefault()
         e.stopPropagation()
         goForward()
-      } else if (["ArrowLeft", "ArrowUp", "Backspace"].includes(e.key)) {
+      } else if (["ArrowLeft", "ArrowUp", "Backspace", "PageUp"].includes(e.key)) {
         e.preventDefault()
         e.stopPropagation()
         goBackward()
