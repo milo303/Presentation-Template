@@ -101,7 +101,7 @@ export function SlideProduction({ isActive, skipAnimations }: SlideProductionPro
                     >
                         <div className="w-1 h-12 bg-gold/60 mt-2" />
                         <div>
-                            <p className="text-xl font-medium text-white mb-2">KI-Implementierun</p>
+                            <p className="text-xl font-medium text-white mb-2">KI-Implementierung</p>
                             <p className="text-lg text-white/80 font-light leading-relaxed">
                                 Gezielter KI Einsatz zur Effizienzgewinnung und Qualitätssteigerung.
                             </p>
