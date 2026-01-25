@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
 import { SlideTemplate, SlideLabel, SlideHeading, SlideBody } from "./slide-template"
 
 interface SlideIncitingIncidentProps {
@@ -9,12 +10,34 @@ interface SlideIncitingIncidentProps {
 }
 
 export function SlideIncitingIncident({ isActive, skipAnimations }: SlideIncitingIncidentProps) {
+    const slideshowImages = [
+        "/Slideshow/Bildschirmfoto%202026-01-25%20um%2014.27.04.png",
+        "/Slideshow/Bildschirmfoto%202026-01-25%20um%2014.29.13.png",
+        "/Slideshow/Bildschirmfoto%202026-01-25%20um%2014.29.35.png",
+        "/Slideshow/Bildschirmfoto%202026-01-25%20um%2014.32.24.png",
+        "/Slideshow/Bildschirmfoto%202026-01-25%20um%2014.32.41.png",
+    ]
+    const [imageIndex, setImageIndex] = useState(0)
+
+    useEffect(() => {
+        if (!isActive) {
+            setImageIndex(0)
+            return
+        }
+
+        const intervalId = window.setInterval(() => {
+            setImageIndex((current) => (current + 1) % slideshowImages.length)
+        }, 2400)
+
+        return () => window.clearInterval(intervalId)
+    }, [isActive, slideshowImages.length])
+
     return (
         <SlideTemplate
             isActive={isActive}
             skipAnimations={skipAnimations}
             alignment="left"
-            backgroundImage="/images/wildholz-incident.png"
+            backgroundImage={slideshowImages[imageIndex]}
             mode="paper"
             imageClassName="right-[4%] top-[16%] w-[42%] h-[68%]"
             contentClassName="max-w-[780px]"
