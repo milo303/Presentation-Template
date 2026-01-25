@@ -47,7 +47,7 @@ export function SlideClosing({ isActive, skipAnimations }: SlideClosingProps) {
                     </div>
                     <div className="space-y-4">
                         <p className="font-bold text-white/80 tracking-widest mb-4">Virtual Production<br />&amp; Implementation</p>
-                        <p>Stephan Burchhardt</p>
+                        <p>Stephan Burchardt</p>
                         <p>Felix Wolf</p>
                     </div>
                     <div className="space-y-4">

@@ -27,8 +27,10 @@ export function SlideLedBackgrounds({ isActive }: SlideLedBackgroundsProps) {
     }
   }, [isActive])
 
-  const handleClick = () => {
+  const handleClick = (event: React.MouseEvent) => {
     if (!isActive) return
+    event.preventDefault()
+    event.stopPropagation()
     setImageIndex((current) => (current + 1) % images.length)
   }
 
