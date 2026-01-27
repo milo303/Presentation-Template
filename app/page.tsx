@@ -11,6 +11,7 @@ import { SlideFamilyTree } from "@/components/presentation/slide-family-tree"
 import { SlideIncitingIncident } from "@/components/presentation/slide-inciting-incident"
 import { SlideFeeling } from "@/components/presentation/slide-feeling"
 import { SlideStructure } from "@/components/presentation/slide-structure"
+import { SlideStaffelbogen } from "@/components/presentation/slide-staffelbogen"
 import { SlideTransmedia } from "@/components/presentation/slide-transmedia"
 import { SlideAtmosphere } from "@/components/presentation/slide-atmosphere"
 import { SlideProduction } from "@/components/presentation/slide-production"
@@ -25,7 +26,7 @@ import { SlideClosing } from "@/components/presentation/slide-closing"
 import { SlideQuestion } from "@/components/presentation/slide-question"
 import { SlideKomparsen } from "@/components/presentation/slide-komparsen"
 
-const TOTAL_SLIDES = 25
+const TOTAL_SLIDES = 26
 
 export default function WildholzPresentation() {
   const [activeSlide, setActiveSlide] = useState(0)
@@ -48,28 +49,29 @@ export default function WildholzPresentation() {
         <SlideIncitingIncident isActive={activeSlide === 9} />
         <SlideFeeling isActive={activeSlide === 10} />
         <SlideStructure isActive={activeSlide === 11} />
-        <SlideTransmedia isActive={activeSlide === 12} />
-        <SlideAtmosphere isActive={activeSlide === 13} />
-        <SlideProductionData isActive={activeSlide === 14} />
-        <SlideProduction isActive={activeSlide === 15} />
-        <SlideLedVideo isActive={activeSlide === 16} />
+        <SlideStaffelbogen isActive={activeSlide === 12} />
+        <SlideTransmedia isActive={activeSlide === 13} />
+        <SlideAtmosphere isActive={activeSlide === 14} />
+        <SlideProductionData isActive={activeSlide === 15} />
+        <SlideProduction isActive={activeSlide === 16} />
+        <SlideLedVideo isActive={activeSlide === 17} />
         <SlideVideoClip
-          isActive={activeSlide === 17}
+          isActive={activeSlide === 18}
           src="/clips/1.%20Wildholz%20Stockshot%20mit%20Musik.mp4"
           title="Wildholz Clip 1"
         />
         <SlideVideoClip
-          isActive={activeSlide === 18}
+          isActive={activeSlide === 19}
           src="/clips/2.%20Wildholz%20Anna%20Paul%20mit%20Musik.mp4"
           title="Wildholz Clip 2"
         />
         <SlideVideoClip
-          isActive={activeSlide === 19}
+          isActive={activeSlide === 20}
           src="/clips/3.%20Wildholz%20Traumsequenz%20mit%20Musik.mp4"
           title="Wildholz Clip 3"
         />
         <SlideLedBackgrounds
-          isActive={activeSlide === 20}
+          isActive={activeSlide === 21}
           images={[
             "/LED%20Hintergruende/eins.jpg",
             "/LED%20Hintergruende/zwei.jpg",
@@ -78,7 +80,7 @@ export default function WildholzPresentation() {
           ]}
         />
         <SlideLedBackgrounds
-          isActive={activeSlide === 21}
+          isActive={activeSlide === 22}
           images={[
             "/LED%20Hintergruende/5.jpg",
             "/LED%20Hintergruende/6.jpg",
@@ -86,9 +88,9 @@ export default function WildholzPresentation() {
             "/LED%20Hintergruende/8.jpg",
           ]}
         />
-        <SlideKomparsen isActive={activeSlide === 22} />
-        <SlideGreenProduction isActive={activeSlide === 23} />
-        <SlideClosing isActive={activeSlide === 24} />
+        <SlideKomparsen isActive={activeSlide === 23} />
+        <SlideGreenProduction isActive={activeSlide === 24} />
+        <SlideClosing isActive={activeSlide === 25} />
       </PresentationController>
     </main>
   )
