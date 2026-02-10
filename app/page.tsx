@@ -185,33 +185,48 @@ export default function PresentationTemplate() {
           isActive={activeSlide === 1}
           mode="cinematic"
           alignment="center"
-          className="bg-[#030303]"
+          className="bg-[#08080c]"
           backgroundOverlay={
             <div className="absolute inset-0 overflow-hidden">
-              {/* Sophisticated Spotlight Background */}
+              {/* Advanced Light Play */}
               <motion.div
-                className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-white/[0.03] blur-[120px] rounded-full"
-                animate={{ opacity: [0.3, 0.5, 0.3], scale: [1, 1.1, 1] }}
-                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-[-10%] left-[-5%] w-[60%] h-[60%] bg-blue-500/10 blur-[140px] rounded-full"
+                animate={{ opacity: [0.2, 0.4, 0.2], scale: [1, 1.2, 1] }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.div
+                className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-white/[0.05] blur-[120px] rounded-full"
+                animate={{ opacity: [0.1, 0.3, 0.1], scale: [1.2, 1, 1.2] }}
+                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
               />
 
-              {/* Fine Architectural Lines */}
-              <div className="absolute inset-0 opacity-[0.03]">
-                <div className="absolute left-1/3 top-0 bottom-0 w-[1px] bg-white" />
-                <div className="absolute right-1/3 top-0 bottom-0 w-[1px] bg-white" />
-                <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-white" />
-              </div>
+              {/* Moving Scanning Line */}
+              <motion.div
+                className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent z-0"
+                animate={{ top: ["0%", "100%", "0%"] }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              />
+
+              {/* Grid with perspective */}
+              <div className="absolute inset-0 opacity-[0.05]"
+                style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
             </div>
           }
         >
           <div className="flex flex-col items-center z-10 w-full max-w-6xl">
-            <SlideLabel isActive={activeSlide === 1} className="text-white/40 tracking-[0.5em] mb-4 border-b border-white/10 pb-4 px-8">
-              {metricLayer === 0 ? "System Metrics" : "Network Infrastructure"}
-            </SlideLabel>
-
-            <p className="text-[10px] uppercase tracking-[0.2em] text-white/20 mb-12 animate-pulse">
-              Click metrics to toggle detailed view
-            </p>
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={activeSlide === 1 ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+              transition={{ duration: 1 }}
+              className="flex flex-col items-center"
+            >
+              <SlideLabel isActive={activeSlide === 1} className="text-blue-400/60 tracking-[0.6em] mb-4 uppercase text-[11px] font-medium">
+                Real-time Intelligence
+              </SlideLabel>
+              <h2 className="text-white text-3xl font-light tracking-tight mb-12 opacity-80">
+                {metricLayer === 0 ? "Core Performance" : "Network Topology"}
+              </h2>
+            </motion.div>
 
             <div
               className="grid grid-cols-3 gap-6 w-full perspective-[2000px] cursor-pointer"
@@ -223,49 +238,81 @@ export default function PresentationTemplate() {
               {metricSets[metricLayer].map((stat, i) => (
                 <motion.div
                   key={`${metricLayer}-${i}`}
-                  initial={{ opacity: 0, y: 20, rotateX: 10 }}
-                  animate={activeSlide === 1 ? { opacity: 1, y: 0, rotateX: 0 } : { opacity: 0, y: 20, rotateX: 10 }}
-                  transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
+                  initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                  animate={activeSlide === 1 ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.9, y: 30 }}
+                  transition={{
+                    delay: i * 0.15,
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 20
+                  }}
+                  whileHover={{ y: -10, transition: { duration: 0.3 } }}
                 >
                   <TiltCard className="h-full group relative">
-                    <div className="absolute inset-0 bg-white/[0.02] border border-white/5 group-hover:bg-white/[0.04] group-hover:border-white/10 transition-all duration-500 rounded-sm" />
+                    {/* Advanced Glass Card */}
+                    <div className="absolute inset-0 bg-white/[0.03] backdrop-blur-2xl border border-white/10 group-hover:border-white/20 group-hover:bg-white/[0.05] transition-all duration-500 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)]" />
 
-                    <div className="relative p-10 flex flex-col items-center justify-center text-center h-full min-h-[320px]">
-                      <div className="w-full flex justify-between items-start mb-8 border-b border-white/5 pb-4">
-                        <span className="text-[10px] text-white/30 uppercase tracking-widest font-mono">
-                          {metricLayer === 0 ? "CORE" : "NODE"} 0{i + 1}
+                    {/* Subtle Internal Glow */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1 bg-gradient-to-r from-transparent via-blue-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                    <div className="relative p-12 flex flex-col items-center justify-center text-center h-full min-h-[360px]">
+                      <div className="w-full flex justify-between items-center mb-10">
+                        <span className="text-[9px] text-white/20 uppercase tracking-[0.3em] font-mono border border-white/5 px-2 py-1 rounded">
+                          {metricLayer === 0 ? "SYSTEM" : "NODE"} / 0{i + 1}
                         </span>
-                        <div className={`w-1.5 h-1.5 rounded-full`}
-                          style={{ backgroundColor: metricLayer === 1 ? '#60a5fa' : 'rgb(255 255 255 / 0.2)' }} />
+                        <motion.div
+                          animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
+                          transition={{ duration: 3, repeat: Infinity }}
+                          className={`w-1.5 h-1.5 rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]`}
+                          style={{ backgroundColor: metricLayer === 1 ? '#60a5fa' : 'white' }}
+                        />
                       </div>
 
-                      <div className="flex items-baseline gap-1 mb-2">
-                        <motion.span
-                          key={stat.value}
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          className="text-6xl font-light tracking-tighter text-white"
+                      <div className="flex flex-col items-center mb-6">
+                        <div className="flex items-baseline gap-2">
+                          <motion.span
+                            key={stat.value}
+                            initial={{ opacity: 0, filter: "blur(10px)", y: 10 }}
+                            animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                            className="text-7xl font-extralight tracking-tighter text-white"
+                          >
+                            {stat.value}
+                          </motion.span>
+                          <span className="text-2xl text-white/30 font-extralight">{stat.suffix}</span>
+                        </div>
+
+                        <motion.div
+                          key={stat.label}
+                          initial={{ opacity: 0, y: 5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="text-blue-400/40 text-[10px] uppercase tracking-[0.4em] mt-4 font-bold"
                         >
-                          {stat.value}
-                        </motion.span>
-                        <span className="text-xl text-white/40 font-light">{stat.suffix}</span>
+                          {stat.label}
+                        </motion.div>
                       </div>
 
-                      <motion.p
-                        key={stat.label}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-white/60 text-xs uppercase tracking-widest mt-2"
-                      >
-                        {stat.label}
-                      </motion.p>
+                      <p className="text-white/30 text-xs leading-relaxed font-light mt-4 max-w-[200px]">
+                        {stat.desc}
+                      </p>
 
-                      <p className="text-white/30 text-[11px] font-light mt-6 italic">{stat.desc}</p>
+                      {/* Interaction Hint (Hover Only) */}
+                      <div className="absolute bottom-6 opacity-0 group-hover:opacity-40 transition-opacity">
+                        <p className="text-[9px] uppercase tracking-widest text-white/50">Next Schema</p>
+                      </div>
                     </div>
                   </TiltCard>
                 </motion.div>
               ))}
             </div>
+
+            {/* Control Hint Footer */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={activeSlide === 1 ? { opacity: 0.3 } : { opacity: 0 }}
+              className="mt-16 text-[9px] uppercase tracking-[0.5em] text-white"
+            >
+              Interactive Environment — Click Grid to Toggle
+            </motion.p>
           </div>
         </SlideTemplate>
 
