@@ -164,61 +164,66 @@ export default function PresentationTemplate() {
         </SlideTemplate>
 
         {/* ──────────────────────────────────────────────────
-            EXAMPLE SLIDE 2: Stats / Metrics (Cinematic - 3D Cards)
+            EXAMPLE SLIDE 2: Stats / Metrics (Professional / Architectural)
             ────────────────────────────────────────────────── */}
         <SlideTemplate
           isActive={activeSlide === 1}
           mode="cinematic"
           alignment="center"
-          className="bg-[#050510]"
+          className="bg-[#030303]"
           backgroundOverlay={
             <div className="absolute inset-0 overflow-hidden">
+              {/* Sophisticated Spotlight Background */}
               <motion.div
-                className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-[#050510] to-[#050510]"
-                animate={{ opacity: [0.5, 0.8, 0.5] }}
-                transition={{ duration: 5, repeat: Infinity }}
+                className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-white/[0.03] blur-[120px] rounded-full"
+                animate={{ opacity: [0.3, 0.5, 0.3], scale: [1, 1.1, 1] }}
+                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               />
-              {/* Animated Grid */}
-              <div
-                className="absolute inset-0 opacity-[0.1]"
-                style={{
-                  backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-                  backgroundSize: '40px 40px',
-                  maskImage: 'radial-gradient(circle at center, black 40%, transparent 100%)'
-                }}
-              />
+
+              {/* Fine Architectural Lines */}
+              <div className="absolute inset-0 opacity-[0.03]">
+                <div className="absolute left-1/3 top-0 bottom-0 w-[1px] bg-white" />
+                <div className="absolute right-1/3 top-0 bottom-0 w-[1px] bg-white" />
+                <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-white" />
+              </div>
             </div>
           }
         >
-          <SlideLabel isActive={activeSlide === 1} className="text-indigo-400 tracking-[0.4em] mb-8">Performance Metrics</SlideLabel>
-          <div className="grid grid-cols-3 gap-8 w-full max-w-6xl perspective-[2000px]">
-            {[
-              { label: "Frame Rate", value: "60", suffix: "FPS", desc: "Silky smooth animations driven by framer-motion", color: "from-blue-400 to-indigo-500" },
-              { label: "Deployment", value: "0.1", suffix: "s", desc: "Instant static generation with Next.js App Router", color: "from-fuchsia-400 to-purple-500" },
-              { label: "Customizability", value: "100", suffix: "%", desc: "Fully hackable Tailwind CSS styling architecture", color: "from-emerald-400 to-teal-500" },
-            ].map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, rotateX: 90, y: 100 }}
-                animate={activeSlide === 1 ? { opacity: 1, rotateX: 0, y: 0 } : { opacity: 0, rotateX: 90, y: 100 }}
-                transition={{ delay: 0.5 + i * 0.2, duration: 0.8, type: "spring", bounce: 0.4 }}
-              >
-                <TiltCard className="h-full rounded-[2rem] bg-gradient-to-br from-white/10 to-white/0 border border-white/10 backdrop-blur-xl relative group overflow-hidden">
-                  {/* Card Glo Effect */}
-                  <div className={`absolute -inset-full w-[300%] h-[300%] bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-3xl p-20`} />
+          <div className="flex flex-col items-center z-10 w-full max-w-6xl">
+            <SlideLabel isActive={activeSlide === 1} className="text-white/40 tracking-[0.5em] mb-12 border-b border-white/10 pb-4 px-8">System Metrics</SlideLabel>
 
-                  {/* Centered Content */}
-                  <div className="flex flex-col items-center justify-center text-center p-8 h-full relative z-10">
-                    <h3 className="text-white/40 text-sm font-mono uppercase tracking-widest mb-4">{stat.label}</h3>
-                    <div className="flex items-baseline gap-1 mb-4">
-                      <span className={`text-6xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>{stat.value}</span>
-                      <span className="text-2xl text-white/50 font-light">{stat.suffix}</span>
+            <div className="grid grid-cols-3 gap-6 w-full perspective-[2000px]">
+              {[
+                { label: "Rendering", value: "60", suffix: "FPS", desc: "Fluid motion engine", accent: "text-white" },
+                { label: "Latency", value: "<10", suffix: "ms", desc: "Instant interactions", accent: "text-emerald-400" },
+                { label: "Reliability", value: "99.9", suffix: "%", desc: "Production grade uptime", accent: "text-blue-400" },
+              ].map((stat, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={activeSlide === 1 ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+                  transition={{ delay: 0.3 + i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <TiltCard className="h-full group relative">
+                    <div className="absolute inset-0 bg-white/[0.02] border border-white/5 group-hover:border-white/10 transition-colors duration-500 rounded-sm" />
+
+                    <div className="relative p-10 flex flex-col items-center justify-center text-center h-full">
+                      <div className="w-full flex justify-between items-start mb-8 border-b border-white/5 pb-4">
+                        <span className="text-[10px] text-white/30 uppercase tracking-widest font-mono">Metric 0{i + 1}</span>
+                        <div className={`w-1.5 h-1.5 rounded-full ${i === 1 ? 'bg-emerald-500' : i === 2 ? 'bg-blue-500' : 'bg-white/20'}`} />
+                      </div>
+
+                      <div className="flex items-baseline gap-1 mb-2">
+                        <span className="text-6xl font-light tracking-tighter text-white">{stat.value}</span>
+                        <span className="text-xl text-white/40 font-light">{stat.suffix}</span>
+                      </div>
+
+                      <p className="text-white/40 text-sm font-light mt-4">{stat.desc}</p>
                     </div>
-                    <p className="text-white/60 text-sm leading-relaxed">{stat.desc}</p>
-                  </div>
-                </TiltCard>
-              </motion.div>
-            ))}
+                  </TiltCard>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </SlideTemplate>
 
