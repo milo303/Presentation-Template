@@ -87,42 +87,48 @@ export default function PresentationTemplate() {
           className="bg-black perspective-[1000px]"
           backgroundOverlay={
             <div className="absolute inset-0 overflow-hidden">
+              {/* Rich Gradient Background */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-indigo-950/40 via-[#050505] to-[#000000]" />
+
               {/* Parallax Background Elements */}
               <motion.div
                 className="absolute inset-0"
-                animate={{ x: mousePosition.x * -1, y: mousePosition.y * -1 }}
+                animate={{ x: mousePosition.x * -0.5, y: mousePosition.y * -0.5 }}
                 transition={{ type: "tween", ease: "linear", duration: 0.2 }}
               >
-                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,_rgba(200,162,78,0.15),transparent_70%)]" />
+                {/* Subtle noise texture */}
+                <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay"
+                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
+                />
               </motion.div>
 
-              {/* Orbital Rings - Enhanced */}
+              {/* Orbital Rings - Enhanced & Brighter */}
               <motion.div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vh] h-[80vh] rounded-full border border-gold/10"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85vh] h-[85vh] rounded-full border border-white/5"
                 style={{ rotateX: 60 }}
-                animate={{ rotateZ: [0, 360] }}
-                transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                animate={{ rotateZ: [0, 360], scale: [1, 1.05, 1] }}
+                transition={{ rotateZ: { duration: 60, repeat: Infinity, ease: "linear" }, scale: { duration: 10, repeat: Infinity, ease: "easeInOut" } }}
               />
               <motion.div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vh] h-[60vh] rounded-full border border-gold/20 dashed"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[65vh] h-[65vh] rounded-full border border-gold/10 dashed"
                 style={{ rotateX: 60, rotateY: 10 }}
                 animate={{ rotateZ: [360, 0] }}
                 transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
               />
 
-              {/* Glowing Orbs */}
+              {/* Glowing Orbs - More Vibtrant */}
               <motion.div
-                className="absolute top-[20%] right-[20%] w-[300px] h-[300px] rounded-full bg-blue-500/20 blur-[100px]"
-                animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+                className="absolute top-[20%] right-[20%] w-[400px] h-[400px] rounded-full bg-indigo-600/10 blur-[120px]"
+                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
                 transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
               />
               <motion.div
-                className="absolute bottom-[20%] left-[20%] w-[300px] h-[300px] rounded-full bg-purple-500/20 blur-[100px]"
+                className="absolute bottom-[10%] left-[10%] w-[500px] h-[500px] rounded-full bg-purple-600/10 blur-[120px]"
                 animate={{ scale: [1.2, 1, 1.2], opacity: [0.2, 0.4, 0.2] }}
                 transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               />
 
-              <div className="absolute inset-0 bg-black/30 backdrop-blur-[1px]" />
+              <div className="absolute inset-0 bg-transparent" />
             </div>
           }
         >
@@ -197,16 +203,19 @@ export default function PresentationTemplate() {
                 animate={activeSlide === 1 ? { opacity: 1, rotateX: 0, y: 0 } : { opacity: 0, rotateX: 90, y: 100 }}
                 transition={{ delay: 0.5 + i * 0.2, duration: 0.8, type: "spring", bounce: 0.4 }}
               >
-                <TiltCard className="h-full p-8 rounded-[2rem] bg-gradient-to-br from-white/10 to-white/0 border border-white/10 backdrop-blur-xl relative group overflow-hidden">
+                <TiltCard className="h-full rounded-[2rem] bg-gradient-to-br from-white/10 to-white/0 border border-white/10 backdrop-blur-xl relative group overflow-hidden">
                   {/* Card Glo Effect */}
                   <div className={`absolute -inset-full w-[300%] h-[300%] bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-3xl p-20`} />
 
-                  <h3 className="text-white/40 text-sm font-mono uppercase tracking-widest mb-4">{stat.label}</h3>
-                  <div className="flex items-baseline gap-1 mb-4">
-                    <span className={`text-6xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>{stat.value}</span>
-                    <span className="text-2xl text-white/50 font-light">{stat.suffix}</span>
+                  {/* Centered Content */}
+                  <div className="flex flex-col items-center justify-center text-center p-8 h-full relative z-10">
+                    <h3 className="text-white/40 text-sm font-mono uppercase tracking-widest mb-4">{stat.label}</h3>
+                    <div className="flex items-baseline gap-1 mb-4">
+                      <span className={`text-6xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>{stat.value}</span>
+                      <span className="text-2xl text-white/50 font-light">{stat.suffix}</span>
+                    </div>
+                    <p className="text-white/60 text-sm leading-relaxed">{stat.desc}</p>
                   </div>
-                  <p className="text-white/60 text-sm leading-relaxed">{stat.desc}</p>
                 </TiltCard>
               </motion.div>
             ))}
