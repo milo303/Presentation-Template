@@ -56,9 +56,24 @@ function TiltCard({ children, className }: { children: React.ReactNode, classNam
 
 export default function PresentationTemplate() {
   const [activeSlide, setActiveSlide] = useState(0)
+  const [metricLayer, setMetricLayer] = useState(0)
 
   // Mouse position for parallax effects
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+
+  const metricSets = [
+    [
+      { label: "Rendering", value: "60", suffix: "FPS", desc: "Fluid motion engine" },
+      { label: "Latency", value: "<10", suffix: "ms", desc: "Instant interactions" },
+      { label: "Reliability", value: "99.9", suffix: "%", desc: "Production grade uptime" },
+    ],
+    [
+      { label: "Throughput", value: "1.2", suffix: "GB/s", desc: "High-speed bus capacity" },
+      { label: "Mesh Nodes", value: "256", suffix: "Core", desc: "Distributed processing" },
+      { label: "Buffer", value: "2", suffix: "ms", desc: "Optimized data stream" },
+    ]
+  ]
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
@@ -190,35 +205,62 @@ export default function PresentationTemplate() {
           }
         >
           <div className="flex flex-col items-center z-10 w-full max-w-6xl">
-            <SlideLabel isActive={activeSlide === 1} className="text-white/40 tracking-[0.5em] mb-12 border-b border-white/10 pb-4 px-8">System Metrics</SlideLabel>
+            <SlideLabel isActive={activeSlide === 1} className="text-white/40 tracking-[0.5em] mb-4 border-b border-white/10 pb-4 px-8">
+              {metricLayer === 0 ? "System Metrics" : "Network Infrastructure"}
+            </SlideLabel>
 
-            <div className="grid grid-cols-3 gap-6 w-full perspective-[2000px]">
-              {[
-                { label: "Rendering", value: "60", suffix: "FPS", desc: "Fluid motion engine", accent: "text-white" },
-                { label: "Latency", value: "<10", suffix: "ms", desc: "Instant interactions", accent: "text-emerald-400" },
-                { label: "Reliability", value: "99.9", suffix: "%", desc: "Production grade uptime", accent: "text-blue-400" },
-              ].map((stat, i) => (
+            <p className="text-[10px] uppercase tracking-[0.2em] text-white/20 mb-12 animate-pulse">
+              Click metrics to toggle detailed view
+            </p>
+
+            <div
+              className="grid grid-cols-3 gap-6 w-full perspective-[2000px] cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation()
+                setMetricLayer(prev => prev === 0 ? 1 : 0)
+              }}
+            >
+              {metricSets[metricLayer].map((stat, i) => (
                 <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={activeSlide === 1 ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-                  transition={{ delay: 0.3 + i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  key={`${metricLayer}-${i}`}
+                  initial={{ opacity: 0, y: 20, rotateX: 10 }}
+                  animate={activeSlide === 1 ? { opacity: 1, y: 0, rotateX: 0 } : { opacity: 0, y: 20, rotateX: 10 }}
+                  transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
                 >
                   <TiltCard className="h-full group relative">
-                    <div className="absolute inset-0 bg-white/[0.02] border border-white/5 group-hover:border-white/10 transition-colors duration-500 rounded-sm" />
+                    <div className="absolute inset-0 bg-white/[0.02] border border-white/5 group-hover:bg-white/[0.04] group-hover:border-white/10 transition-all duration-500 rounded-sm" />
 
-                    <div className="relative p-10 flex flex-col items-center justify-center text-center h-full">
+                    <div className="relative p-10 flex flex-col items-center justify-center text-center h-full min-h-[320px]">
                       <div className="w-full flex justify-between items-start mb-8 border-b border-white/5 pb-4">
-                        <span className="text-[10px] text-white/30 uppercase tracking-widest font-mono">Metric 0{i + 1}</span>
-                        <div className={`w-1.5 h-1.5 rounded-full ${i === 1 ? 'bg-emerald-500' : i === 2 ? 'bg-blue-500' : 'bg-white/20'}`} />
+                        <span className="text-[10px] text-white/30 uppercase tracking-widest font-mono">
+                          {metricLayer === 0 ? "CORE" : "NODE"} 0{i + 1}
+                        </span>
+                        <div className={`w-1.5 h-1.5 rounded-full`}
+                          style={{ backgroundColor: metricLayer === 1 ? '#60a5fa' : 'rgb(255 255 255 / 0.2)' }} />
                       </div>
 
                       <div className="flex items-baseline gap-1 mb-2">
-                        <span className="text-6xl font-light tracking-tighter text-white">{stat.value}</span>
+                        <motion.span
+                          key={stat.value}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="text-6xl font-light tracking-tighter text-white"
+                        >
+                          {stat.value}
+                        </motion.span>
                         <span className="text-xl text-white/40 font-light">{stat.suffix}</span>
                       </div>
 
-                      <p className="text-white/40 text-sm font-light mt-4">{stat.desc}</p>
+                      <motion.p
+                        key={stat.label}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="text-white/60 text-xs uppercase tracking-widest mt-2"
+                      >
+                        {stat.label}
+                      </motion.p>
+
+                      <p className="text-white/30 text-[11px] font-light mt-6 italic">{stat.desc}</p>
                     </div>
                   </TiltCard>
                 </motion.div>
