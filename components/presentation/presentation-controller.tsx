@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useState, useRef } from "react"
 import { motion, AnimatePresence, Variants, Transition } from "framer-motion"
 import Image from "next/image"
+import { LayoutTemplate, ChevronRight, ChevronLeft, Maximize2, Minimize2, Settings2 } from "lucide-react"
 import { cn, getAssetPath } from "@/lib/utils"
 
 interface PresentationControllerProps {
@@ -51,37 +52,28 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
   const [transitionStyle, setTransitionStyle] = useState<"slide" | "book">("slide")
   const [lastDirection, setLastDirection] = useState<1 | -1>(1)
   const [transitionOverride, setTransitionOverride] = useState<"fade" | "zoom" | "iris" | null>(null)
+  const [isNavigatorOpen, setIsNavigatorOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const slideChildren = React.Children.toArray(children)
 
-  const goToSlide = useCallback((index: number, direction: 1 | -1) => {
+  const goToSlide = useCallback((index: number, direction?: 1 | -1) => {
     if (isAnimating || index < 0 || index >= totalSlides) return
 
-    // Custom transitions can be added here if needed
-    const useZoom = false
-    const useIris = false
+    // Default direction logic if not provided
+    const dir = direction || (index > currentSlide ? 1 : -1)
 
     setIsAnimating(true)
-    setLastDirection(direction)
-
-    if (useZoom) setTransitionOverride("zoom")
-    else if (useIris) setTransitionOverride("iris")
-    else setTransitionOverride(null)
-
+    setLastDirection(dir)
+    setTransitionOverride(null)
     setCurrentSlide(index)
     onSlideChange?.(index)
 
-    // Synchronize animation lock with motion duration (Iris: 5s, Zoom: 1.4s, Book: 1.8s)
-    let lockDuration = 1800
-    if (useZoom) lockDuration = 1400
-    if (useIris) lockDuration = 5000
-
+    // Synchronize animation lock with motion duration
     setTimeout(() => {
       setIsAnimating(false)
-      setTransitionOverride(null)
-    }, lockDuration)
-  }, [isAnimating, totalSlides, onSlideChange])
+    }, 1200)
+  }, [isAnimating, totalSlides, onSlideChange, currentSlide])
 
   const nextSlide = useCallback(() => {
     if (currentSlide < totalSlides - 1) {
@@ -216,8 +208,8 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
   const irisVariants: Variants = {
     enter: (direction: number) => ({
       clipPath: "circle(0% at 50% 50%)",
-      transform: "scale(1.1)", // Slight zoom start
-      zIndex: 50, // Force highest Z
+      transform: "scale(1.1)",
+      zIndex: 50,
       opacity: 1,
     }),
     center: {
@@ -226,7 +218,7 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
       zIndex: 50,
       opacity: 1,
       transition: {
-        clipPath: { duration: 5, ease: [0.22, 1, 0.36, 1] }, // Slower 5s, very smooth cubic-bezier
+        clipPath: { duration: 5, ease: [0.22, 1, 0.36, 1] },
         transform: { duration: 5, ease: "easeOut" },
         zIndex: { duration: 0 }
       }
@@ -234,16 +226,14 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
     exit: (direction: number) => ({
       clipPath: "circle(150% at 50% 50%)",
       transform: "scale(1)",
-      zIndex: 0, // Drop behind
-      opacity: 1, // Stay visible until covered
+      zIndex: 0,
+      opacity: 1,
       transition: {
-        // Stay mostly static while being covered, maybe slight darken?
         zIndex: { duration: 0 }
       }
     })
   }
 
-  // Enhanced Book Page Flip Variants - simulating curvature and paper flexibility
   const bookVariants: Variants = {
     enter: (direction: number) => ({
       rotateY: 0,
@@ -267,15 +257,13 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
       }
     },
     exit: (direction: number) => ({
-      // Simulating a diagonal pull from the top corner to the bottom opposite
-      // Slightly over-rotating (190) to ensure the edge fully clears the viewport
       rotateY: direction > 0 ? -190 : 190,
       rotateX: direction > 0 ? 12 : -12,
       rotateZ: direction > 0 ? 15 : -15,
       skewY: direction > 0 ? 8 : -8,
-      scale: 0.94, // Slightly smaller to pull the edges away from the frame
+      scale: 0.94,
       zIndex: 20,
-      opacity: 0, // Proactively fade out
+      opacity: 0,
       transformOrigin: direction > 0 ? "left center" : "right center",
       transition: {
         rotateY: { duration: 1.8, ease: [0.22, 1, 0.36, 1] },
@@ -283,7 +271,7 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
         rotateZ: { duration: 1.8, ease: [0.22, 1, 0.36, 1] },
         skewY: { duration: 1.8, ease: [0.22, 1, 0.36, 1] },
         scale: { duration: 1.8, ease: [0.22, 1, 0.36, 1] },
-        opacity: { duration: 0.6, delay: 0.2 } // Start fading almost immediately
+        opacity: { duration: 0.6, delay: 0.2 }
       }
     })
   }
@@ -293,13 +281,87 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
       ref={containerRef}
       className="relative h-screen w-full overflow-hidden bg-black"
       onClick={(e) => {
-        if (e.defaultPrevented) return
+        if (e.defaultPrevented || isNavigatorOpen) return
         const width = window.innerWidth
         if (e.clientX < width * 0.3) prevSlide()
         else nextSlide()
       }}
       style={{ perspective: "1500px" }}
     >
+      {/* Navigator Overlay */}
+      <AnimatePresence>
+        {isNavigatorOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: -300 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -300 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="absolute left-0 top-0 z-[100] h-full w-80 border-r border-white/10 bg-black/60 backdrop-blur-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex h-full flex-col p-6">
+              <div className="mb-8 flex items-center justify-between">
+                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">Übersicht</h3>
+                <button
+                  onClick={() => setIsNavigatorOpen(false)}
+                  className="rounded-full p-2 hover:bg-white/10 transition-colors pointer-events-auto cursor-pointer"
+                >
+                  <ChevronLeft className="h-5 w-5 text-white/50" />
+                </button>
+              </div>
+
+              <div className="flex-1 space-y-2 overflow-y-auto pr-2 custom-scrollbar">
+                {Array.from({ length: totalSlides }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      goToSlide(i)
+                      setIsNavigatorOpen(false)
+                    }}
+                    className={cn(
+                      "group relative flex w-full items-center gap-4 rounded-lg p-3 text-left transition-all cursor-pointer",
+                      currentSlide === i
+                        ? "bg-gold/20 border border-gold/30"
+                        : "hover:bg-white/5 border border-transparent"
+                    )}
+                  >
+                    <span className={cn(
+                      "flex h-8 w-8 items-center justify-center rounded-md font-mono text-xs transition-colors",
+                      currentSlide === i ? "bg-gold text-black" : "bg-white/10 text-white/40 group-hover:text-white/70"
+                    )}>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span className={cn(
+                      "text-sm font-medium transition-colors",
+                      currentSlide === i ? "text-gold" : "text-white/40 group-hover:text-white/70"
+                    )}>
+                      Slide {i + 1}
+                    </span>
+                    {currentSlide === i && (
+                      <motion.div
+                        layoutId="activeSlideIndicator"
+                        className="absolute left-0 h-4 w-1 bg-gold rounded-r-full"
+                      />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Navigator Toggle Button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation()
+          setIsNavigatorOpen(true)
+        }}
+        className="absolute left-8 top-1/2 z-50 -translate-y-1/2 rounded-full border border-white/10 bg-black/40 p-4 text-white/50 backdrop-blur-sm transition-all hover:bg-black/60 hover:text-white cursor-pointer"
+      >
+        <LayoutTemplate className="h-6 w-6" />
+      </button>
+
       {/* Global Paper Background (only for 'slide' mode since book needs it per-slide to flip) */}
       {transitionStyle === "slide" && (
         <div className="absolute inset-0 z-0 pointer-events-none">
@@ -346,7 +408,7 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
             exit="exit"
             className="absolute inset-0 h-full w-full"
             style={{
-              transformStyle: transitionOverride === "iris" ? "flat" : "preserve-3d", // Disable 3D for clip-path
+              transformStyle: transitionOverride === "iris" ? "flat" : "preserve-3d",
               willChange: "transform",
             }}
           >
@@ -453,8 +515,6 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
         )}
       </div>
 
-
-
       {/* Global UI Elements (Watermark, Progress, etc.) */}
       <div className="absolute bottom-8 right-8 z-50 hidden items-center gap-2 text-xs text-muted-foreground/40 md:flex">
         <span className="text-white/20 uppercase tracking-[0.2em] text-[10px] mr-2">Controls</span>
@@ -473,21 +533,35 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           />
         </div>
-        <div className="px-10 py-3 flex justify-between items-center bg-transparent pointer-events-none">
+        <div className="px-10 py-3 flex justify-between items-center bg-transparent">
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              setIsNavigatorOpen(true)
+            }}
+            className="pointer-events-auto text-[10px] uppercase tracking-[0.5em] text-white/40 hover:text-gold transition-colors flex items-center gap-2 cursor-pointer"
+          >
+            <LayoutTemplate className="h-3 w-3" />
+            Übersicht
+          </button>
+
           <span className={cn(
-            "text-[10px] uppercase tracking-[0.5em] transition-all duration-700",
+            "text-[10px] uppercase tracking-[0.5em] transition-all duration-700 pointer-events-none",
             currentSlide === 0 ? "opacity-0" : "opacity-100",
             "text-white/40"
           )}>
             Presentation Template
           </span>
           {!isFullscreen && (
-            <span className={cn(
-              "text-[clamp(0.75rem,0.5vw+0.6rem,1rem)] font-mono transition-colors duration-700",
-              "text-white/40"
-            )}>
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                setIsNavigatorOpen(true)
+              }}
+              className="pointer-events-auto text-[clamp(0.75rem,0.5vw+0.6rem,1rem)] font-mono text-white/40 hover:text-gold transition-colors cursor-pointer"
+            >
               {String(currentSlide + 1).padStart(2, '0')} / {String(totalSlides).padStart(2, '0')}
-            </span>
+            </button>
           )}
         </div>
       </div>

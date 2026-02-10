@@ -1,92 +1,62 @@
 # Presentation Template (Core Engine)
 
-Next.js App Router project providing a high-end, slide-based presentation engine. This project has been stripped of specific content to serve as a clean starting point for new presentations.
+Next.js App Router project providing a high-end, slide-based presentation engine. This project serves as a generic, customizable foundation for premium digital presentations.
 
-## Project Snapshot
-- **Stack**: Next.js 16, React 19, TypeScript (strict), Tailwind CSS v4
-- **UI**: shadcn/ui + Radix primitives + `framer-motion`
-- **Transitions**: 2D Parallax (Slide) and 3D Page Flip (Book)
-- **Modes**: Cinematic (Full-bleed) and Paper (Texture-based)
+## 🚀 Navigation & Usage
+- **Next Slide**: Right Arrow, Space, Enter, or Click (right 70% of screen).
+- **Previous Slide**: Left Arrow, Backspace, or Click (left 30% of screen).
+- **Jump to Slide**: Click the **"Übersicht"** button or the **Slide Counter** (e.g., "01 / 03") to open the slide navigator sidebar. You can also use the floating navigator button on the left.
+- **Fullscreen Mode**: Press **'F'** to toggle fullscreen. Recommended for final presentations.
+- **Transition Toggle**: Use the selector at the bottom-left to switch between **Slide** (2D Parallax) and **Book** (3D Page Flip).
 
-## Repo Layout
-- `app/` - Application entry and global styles.
-- `components/presentation/` - Core engine and template components.
-    - `presentation-controller.tsx`: The main engine handling state, navigation, and transitions.
-    - `slide-template.tsx`: The primary wrapper for content slides.
-- `public/` - Static assets (images, videos, textures).
-- `lib/utils.ts` - Contains `getAssetPath()` for flexible environment handling.
+---
 
-## How to Add New Slides
+## 🛠 Adding New Content (For Users & Agents)
 
-1. **Modify `app/page.tsx`**:
-   - Update `TOTAL_SLIDES`.
-   - Add a new `<SlideTemplate>` (or a custom component) within `<PresentationController>`.
+### 1. Adding Assets (Images/Videos)
+Place all your media files in the `public/images/` directory.
+- **Images**: `.jpg`, `.png`, `.svg`
+- **Videos**: `.mp4`, `.webm`
 
+### 2. Instructing the AI Agent
+If you want the AI to add a slide for you, simply say:
+> "Add a new slide about [Topic]. Use my image `my-photo.jpg` which I just put in the public/images folder."
+
+The agent will then:
+1. Identify the asset in `public/images/`.
+2. Wrap it in `getAssetPath("/images/my-photo.jpg")`.
+3. Add the code to `app/page.tsx`.
+
+### 3. Manual Integration (For Agents)
+
+**CRITICAL**: All image and video paths MUST use the `getAssetPath()` utility.
+
+**Example: Adding a slide to `app/page.tsx`**
 ```tsx
-<SlideTemplate isActive={activeSlide === index} mode="cinematic">
-  <SlideLabel isActive={activeSlide === index}>My Label</SlideLabel>
-  <SlideHeading isActive={activeSlide === index}>My Title</SlideHeading>
-  <SlideBody isActive={activeSlide === index}>My content here...</SlideBody>
+// 1. Update TOTAL_SLIDES
+const TOTAL_SLIDES = 4 // (increment existing count)
+
+// 2. Add slide inside <PresentationController>
+<SlideTemplate isActive={activeSlide === 3} mode="cinematic" backgroundImage="/images/my-hero.jpg">
+  <SlideLabel isActive={activeSlide === 3}>Category</SlideLabel>
+  <SlideHeading isActive={activeSlide === 3}>New Slide Title</SlideHeading>
+  <SlideBody isActive={activeSlide === 3}>
+    This slide uses an image from public/images/my-hero.jpg
+  </SlideBody>
 </SlideTemplate>
 ```
 
-2. **Slide Modes**:
-   - `mode="cinematic"`: Best for immersive images/videos.
-   - `mode="paper"`: Best for text-heavy content or a "journal" aesthetic.
+---
 
-3. **Backgrounds**:
-   - Supports `backgroundImage`, `backgroundVideo`, and `backgroundSecondary` (for cross-fades).
+## 📁 Project Structure Reference
+- `app/page.tsx`: The main deck file. Manage slide order and content here.
+- `components/presentation/`: Core logic and template components.
+- `public/images/`: Store all your custom media and core textures here.
+- `lib/utils.ts`: Contains the essential `getAssetPath()` utility.
 
-## Working with Assets
-
-**CRITICAL**: Always use the `getAssetPath()` utility for all images and videos in the `public` folder.
-
-```tsx
-import { getAssetPath } from "@/lib/utils"
-
-<Image src={getAssetPath("/images/my-asset.png")} ... />
-```
-
-- **Images**: Place in `public/images/`.
-- **Videos**: Place in `public/images/` or a sub-folder.
-- **Textures**: Core textures like `paper-texture-torn.png` are in `public/images/`.
-
-## Core Features Reference
-
-### PresentationController
-- Handles **Keyboard (Arrows, Space, Enter)** and **Click** navigation.
-- Provides **Slide vs. Book** transition toggle in the UI.
-- Manages **Fullscreen** mode (press 'F').
-
-### SlideTemplate
-- Handles all entry animations (`isActive` prop).
-- Automatically skips animations during Book flips (`skipAnimations` prop) for performance.
-- Provides semantic sub-components: `SlideLabel`, `SlideHeading`, `SlideBody`.
-
-### Existing Template Components
-- `SlideVideoClip`: Fullscreen video player with optimized state.
-- `SlideLedBackgrounds`: Grid of images/videos often used for mood boards.
-- `SlideLedVideo`: Large-scale background video template.
-
-## Terminal Commands
-
-### Development
-```bash
-npm run dev
-# Running on port 4000
-```
-
-### Build & Export
-```bash
-npm run build
-# Generates a static export in the /out directory
-```
-
-### Electron (Desktop App)
-```bash
-npm run app:dev   # Preview desktop app
-npm run app:build # Build .dmg / .exe installers
-```
-
-## AI Instructions
-When working with this project, prioritize maintaining the "premium" feel of the transitions. Ensure all new components use the `SlideTemplate` if possible to maintain visual consistency. Never hardcode asset paths; always wrap them in `getAssetPath()`.
+## 🤖 AI Instructions
+When working with this project:
+- **Premium Aesthetics**: Keep the cinematic and paper modes polished.
+- **No Hardcoding**: Never use a path like `/images/foo.jpg` directly. Always use `getAssetPath("/images/foo.jpg")`.
+- **Slide Count**: Always update `TOTAL_SLIDES` in `app/page.tsx` when adding or removing slides to ensure the progress bar and navigation work correctly.
+- **Navigation Feedback**: Remind the user about the **'F'** shortcut if they are reviewing or presenting.
