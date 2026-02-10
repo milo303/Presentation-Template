@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion"
 import { PresentationController } from "@/components/presentation/presentation-controller"
 import { SlideTemplate, SlideHeading, SlideBody, SlideLabel } from "@/components/presentation/slide-template"
 
@@ -57,6 +57,7 @@ function TiltCard({ children, className }: { children: React.ReactNode, classNam
 export default function PresentationTemplate() {
   const [activeSlide, setActiveSlide] = useState(0)
   const [metricLayer, setMetricLayer] = useState(0)
+  const [showCommand, setShowCommand] = useState(false)
 
   // Mouse position for parallax effects
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -421,12 +422,82 @@ export default function PresentationTemplate() {
             initial={{ opacity: 0, y: 20 }}
             animate={activeSlide === 4 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 1 }}
+            onClick={() => setShowCommand(true)}
           >
             Edit app/page.tsx
           </motion.button>
         </SlideTemplate>
 
       </PresentationController>
+
+      {/* --- Command Popup --- */}
+      <AnimatePresence>
+        {showCommand && (
+          <motion.div
+            className="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-xl bg-black/80"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="w-full max-w-xl bg-[#0a0a0c] border border-white/10 rounded-2xl overflow-hidden shadow-2xl"
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+            >
+              <div className="p-8">
+                <div className="flex justify-between items-start mb-6">
+                  <div>
+                    <h3 className="text-white text-xl font-medium mb-1">Start Creating</h3>
+                    <p className="text-white/40 text-sm">Copy this command to send to your AI agent</p>
+                  </div>
+                  <button
+                    onClick={() => setShowCommand(false)}
+                    className="text-white/20 hover:text-white transition-colors"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div className="bg-black/50 border border-white/5 rounded-xl p-6 font-mono text-sm relative group">
+                  <p className="text-blue-400 leading-relaxed italic">
+                    "Delete all example slides and start fresh. I want to build a new presentation about [Your Topic]."
+                  </p>
+
+                  <div className="mt-6 flex gap-4">
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText("Delete all example slides and start fresh. I want to build a new presentation about [Your Topic].")
+                        alert("Command copied to clipboard!")
+                      }}
+                      className="text-[10px] uppercase tracking-widest bg-white/5 hover:bg-white/10 text-white/60 px-4 py-2 rounded-lg transition-colors border border-white/5"
+                    >
+                      Copy Command
+                    </button>
+                    <button
+                      onClick={() => setShowCommand(false)}
+                      className="text-[10px] uppercase tracking-widest bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 px-4 py-2 rounded-lg transition-colors border border-blue-500/10"
+                    >
+                      Got it
+                    </button>
+                  </div>
+                </div>
+
+                <div className="mt-8 flex items-center gap-4 p-4 rounded-xl bg-blue-500/5 border border-blue-500/10">
+                  <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <span className="text-blue-400 text-lg">🤖</span>
+                  </div>
+                  <p className="text-[11px] text-blue-400/80 leading-relaxed uppercase tracking-wider font-medium">
+                    This command will instruct the agent to reset the template and help you design your vision from scratch.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   )
 }
