@@ -1,62 +1,70 @@
-# Presentation Template (Core Engine)
+# 🎨 Premium Presentation Template - User & AI Guide
 
-Next.js App Router project providing a high-end, slide-based presentation engine. This project serves as a generic, customizable foundation for premium digital presentations.
+Welcome! This repository is a high-end, Next.js-powered presentation engine designed to create cinematic and tactile "book-like" digital experiences.
 
-## 🚀 Navigation & Usage
-- **Next Slide**: Right Arrow, Space, Enter, or Click (right 70% of screen).
-- **Previous Slide**: Left Arrow, Backspace, or Click (left 30% of screen).
-- **Jump to Slide**: Click the **"Übersicht"** button or the **Slide Counter** (e.g., "01 / 03") to open the slide navigator sidebar. You can also use the floating navigator button on the left.
-- **Fullscreen Mode**: Press **'F'** to toggle fullscreen. Recommended for final presentations.
-- **Transition Toggle**: Use the selector at the bottom-left to switch between **Slide** (2D Parallax) and **Book** (3D Page Flip).
+This guide helps you (the User) and me (the AI Agent) work together to build stunning presentations.
 
 ---
 
-## 🛠 Adding New Content (For Users & Agents)
+## 🚀 Quick Start: Navigation & Features
 
-### 1. Adding Assets (Images/Videos)
-Place all your media files in the `public/images/` directory.
-- **Images**: `.jpg`, `.png`, `.svg`
-- **Videos**: `.mp4`, `.webm`
+### 🎹 Keyboard Shortcuts
+| Key | Action |
+|-----|--------|
+| `→` / `Space` / `Enter` | Next Slide |
+| `←` / `Backspace` | Previous Slide |
+| **`F`** | **Toggle Fullscreen** (Recommended for presenting) |
+| `Esc` | Exit Fullscreen |
 
-### 2. Instructing the AI Agent
-If you want the AI to add a slide for you, simply say:
-> "Add a new slide about [Topic]. Use my image `my-photo.jpg` which I just put in the public/images folder."
-
-The agent will then:
-1. Identify the asset in `public/images/`.
-2. Wrap it in `getAssetPath("/images/my-photo.jpg")`.
-3. Add the code to `app/page.tsx`.
-
-### 3. Manual Integration (For Agents)
-
-**CRITICAL**: All image and video paths MUST use the `getAssetPath()` utility.
-
-**Example: Adding a slide to `app/page.tsx`**
-```tsx
-// 1. Update TOTAL_SLIDES
-const TOTAL_SLIDES = 4 // (increment existing count)
-
-// 2. Add slide inside <PresentationController>
-<SlideTemplate isActive={activeSlide === 3} mode="cinematic" backgroundImage="/images/my-hero.jpg">
-  <SlideLabel isActive={activeSlide === 3}>Category</SlideLabel>
-  <SlideHeading isActive={activeSlide === 3}>New Slide Title</SlideHeading>
-  <SlideBody isActive={activeSlide === 3}>
-    This slide uses an image from public/images/my-hero.jpg
-  </SlideBody>
-</SlideTemplate>
-```
+### 🧭 Interactive Controls
+- **Jump to Any Slide**: Click the **"Übersicht"** button (top-left) or the **Slide Counter** (e.g., "01 / 03") to open the slide navigator sidebar.
+- **Transition Styles**: Use the selector at the bottom-left to switch between:
+    - **Slide Mode**: A smooth 2D parallax "push" effect.
+    - **Book Mode**: A premium 3D page-flip animation that feels like a physical book.
 
 ---
 
-## 📁 Project Structure Reference
-- `app/page.tsx`: The main deck file. Manage slide order and content here.
-- `components/presentation/`: Core logic and template components.
-- `public/images/`: Store all your custom media and core textures here.
-- `lib/utils.ts`: Contains the essential `getAssetPath()` utility.
+## 🛠 Working with the AI (What you can ask me)
 
-## 🤖 AI Instructions
-When working with this project:
-- **Premium Aesthetics**: Keep the cinematic and paper modes polished.
-- **No Hardcoding**: Never use a path like `/images/foo.jpg` directly. Always use `getAssetPath("/images/foo.jpg")`.
-- **Slide Count**: Always update `TOTAL_SLIDES` in `app/page.tsx` when adding or removing slides to ensure the progress bar and navigation work correctly.
-- **Navigation Feedback**: Remind the user about the **'F'** shortcut if they are reviewing or presenting.
+You don't need to know how to code to use this template. You can simply tell me what you want, and I will handle the technical implementation.
+
+### 💡 Example Prompts
+- **Content Creation**: *"I want to add a new slide about our company's mission. Use a cinematic background and make the title 'Our Vision'."*
+- **Visual Changes**: *"Change the background of Slide 2 to a warm city forest image."*
+- **Interactivity**: *"Add a video slide at the end using `intro.mp4` from my images folder."*
+- **Brainstorming**: *"I'm making a pitch for a new movie. Help me outline 5 slides that would look great in 'Paper' mode."*
+
+---
+
+## 📂 Managing Your Media (Images & Videos)
+
+To use your own photos or videos, follow these simple steps:
+
+1. **Upload**: Put your files into the `public/images/` folder.
+2. **Tell Me**: Mention the filename to me (e.g., *"I added `office-view.jpg` to the images folder"*).
+3. **Integration**: I will automatically handle the pathing and animation logic to make it look perfect on a slide.
+
+> [!IMPORTANT]
+> **For the AI Agent**: Always use the `getAssetPath()` utility for all media. Never hardcode a path.
+> Example: `getAssetPath("/images/your-file.jpg")`
+
+---
+
+## 🎭 Slide Modes & Aesthetics
+
+The template supports two distinct "feelings":
+
+- **Cinematic Mode**: Full-bleed background images, dark gradients, and high contrast. Perfect for mood-setting and big visuals.
+- **Paper Mode**: Content appears on a "torn paper" texture with subtle autumn leaf overlays. Ideal for storyboarding, scripts, and a "hand-crafted" look.
+
+---
+
+## 📁 Technical Reference (For Developers)
+- `app/page.tsx`: The "Manifest". Change the order and content of slides here.
+- `components/presentation/`: The engine. `presentation-controller.tsx` manages state, while `slide-template.tsx` is the base for almost all slides.
+- `lib/utils.ts`: Contains `getAssetPath` and `cn` utilities.
+
+## 🤖 AI Core Instructions
+- **Proactive Guidance**: If the user is stuck, suggest a slide layout or a transition style.
+- **Maintenance**: Always update `TOTAL_SLIDES` in `app/page.tsx` when adding/removing content.
+- **Consistency**: Use the `SlideTemplate` sub-components (`SlideLabel`, `SlideHeading`, `SlideBody`) to keep the typography consistent.
