@@ -290,7 +290,7 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
     >
       {/* Navigator Overlay */}
       <AnimatePresence>
-        {isNavigatorOpen && (
+        {isNavigatorOpen && !isFullscreen && (
           <motion.div
             initial={{ opacity: 0, x: -300 }}
             animate={{ opacity: 1, x: 0 }}
@@ -352,15 +352,17 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
       </AnimatePresence>
 
       {/* Navigator Toggle Button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation()
-          setIsNavigatorOpen(true)
-        }}
-        className="absolute left-8 top-1/2 z-50 -translate-y-1/2 rounded-full border border-white/10 bg-black/40 p-4 text-white/50 backdrop-blur-sm transition-all hover:bg-black/60 hover:text-white cursor-pointer"
-      >
-        <LayoutTemplate className="h-6 w-6" />
-      </button>
+      {!isFullscreen && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation()
+            setIsNavigatorOpen(true)
+          }}
+          className="absolute left-8 top-1/2 z-50 -translate-y-1/2 rounded-full border border-white/10 bg-black/40 p-4 text-white/50 backdrop-blur-sm transition-all hover:bg-black/60 hover:text-white cursor-pointer"
+        >
+          <LayoutTemplate className="h-6 w-6" />
+        </button>
+      )}
 
       {/* Global Paper Background (only for 'slide' mode since book needs it per-slide to flip) */}
       {transitionStyle === "slide" && (
@@ -534,16 +536,18 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
           />
         </div>
         <div className="px-10 py-3 flex justify-between items-center bg-transparent">
-          <button
-            onClick={(e) => {
-              e.stopPropagation()
-              setIsNavigatorOpen(true)
-            }}
-            className="pointer-events-auto text-[10px] uppercase tracking-[0.5em] text-white/40 hover:text-gold transition-colors flex items-center gap-2 cursor-pointer"
-          >
-            <LayoutTemplate className="h-3 w-3" />
-            Übersicht
-          </button>
+          {!isFullscreen && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                setIsNavigatorOpen(true)
+              }}
+              className="pointer-events-auto text-[10px] uppercase tracking-[0.5em] text-white/40 hover:text-gold transition-colors flex items-center gap-2 cursor-pointer"
+            >
+              <LayoutTemplate className="h-3 w-3" />
+              Übersicht
+            </button>
+          )}
 
           <span className={cn(
             "text-[10px] uppercase tracking-[0.5em] transition-all duration-700 pointer-events-none",
