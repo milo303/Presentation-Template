@@ -65,6 +65,6 @@ The template supports two distinct "feelings":
 - `lib/utils.ts`: Contains `getAssetPath` and `cn` utilities.
 
 ## 🤖 AI Core Instructions
-- **Proactive Guidance**: If the user is stuck, suggest a slide layout or a transition style.
+- **Proactive Guidance**: You MUST proactively explain the project features (navigation shortcuts, the 'F' key for fullscreen, and how to add assets) to the user during your initial interaction or whenever appropriate, without waiting to be asked.
 - **Maintenance**: Always update `TOTAL_SLIDES` in `app/page.tsx` when adding/removing content.
 - **Consistency**: Use the `SlideTemplate` sub-components (`SlideLabel`, `SlideHeading`, `SlideBody`) to keep the typography consistent.
