@@ -1,34 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { PresentationController } from "@/components/presentation/presentation-controller"
-import { SlideTitle } from "@/components/presentation/slide-title"
-import { SlideTeamWildholz } from "@/components/presentation/slide-team-wildholz"
-import { SlideCharacter } from "@/components/presentation/slide-character"
-import { SlideCharacterPaul } from "@/components/presentation/slide-character-paul"
-import { SlideCharacterBenjamin } from "@/components/presentation/slide-character-benjamin"
-import { SlideFamilyTree } from "@/components/presentation/slide-family-tree"
-import { SlideIncitingIncident } from "@/components/presentation/slide-inciting-incident"
-import { SlideFeeling } from "@/components/presentation/slide-feeling"
-import { SlideStructure } from "@/components/presentation/slide-structure"
-import { SlideStaffelbogen } from "@/components/presentation/slide-staffelbogen"
-import { SlideTransmedia } from "@/components/presentation/slide-transmedia"
-import { SlideAtmosphere } from "@/components/presentation/slide-atmosphere"
-import { SlideProduction } from "@/components/presentation/slide-production"
-import { SlideProductionData } from "@/components/presentation/slide-production-data"
-import { SlideLedVideo } from "@/components/presentation/slide-led-video"
-import { SlideVideoClip } from "@/components/presentation/slide-video-clip"
-import { SlideGreenProduction } from "@/components/presentation/slide-green-production"
-import { SlideLedBackgrounds } from "@/components/presentation/slide-led-backgrounds"
-import { SlideProducersNote } from "@/components/presentation/slide-producers-note"
-import { SlideTrailer } from "@/components/presentation/slide-trailer"
-import { SlideClosing } from "@/components/presentation/slide-closing"
-import { SlideQuestion } from "@/components/presentation/slide-question"
-import { SlideKomparsen } from "@/components/presentation/slide-komparsen"
+import { SlideTemplate, SlideHeading, SlideBody, SlideLabel } from "@/components/presentation/slide-template"
 
-const TOTAL_SLIDES = 26
+const TOTAL_SLIDES = 3
 
-export default function WildholzPresentation() {
+export default function PresentationTemplate() {
   const [activeSlide, setActiveSlide] = useState(0)
 
   return (
@@ -37,60 +15,33 @@ export default function WildholzPresentation() {
         totalSlides={TOTAL_SLIDES}
         onSlideChange={setActiveSlide}
       >
-        <SlideTitle isActive={activeSlide === 0} />
-        <SlideTeamWildholz isActive={activeSlide === 1} />
-        <SlideTrailer isActive={activeSlide === 2} />
-        <SlideQuestion isActive={activeSlide === 3} />
-        <SlideProducersNote isActive={activeSlide === 4} />
-        <SlideCharacter isActive={activeSlide === 5} />
-        <SlideCharacterBenjamin isActive={activeSlide === 6} />
-        <SlideCharacterPaul isActive={activeSlide === 7} />
-        <SlideFamilyTree isActive={activeSlide === 8} />
-        <SlideIncitingIncident isActive={activeSlide === 9} />
-        <SlideFeeling isActive={activeSlide === 10} />
-        <SlideStructure isActive={activeSlide === 11} />
-        <SlideStaffelbogen isActive={activeSlide === 12} />
-        <SlideTransmedia isActive={activeSlide === 13} />
-        <SlideAtmosphere isActive={activeSlide === 14} />
-        <SlideProductionData isActive={activeSlide === 15} />
-        <SlideProduction isActive={activeSlide === 16} />
-        <SlideLedVideo isActive={activeSlide === 17} />
-        <SlideVideoClip
-          isActive={activeSlide === 18}
-          src="/clips/1.%20Wildholz%20Stockshot%20mit%20Musik.mp4"
-          title="Wildholz Clip 1"
-        />
-        <SlideVideoClip
-          isActive={activeSlide === 19}
-          src="/clips/2.%20Wildholz%20Anna%20Paul%20mit%20Musik.mp4"
-          title="Wildholz Clip 2"
-        />
-        <SlideVideoClip
-          isActive={activeSlide === 20}
-          src="/clips/3.%20Wildholz%20Traumsequenz%20mit%20Musik.mp4"
-          title="Wildholz Clip 3"
-        />
-        <SlideLedBackgrounds
-          isActive={activeSlide === 21}
-          images={[
-            "/LED%20Hintergruende/eins.jpg",
-            "/LED%20Hintergruende/zwei.jpg",
-            "/LED%20Hintergruende/drei.jpg",
-            "/LED%20Hintergruende/vier.jpg",
-          ]}
-        />
-        <SlideLedBackgrounds
-          isActive={activeSlide === 22}
-          images={[
-            "/LED%20Hintergruende/5.jpg",
-            "/LED%20Hintergruende/6.jpg",
-            "/LED%20Hintergruende/7.jpg",
-            "/LED%20Hintergruende/8.jpg",
-          ]}
-        />
-        <SlideKomparsen isActive={activeSlide === 23} />
-        <SlideGreenProduction isActive={activeSlide === 24} />
-        <SlideClosing isActive={activeSlide === 25} />
+        <SlideTemplate isActive={activeSlide === 0} mode="cinematic">
+          <SlideLabel isActive={activeSlide === 0}>Presentation</SlideLabel>
+          <SlideHeading isActive={activeSlide === 0}>Welcome to Your Presentation</SlideHeading>
+          <SlideBody isActive={activeSlide === 0}>
+            Edit app/page.tsx to change this content or add new slides.
+          </SlideBody>
+        </SlideTemplate>
+
+        <SlideTemplate isActive={activeSlide === 1} mode="paper">
+          <SlideLabel isActive={activeSlide === 1} mode="paper">Section 1</SlideLabel>
+          <SlideHeading isActive={activeSlide === 1} mode="paper">Key Features</SlideHeading>
+          <SlideBody isActive={activeSlide === 1} mode="paper">
+            <ul className="list-disc list-inside space-y-2">
+              <li>Cinematic and Paper modes</li>
+              <li>Smooth transitions (Slide & Book)</li>
+              <li>Fully customizable with Tailwind CSS</li>
+            </ul>
+          </SlideBody>
+        </SlideTemplate>
+
+        <SlideTemplate isActive={activeSlide === 2} mode="cinematic">
+          <SlideLabel isActive={activeSlide === 2}>Conclusion</SlideLabel>
+          <SlideHeading isActive={activeSlide === 2}>Thank You</SlideHeading>
+          <SlideBody isActive={activeSlide === 2}>
+            Questions? Contact us at support@example.com
+          </SlideBody>
+        </SlideTemplate>
       </PresentationController>
     </main>
   )

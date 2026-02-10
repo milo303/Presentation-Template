@@ -58,12 +58,9 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
   const goToSlide = useCallback((index: number, direction: 1 | -1) => {
     if (isAnimating || index < 0 || index >= totalSlides) return
 
-    // Custom transitions for specific slides
-    // Zoom for index 1 <-> 2 (Video <-> Question)
-    const useZoom = (currentSlide === 1 && index === 2) || (currentSlide === 2 && index === 1)
-
-    // Iris Wipe for index 2 <-> 3 (Question <-> Producers Note)
-    const useIris = (currentSlide === 2 && index === 3) || (currentSlide === 3 && index === 2)
+    // Custom transitions can be added here if needed
+    const useZoom = false
+    const useIris = false
 
     setIsAnimating(true)
     setLastDirection(direction)
@@ -84,7 +81,7 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
       setIsAnimating(false)
       setTransitionOverride(null)
     }, lockDuration)
-  }, [isAnimating, totalSlides, onSlideChange, currentSlide])
+  }, [isAnimating, totalSlides, onSlideChange])
 
   const nextSlide = useCallback(() => {
     if (currentSlide < totalSlides - 1) {
@@ -459,30 +456,12 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
 
 
       {/* Global UI Elements (Watermark, Progress, etc.) */}
-      <AnimatePresence>
-        {currentSlide !== 0 && (
-          <motion.div
-            className="absolute top-10 left-10 z-[60] pointer-events-none"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-          >
-            <div className={cn(
-              "relative w-40 h-10 transition-all duration-700",
-              [6, 11, 14].includes(currentSlide) ? "brightness-0 invert" : "opacity-60 grayscale brightness-0"
-            )}>
-              <Image src={getAssetPath("/images/wildholz-logo.png")} alt="Wildholz" fill className="object-contain object-left" />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <div className="absolute bottom-8 right-8 z-50 hidden items-center gap-2 text-xs text-muted-foreground/40 md:flex">
-        <span className="text-white/20 uppercase tracking-[0.2em] text-[10px] mr-2">Steuerung</span>
+        <span className="text-white/20 uppercase tracking-[0.2em] text-[10px] mr-2">Controls</span>
         <kbd className="rounded border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-xs text-white/50">←</kbd>
         <kbd className="rounded border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-xs text-white/50">→</kbd>
         <span className="mx-1 text-white/20">/</span>
-        <span className="text-white/40 uppercase tracking-widest font-sans text-[10px]">Klick</span>
+        <span className="text-white/40 uppercase tracking-widest font-sans text-[10px]">Click</span>
       </div>
 
       <div className="absolute top-0 left-0 z-50 w-full">
@@ -498,14 +477,14 @@ export function PresentationController({ children, totalSlides, onSlideChange }:
           <span className={cn(
             "text-[10px] uppercase tracking-[0.5em] transition-all duration-700",
             currentSlide === 0 ? "opacity-0" : "opacity-100",
-            [6, 11, 14].includes(currentSlide) ? "text-white/40" : "text-[#5C4033]/40"
+            "text-white/40"
           )}>
-            Wildholz — Pitch Deck 2026
+            Presentation Template
           </span>
           {!isFullscreen && (
             <span className={cn(
               "text-[clamp(0.75rem,0.5vw+0.6rem,1rem)] font-mono transition-colors duration-700",
-              [0, 6, 11, 14].includes(currentSlide) ? "text-white/40" : "text-[#5C4033]/40"
+              "text-white/40"
             )}>
               {String(currentSlide + 1).padStart(2, '0')} / {String(totalSlides).padStart(2, '0')}
             </span>
